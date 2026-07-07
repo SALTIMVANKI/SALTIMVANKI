@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda Online — SALTIMVANKI Content&amp;Media</title>
+<meta name="description" content="Tu tienda online lista para vender 24/7. Diseño, desarrollo y estrategia de comunicación con el sello Saltimvanki. Financiable con el Kit Digital.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Paleta Saltimvanki */
+    --amarillo:#FBD44C;      /* Pantone 122 C aprox. */
+    --amarillo-suave:#FDE38A;
+    --negro:#23262B;         /* Pantone Black 6 C aprox. */
+    --tinta:#2B2E34;
+    --rosa:#F4728C;          /* Pantone 709 C aprox. */
+    --azul:#33356B;          /* Pantone 2765 C aprox. */
+    --crema:#FBF3DF;
+    --blanco:#FFFFFF;
+    --radio:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins','Montserrat','Segoe UI',system-ui,sans-serif;
+    background:var(--amarillo);
+    color:var(--tinta);
+    line-height:1.6;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-weight:800;text-transform:uppercase;line-height:1.12;letter-spacing:.5px}
+  h2{font-size:clamp(1.7rem,3.6vw,2.6rem);margin-bottom:14px}
+  .kicker{
+    display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:3px;
+    text-transform:uppercase;color:var(--tinta);
+    border-bottom:3px solid var(--rosa);padding-bottom:6px;margin-bottom:18px;
+  }
+  p.lead{font-size:1.08rem;max-width:640px}
+
+  /* ---------- Header ---------- */
+  header{padding:22px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--negro)}
+  .logo svg{width:54px;height:54px}
+  .logo-name{display:flex;flex-direction:column;line-height:1.1}
+  .logo-name b{font-size:1rem;font-weight:800;letter-spacing:2px}
+  .logo-name span{font-size:.62rem;letter-spacing:3px;color:var(--rosa);font-weight:600;text-transform:lowercase;white-space:nowrap}
+  nav.menu{display:flex;gap:34px;font-weight:600;font-size:.92rem;letter-spacing:1.5px;text-transform:uppercase}
+  nav.menu a{color:var(--tinta);text-decoration:none;padding-bottom:4px;border-bottom:2px solid transparent;transition:border-color .2s}
+  nav.menu a:hover,nav.menu a.activa{border-color:var(--tinta)}
+  .btn{
+    display:inline-block;background:var(--negro);color:var(--blanco);
+    font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:.9rem;
+    padding:15px 34px;border-radius:6px;border:0;cursor:pointer;text-decoration:none;
+    transition:transform .15s,background .2s;
+  }
+  .btn:hover{background:#000;transform:translateY(-2px)}
+  .btn-rosa{background:var(--rosa)}
+  .btn-rosa:hover{background:#e15a76}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:70px 0 90px}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(2.2rem,4.4vw,3.4rem);color:var(--negro)}
+  .hero h1 .fina{display:block;font-size:.52em;font-weight:700;margin-top:14px}
+  .hero .marca{font-size:.4em;letter-spacing:4px;font-weight:800;display:block;margin-bottom:10px;white-space:nowrap}
+  .hero p{margin:22px 0 30px;font-size:1.1rem;max-width:520px}
+  .hero-acciones{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .nota-kit{
+    margin-top:26px;display:inline-flex;align-items:center;gap:10px;
+    background:var(--crema);border:2px solid var(--negro);border-radius:999px;
+    padding:10px 20px;font-weight:600;font-size:.9rem;
+  }
+  .nota-kit .punto{width:10px;height:10px;border-radius:50%;background:var(--rosa);flex:none}
+  .hero-art{position:relative;text-align:center}
+  .hero-art svg{width:100%;max-width:560px;height:auto}
+
+  /* ---------- Bandas ---------- */
+  .banda-oscura{background:var(--negro);color:var(--crema);padding:26px 0}
+  .banda-oscura .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;text-align:center}
+  .banda-oscura .dato b{display:block;font-size:1.7rem;color:var(--amarillo);font-weight:800}
+  .banda-oscura .dato span{font-size:.85rem;letter-spacing:1px;text-transform:uppercase}
+
+  section{padding:84px 0}
+  .seccion-crema{background:var(--crema)}
+  .seccion-blanca{background:var(--blanco)}
+
+  /* ---------- Beneficios ---------- */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:44px}
+  .carta{
+    background:var(--blanco);border:2px solid var(--negro);border-radius:var(--radio);
+    padding:30px 26px;box-shadow:8px 8px 0 var(--negro);
+    transition:transform .15s;
+  }
+  .seccion-crema .carta{box-shadow:8px 8px 0 var(--rosa)}
+  .carta:hover{transform:translate(-2px,-2px)}
+  .carta .icono{
+    width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--amarillo);border:2px solid var(--negro);margin-bottom:18px;
+  }
+  .carta h3{font-size:1.05rem;margin-bottom:10px}
+  .carta p{font-size:.95rem}
+
+  /* ---------- Qué incluye ---------- */
+  .incluye .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  ul.lista{list-style:none;margin-top:28px;display:grid;gap:16px}
+  ul.lista li{
+    display:flex;gap:14px;align-items:flex-start;background:var(--blanco);
+    border:2px solid var(--negro);border-radius:10px;padding:15px 18px;font-weight:500;
+  }
+  ul.lista li .check{
+    flex:none;width:26px;height:26px;border-radius:50%;background:var(--rosa);
+    color:var(--blanco);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:.85rem;margin-top:2px;
+  }
+  .incluye-art svg{width:100%;max-width:480px;height:auto}
+
+  /* ---------- Proceso ---------- */
+  .pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:46px;counter-reset:paso}
+  .paso{background:var(--amarillo);border:2px solid var(--negro);border-radius:var(--radio);padding:26px 22px;position:relative}
+  .paso::before{
+    counter-increment:paso;content:"0" counter(paso);
+    font-size:2.2rem;font-weight:800;color:var(--rosa);display:block;margin-bottom:8px;
+  }
+  .paso h3{font-size:1rem;margin-bottom:8px}
+  .paso p{font-size:.9rem}
+
+  /* ---------- Kit Digital ---------- */
+  .kit{background:var(--negro);color:var(--crema)}
+  .kit .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .kit h2{color:var(--amarillo)}
+  .kit .kicker{color:var(--amarillo);border-color:var(--rosa)}
+  .kit p{margin-bottom:16px}
+  .kit .sello{
+    background:var(--crema);color:var(--tinta);border-radius:var(--radio);
+    padding:34px;border:3px dashed var(--amarillo);text-align:center;
+  }
+  .kit .sello b{font-size:2.6rem;display:block;color:var(--rosa);font-weight:800}
+  .kit .sello span{font-weight:600;text-transform:uppercase;letter-spacing:1.5px;font-size:.85rem}
+
+  /* ---------- FAQ ---------- */
+  details{
+    background:var(--blanco);border:2px solid var(--negro);border-radius:10px;
+    padding:18px 22px;margin-bottom:14px;
+  }
+  details summary{font-weight:700;cursor:pointer;text-transform:uppercase;font-size:.95rem;letter-spacing:.5px}
+  details p{margin-top:12px;font-size:.95rem}
+
+  /* ---------- Contacto ---------- */
+  .contacto{padding-bottom:100px}
+  .contacto .wrap{max-width:860px;text-align:center}
+  .form{
+    margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  }
+  .form input[type=text],.form input[type=email]{
+    font-family:inherit;font-size:1rem;padding:15px 18px;border:2px solid var(--negro);
+    border-radius:6px;min-width:220px;background:var(--blanco);color:var(--tinta);
+  }
+  .form input:focus{outline:3px solid var(--rosa)}
+  .legal{font-size:.82rem;margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
+  .legal a{color:var(--tinta);font-weight:600}
+  .news{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;font-size:.88rem}
+  .news input{width:18px;height:18px;accent-color:var(--negro)}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--negro);color:var(--crema);padding:34px 0;font-size:.85rem}
+  footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer a{color:var(--amarillo);text-decoration:none;margin-left:18px}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:920px){
+    .hero .wrap,.incluye .wrap,.kit .wrap{grid-template-columns:1fr}
+    .grid-3{grid-template-columns:1fr}
+    .pasos{grid-template-columns:repeat(2,1fr)}
+    nav.menu{display:none}
+  }
+  @media(max-width:520px){
+    .pasos{grid-template-columns:1fr}
+    .form input[type=text],.form input[type=email]{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">
+      <!-- Marca: cabra saltando simplificada -->
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M8 44 L20 30 Q24 24 32 26 L44 20 L50 12 L54 16 L48 24 L52 30 Q54 36 46 38 L36 42 L30 52 L24 50 L28 42 L18 46 L14 54 L8 52 Z" fill="#23262B"/>
+        <circle cx="49" cy="15" r="1.6" fill="#FBD44C"/>
+      </svg>
+      <span class="logo-name">
+        <b>SALTIMVANKI</b>
+        <span>content&amp;media</span>
+      </span>
+    </a>
+    <nav class="menu">
+      <a href="https://www.saltimvanki.com/">Saltimvanki</a>
+      <a href="#kit-digital">Kit Digital</a>
+      <a href="#" class="activa">Tienda Online</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn" href="#contacto">Contacto</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>
+        <span class="marca">Saltimvanki · Tienda Online</span>
+        Tu tienda abierta <br>24 horas, 7 días
+        <span class="fina">La tienda online que vende mientras tú vives</span>
+      </h1>
+      <p>Diseñamos, construimos y ponemos a punto tu e-commerce con la comunicación que te conecta con tu cliente: diseño con carácter, textos que venden y todo listo para tu primer pedido.</p>
+      <div class="hero-acciones">
+        <a class="btn btn-rosa" href="#contacto">Quiero mi tienda online</a>
+        <a class="btn" href="#incluye" style="background:transparent;color:var(--negro);border:2px solid var(--negro)">Ver qué incluye</a>
+      </div>
+      <div class="nota-kit"><span class="punto"></span> Financiable hasta el 100% con el bono Kit Digital</div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <!-- Ilustración estilo outline: personas montando una tienda online -->
+      <svg viewBox="0 0 560 460" fill="none" stroke="#33356B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="290" cy="420" rx="230" ry="34" fill="#FBF3DF" stroke="none"/>
+        <!-- pantalla / tienda -->
+        <rect x="150" y="60" width="270" height="190" rx="14" fill="#FFFFFF"/>
+        <path d="M150 105 H420" />
+        <path d="M168 82 h34 M168 92 h22" stroke="#F4728C" stroke-width="4"/>
+        <!-- toldo -->
+        <path d="M170 105 v18 a12 12 0 0 0 24 0 v-18 M194 105 v18 a12 12 0 0 0 24 0 v-18 M218 105 v18 a12 12 0 0 0 24 0 v-18 M242 105 v18 a12 12 0 0 0 24 0 v-18" fill="#FBD44C"/>
+        <!-- productos -->
+        <rect x="180" y="150" width="58" height="58" rx="8" fill="#FBD44C"/>
+        <rect x="256" y="150" width="58" height="58" rx="8" fill="#FFFFFF"/>
+        <circle cx="285" cy="172" r="10" fill="#F4728C" stroke="none"/>
+        <path d="M264 200 l14 -16 10 10 12 -14 16 20" />
+        <rect x="332" y="150" width="58" height="58" rx="8" fill="#FFFFFF"/>
+        <path d="M348 176 h26 M348 186 h18" stroke="#33356B"/>
+        <circle cx="361" cy="164" r="6" fill="#FBD44C" stroke="none"/>
+        <!-- botón comprar -->
+        <rect x="180" y="218" width="120" height="22" rx="11" fill="#23262B" stroke="none"/>
+        <!-- carrito grande -->
+        <path d="M430 260 h18 l16 62 h74 l14 -46 h-96" fill="#FFFFFF"/>
+        <circle cx="472" cy="342" r="10" fill="#F4728C"/>
+        <circle cx="524" cy="342" r="10" fill="#F4728C"/>
+        <!-- persona 1: empuja carrito -->
+        <circle cx="398" cy="252" r="14" fill="#FFFFFF"/>
+        <path d="M392 242 q6 -10 16 -4" stroke="#F4728C" stroke-width="6"/>
+        <path d="M398 266 v46 M398 278 l30 -12 M398 284 l-16 20" />
+        <path d="M398 312 l-14 44 M398 312 l16 44" stroke="#33356B" stroke-width="7"/>
+        <path d="M384 356 h-14 M414 356 h14" stroke-width="7"/>
+        <!-- persona 2: coloca pieza -->
+        <circle cx="120" cy="180 " r="14" fill="#FFFFFF"/>
+        <path d="M112 172 q8 -10 18 -2" stroke="#33356B" stroke-width="6"/>
+        <path d="M120 194 v52 M120 204 l32 -18 M120 212 l-20 14" />
+        <path d="M120 246 l-12 48 M120 246 l14 48" stroke="#33356B" stroke-width="7"/>
+        <path d="M108 294 h-14 M134 294 h14" stroke-width="7"/>
+        <rect x="146" y="170" width="26" height="26" rx="5" fill="#FBD44C"/>
+        <!-- megáfono -->
+        <path d="M60 330 l50 -18 v44 l-50 -14 v-12 Z" fill="#F4728C"/>
+        <path d="M116 314 q14 12 0 30 M126 306 q22 20 0 44" stroke="#23262B"/>
+        <!-- monedas -->
+        <circle cx="486" cy="120" r="16" fill="#FBD44C"/><path d="M486 112 v16 M480 120 h12"/>
+        <circle cx="520" cy="160" r="12" fill="#FFFFFF"/><path d="M520 154 v12 M515 160 h10"/>
+        <!-- chispas -->
+        <path d="M80 80 l0 18 M71 89 l18 0" stroke="#F4728C"/>
+        <path d="M500 60 l0 14 M493 67 l14 0"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BANDA DATOS ================= -->
+<div class="banda-oscura">
+  <div class="wrap">
+    <div class="dato"><b>24/7</b><span>tu tienda nunca cierra</span></div>
+    <div class="dato"><b>100%</b><span>autogestionable</span></div>
+    <div class="dato"><b>0 €</b><span>con bono Kit Digital*</span></div>
+    <div class="dato"><b>30 días</b><span>lista para vender</span></div>
+  </div>
+</div>
+
+<!-- ================= BENEFICIOS ================= -->
+<section class="seccion-crema" id="beneficios">
+  <div class="wrap">
+    <span class="kicker">Por qué una tienda online</span>
+    <h2>Vender más, sin horarios<br>y sin fronteras</h2>
+    <p class="lead">No es solo una web con carrito: es tu mejor comercial trabajando cada día del año, con la voz y el estilo de tu marca.</p>
+
+    <div class="grid-3">
+      <div class="carta">
+        <div class="icono">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#23262B" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+        </div>
+        <h3>Más ventas</h3>
+        <p>Llega a clientes que no pisan tu local: tu catálogo disponible desde cualquier lugar y a cualquier hora, con pasarela de pago segura.</p>
+      </div>
+      <div class="carta">
+        <div class="icono">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#23262B" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Ahorro de tiempo</h3>
+        <p>Pedidos, stock y envíos organizados en un solo panel. Te formamos para que gestiones tu tienda sin depender de nadie.</p>
+      </div>
+      <div class="carta">
+        <div class="icono">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#23262B" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-4.5-9-9a5.3 5.3 0 0 1 9-5 5.3 5.3 0 0 1 9 5c-2 4.5-9 9-9 9z"/></svg>
+        </div>
+        <h3>Marca que conecta</h3>
+        <p>Diseño, fotografía y textos con el sello Saltimvanki: la comunicación que te conecta con tu cliente, también al vender.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUÉ INCLUYE ================= -->
+<section class="incluye" id="incluye">
+  <div class="wrap">
+    <div class="incluye-art" aria-hidden="true">
+      <svg viewBox="0 0 480 420" fill="none" stroke="#33356B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="240" cy="386" rx="200" ry="28" fill="#FBF3DF" stroke="none"/>
+        <!-- móvil grande -->
+        <rect x="150" y="40" width="180" height="320" rx="24" fill="#FFFFFF"/>
+        <path d="M215 62 h50" />
+        <rect x="170" y="86" width="140" height="90" rx="10" fill="#FBD44C"/>
+        <path d="M196 152 l20 -24 14 14 18 -22 26 32" />
+        <rect x="170" y="192" width="64" height="52" rx="8" fill="#FFFFFF"/>
+        <rect x="246" y="192" width="64" height="52" rx="8" fill="#FFFFFF"/>
+        <circle cx="202" cy="212" r="9" fill="#F4728C" stroke="none"/>
+        <circle cx="278" cy="212" r="9" fill="#33356B" stroke="none"/>
+        <rect x="170" y="260" width="140" height="26" rx="13" fill="#23262B" stroke="none"/>
+        <path d="M186 310 h108 M186 326 h72" stroke="#F4728C" stroke-width="4"/>
+        <!-- persona apoyada -->
+        <circle cx="392" cy="200" r="15" fill="#FFFFFF"/>
+        <path d="M384 190 q10 -10 20 0" stroke="#F4728C" stroke-width="6"/>
+        <path d="M392 215 v58 M392 228 l-28 -16 M392 236 l24 14"/>
+        <path d="M392 273 l-12 60 M392 273 l14 60" stroke="#33356B" stroke-width="7"/>
+        <path d="M380 333 h-14 M406 333 h14" stroke-width="7"/>
+        <!-- etiqueta precio -->
+        <path d="M62 120 l44 -12 12 44 -44 12 z" fill="#FBD44C"/>
+        <circle cx="76" cy="122" r="4" fill="#23262B" stroke="none"/>
+        <!-- estrella -->
+        <path d="M92 250 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2 z" fill="#F4728C" stroke="#23262B"/>
+      </svg>
+    </div>
+
+    <div>
+      <span class="kicker">El producto</span>
+      <h2>Qué incluye tu<br>tienda online</h2>
+      <ul class="lista">
+        <li><span class="check">✓</span>Diseño a medida con tu identidad: colores, tipografías y tono de tu marca.</li>
+        <li><span class="check">✓</span>Catálogo de productos con fichas optimizadas, fotos y textos que venden.</li>
+        <li><span class="check">✓</span>Pasarela de pago segura (tarjeta, Bizum, PayPal) y cálculo de envíos.</li>
+        <li><span class="check">✓</span>Adaptada a móvil, rápida y posicionada: SEO básico incluido de serie.</li>
+        <li><span class="check">✓</span>Textos legales: aviso legal, privacidad, cookies y condiciones de venta.</li>
+        <li><span class="check">✓</span>Formación para que la gestiones tú + soporte cercano de nuestro equipo.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESO ================= -->
+<section class="seccion-crema" id="proceso">
+  <div class="wrap">
+    <span class="kicker">Cómo trabajamos</span>
+    <h2>De la idea al primer pedido<br>en 4 pasos</h2>
+    <div class="pasos">
+      <div class="paso">
+        <h3>Escuchamos</h3>
+        <p>Nos sentamos contigo, conocemos tu negocio, tus productos y a tu cliente ideal.</p>
+      </div>
+      <div class="paso">
+        <h3>Diseñamos</h3>
+        <p>Creamos la propuesta visual y la estructura de la tienda. La revisas y la afinamos juntos.</p>
+      </div>
+      <div class="paso">
+        <h3>Construimos</h3>
+        <p>Desarrollamos la tienda, cargamos el catálogo y conectamos pagos y envíos.</p>
+      </div>
+      <div class="paso">
+        <h3>Lanzamos</h3>
+        <p>Publicamos, te formamos y acompañamos el arranque con comunicación que conecta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KIT DIGITAL ================= -->
+<section class="kit" id="kit-digital">
+  <div class="wrap">
+    <div>
+      <span class="kicker">Ayudas públicas</span>
+      <h2>Tu tienda online con<br>el Kit Digital</h2>
+      <p>Somos agentes digitalizadores: te ayudamos a solicitar el bono del programa Kit Digital y lo aplicamos directamente a tu tienda online, para que el coste para ti pueda ser <strong>cero</strong>.</p>
+      <p>Nos encargamos del papeleo de principio a fin. Tú te centras en tu negocio; nosotros, en que vendas online.</p>
+      <a class="btn btn-rosa" href="#contacto" style="margin-top:12px">Comprobar si tengo bono</a>
+    </div>
+    <div class="sello">
+      <span>Bono Kit Digital para e-commerce</span>
+      <b>hasta 2.000 €</b>
+      <span>para crear tu tienda online*</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="seccion-blanca" id="faq">
+  <div class="wrap">
+    <span class="kicker">Dudas frecuentes</span>
+    <h2>Preguntas antes de saltar</h2>
+    <div style="margin-top:34px">
+      <details open>
+        <summary>¿Cuánto tarda en estar lista mi tienda?</summary>
+        <p>Depende del tamaño del catálogo, pero el proyecto tipo está publicado y vendiendo en unas 4 semanas desde que tenemos todos los contenidos.</p>
+      </details>
+      <details>
+        <summary>¿Podré gestionarla yo sin saber de tecnología?</summary>
+        <p>Sí. La entregamos 100% autogestionable y te formamos: subir productos, cambiar precios y preparar pedidos será tan fácil como usar tus redes sociales.</p>
+      </details>
+      <details>
+        <summary>¿Qué necesito para empezar?</summary>
+        <p>Solo tus productos y tus ganas. Del dominio, el alojamiento, los textos, las fotos y lo legal nos ocupamos nosotros contigo.</p>
+      </details>
+      <details>
+        <summary>¿Puedo pagarla con el Kit Digital?</summary>
+        <p>Si tu empresa o autónomo cumple los requisitos del programa, sí: gestionamos tu bono y lo aplicamos a la tienda online. Consúltanos y lo comprobamos gratis.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACTO ================= -->
+<section class="contacto" id="contacto">
+  <div class="wrap">
+    <span class="kicker">Da el salto</span>
+    <h2>Empieza a vender online<br>con Saltimvanki</h2>
+    <p class="lead" style="margin:14px auto 0">Cuéntanos quién eres y te llamamos para preparar una propuesta a medida, sin compromiso.</p>
+
+    <form class="form" action="#" method="post">
+      <input type="text" name="nombre" placeholder="Nombre" aria-label="Nombre" required>
+      <input type="email" name="email" placeholder="Email" aria-label="Email" required>
+      <button class="btn" type="submit">Contactar</button>
+    </form>
+
+    <p class="legal">Puedes anular tu suscripción en cualquier momento. Para más detalles, revisa nuestra <a href="https://www.saltimvanki.com/">Política de Privacidad</a>.</p>
+    <label class="news"><input type="checkbox" name="newsletter"> Inscríbete para recibir noticias</label>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <span>© 2026 SALTIMVANKI Content&amp;Media — La comunicación que te conecta con tu cliente.</span>
+    <span>
+      <a href="https://www.saltimvanki.com/">saltimvanki.com</a>
+      <a href="#contacto">Contacto</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
