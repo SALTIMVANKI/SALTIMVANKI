@@ -4,7 +4,7 @@ Son principios transferibles de los siete ejemplos aportados por Ana María Vict
 
 | Ejemplo | Señal visual | Acciones y cámara que encajan |
 |---|---|---|
-| Whale Island | Mar pictórico, misterio, escala | Oleaje por capas, barca y ballena; altura del agua, inmersión, revelación y gran alejamiento. |
+| [Whale Island](ejemplos/01-whale-island.md) | Mar pictórico, misterio, escala | Oleaje por capas, barca y ballena; altura del agua, inmersión, revelación y gran alejamiento. |
 | Picnic Creatures | Dibujo naïf, abundancia de personajes | Microacciones y criaturas que cruzan cuadro; cenital, POV, barridos y descubrimientos juguetones. |
 | Trumpet Sailor | Pintura intensa, monstruos, música | Movimiento sincronizado con ritmo; primeros planos, ángulos extremos y cortes veloces conservando la materia pintada. |
 | Cat Driving at Night | Contornos simples, colores planos | Conservar la sencillez; crear velocidad con tracking, carretera a ras de suelo, foreground y POV. |
