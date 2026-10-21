@@ -1,9 +1,15 @@
-"""Música suave (arpegios de guitarra Karplus-Strong sobre cadencia andaluza) + efectos."""
-import sys, wave
+#!/usr/bin/env python3
+"""Música suave (arpegios de guitarra Karplus-Strong) + efectos, sin derechos de autor.
+
+Uso: python3 audio.py CARPETA_SALIDA DURACION_S STYLE_JSON
+El estilo define bpm y acordes (por defecto, cadencia andaluza Am-G-F-E).
+"""
+import json, sys, wave
 import numpy as np
 
 SR = 48000
 OUT = sys.argv[1]
+STYLE = json.load(open(sys.argv[3]))["music"]
 rng = np.random.default_rng(7)
 
 
@@ -39,14 +45,13 @@ def midi(m):
 
 
 # ---------- música ----------
-DUR = 38.0; BPM = 76; beat = 60 / BPM; bar = beat * 4
-chords = [  # Am - G - F - E (cadencia andaluza), notas MIDI
-    [45, 57, 60, 64, 69], [43, 55, 59, 62, 67], [41, 53, 57, 60, 65], [40, 52, 56, 59, 64]]
+DUR = float(sys.argv[2]) + 0.7; BPM = STYLE["bpm"]; beat = 60 / BPM; bar = beat * 4
+chords = STYLE["chords"]  # notas MIDI; nota 0 = bajo
 music = np.zeros((int(SR * (DUR + bar + 3)), 2))
 pattern = [0, 2, 3, 4, 3, 2, 3, 4]  # índice de nota por corchea
 t = 0.0; c = 0
 while t < DUR:
-    ch = chords[c % 4]
+    ch = chords[c % len(chords)]
     for k, idx in enumerate(pattern):
         st = t + k * beat / 2
         if st >= DUR: break

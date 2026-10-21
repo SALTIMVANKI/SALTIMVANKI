@@ -1,0 +1,259 @@
+{
+ "style": "dorado-editorial",
+ "video_end": 34.77,
+ "end_card_duration": 2.53,
+ "safe_top": 1210,
+ "captions": [
+  [
+   0.0,
+   "Como sabéis,"
+  ],
+  [
+   0.5,
+   "la *Virgen del Carmen*"
+  ],
+  [
+   1.38,
+   "es la patrona"
+  ],
+  [
+   1.92,
+   "de los *marineros*"
+  ],
+  [
+   2.7,
+   "en casi todos"
+  ],
+  [
+   3.36,
+   "los pueblos costeros"
+  ],
+  [
+   4.38,
+   "pues salen"
+  ],
+  [
+   5.03,
+   "a la **mar**"
+  ],
+  [
+   5.6,
+   "embarca"
+  ],
+  [
+   6.11,
+   "y es súper bonito,"
+  ],
+  [
+   7.38,
+   "pero en *Sevilla*"
+  ],
+  [
+   7.91,
+   "tiene una"
+  ],
+  [
+   8.23,
+   "*peculiaridad*"
+  ],
+  [
+   9.2,
+   "que como no"
+  ],
+  [
+   9.85,
+   "tenemos mar"
+  ],
+  [
+   10.58,
+   "y lo que tenemos"
+  ],
+  [
+   11.52,
+   "es el *río*,"
+  ],
+  [
+   12.22,
+   "sale por el *río*."
+  ],
+  [
+   13.36,
+   "Y hay *dos*"
+  ],
+  [
+   14.09,
+   "Vírgenes del Carmen"
+  ],
+  [
+   15.09,
+   "que salen por el río:"
+  ],
+  [
+   16.0,
+   "la de la Dama"
+  ],
+  [
+   16.66,
+   "de *Calatrava*"
+  ],
+  [
+   17.4,
+   "y luego la de la"
+  ],
+  [
+   18.36,
+   "Virgen del Carmen"
+  ],
+  [
+   19.56,
+   "del *Puente de Triana*,"
+  ],
+  [
+   21.08,
+   "que esa sale"
+  ],
+  [
+   21.88,
+   "*mañana* por la tarde,"
+  ],
+  [
+   23.4,
+   "así que si no"
+  ],
+  [
+   24.16,
+   "la habéis visto"
+  ],
+  [
+   24.77,
+   "nunca,"
+  ],
+  [
+   25.53,
+   "la verdad es que es"
+  ],
+  [
+   26.67,
+   "**precioso**"
+  ],
+  [
+   27.27,
+   "y es algo"
+  ],
+  [
+   27.83,
+   "*muy de aquí*."
+  ],
+  [
+   28.76,
+   "Así que"
+  ],
+  [
+   29.16,
+   "os *invito*"
+  ],
+  [
+   29.68,
+   "a que vayáis a verla,"
+  ],
+  [
+   30.76,
+   "y además"
+  ],
+  [
+   31.55,
+   "que sepáis"
+  ],
+  [
+   32.2,
+   "que si queréis"
+  ],
+  [
+   32.87,
+   "regalarle a alguien"
+  ],
+  [
+   33.73,
+   "un **escapulario**"
+  ]
+ ],
+ "captions_left_from": 28.76,
+ "hook": {
+  "start": 0.1,
+  "end": 3.8,
+  "line1": "La *Virgen del Carmen*",
+  "line2": "PATRONA DE LOS MARINEROS",
+  "sticker": {
+   "text": "Sin mar → Por el río",
+   "start": 1.6,
+   "end": 3.8
+  }
+ },
+ "chapters": [
+  {
+   "start": 7.35,
+   "end": 11.45,
+   "a": "Sevilla:",
+   "b": "Por el río",
+   "transition": true
+  },
+  {
+   "start": 28.8,
+   "end": 30.85,
+   "a": "Regala el",
+   "b": "Escapulario",
+   "transition": true
+  }
+ ],
+ "card": {
+  "start": 13.4,
+  "end": 23.3,
+  "title": "Las *2* Vírgenes del río",
+  "tag": "GUÁRDALO",
+  "items": [
+   {
+    "n": "I",
+    "name": "Carmen de|Calatrava",
+    "sub": "Dama de Calatrava",
+    "at": 16.0
+   },
+   {
+    "n": "II",
+    "name": "Carmen del Puente|de Triana",
+    "sub": "Mañana por la tarde",
+    "at": 18.36
+   }
+  ],
+  "highlight": {
+   "item": 1,
+   "at": 21.88
+  }
+ },
+ "callout": {
+  "start": 30.9,
+  "end": 34.77,
+  "text": "Escapulario *del Carmen*",
+  "right": 60,
+  "top": 1585,
+  "arrow_right": 232
+ },
+ "punches": [
+  3.8,
+  12.22,
+  23.4
+ ],
+ "emphasis": [
+  26.62
+ ],
+ "product_zoom": {
+  "start": 30.8,
+  "end": 34.4,
+  "origin": "78% 86%"
+ },
+ "end_card": {
+  "kicker": "ESCAPULARIOS DE LA",
+  "title": "Virgen del Carmen",
+  "brand": "OROBRIZ CARMEN",
+  "sub": "JOYERÍA · SEVILLA"
+ }
+}

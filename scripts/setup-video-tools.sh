@@ -20,8 +20,8 @@ if ! command -v ffmpeg >/dev/null; then
   fi
 fi
 
-python3 -m pip install -q -U yt-dlp 2>/dev/null \
-  || python3 -m pip install -q -U --break-system-packages yt-dlp
+python3 -m pip install -q -U yt-dlp "opencv-python-headless<5" numpy 2>/dev/null \
+  || python3 -m pip install -q -U --break-system-packages yt-dlp "opencv-python-headless<5" numpy
 
 npm install -g "hyperframes@${HYPERFRAMES_VERSION}"
 # Chrome headless que HyperFrames necesita para renderizar

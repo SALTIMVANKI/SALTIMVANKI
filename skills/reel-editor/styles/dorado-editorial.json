@@ -1,0 +1,32 @@
+{
+  "id": "dorado-editorial",
+  "name": "Dorado Editorial",
+  "fonts": {
+    "google_css": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500;1,700&family=Figtree:wght@600;700;800",
+    "display": "'Playfair Display', Georgia, serif",
+    "sans": "'Figtree', 'Helvetica Neue', Arial, sans-serif"
+  },
+  "colors": {
+    "gold": "#F5D27F",
+    "gold_deep": "#C99A3B",
+    "cream": "#FFF8EC",
+    "ink": "#1D2433",
+    "navy": "#1E3557",
+    "sticker": "#F6D04D",
+    "flash_a": "rgba(240,200,110,.95)",
+    "flash_b": "rgba(255,240,200,.9)"
+  },
+  "grade": "eq=contrast=1.04:saturation=1.08:gamma=1.02,colorbalance=rs=0.03:bs=-0.03:rm=0.02:bm=-0.02,unsharp=5:5:0.4",
+  "camera": {
+    "punch": 1.08,
+    "drift": 0.03,
+    "emphasis": 0.04,
+    "max": 1.12,
+    "product_zoom": 1.12
+  },
+  "music": {
+    "bpm": 76,
+    "chords": [[45, 57, 60, 64, 69], [43, 55, 59, 62, 67], [41, 53, 57, 60, 65], [40, 52, 56, 59, 64]],
+    "volume": 0.6
+  }
+}
