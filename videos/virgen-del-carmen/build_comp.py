@@ -183,7 +183,7 @@ html = f"""<!doctype html>
   <div id="end" class="end" data-start="{VID}" data-duration="{round(DUR - VID, 2)}">
     <div id="e1" class="k1">ESCAPULARIOS DE LA</div>
     <div id="e2" class="k2">Virgen del Carmen</div>
-    <div id="e3" class="brand"><b>OROBRIS CARMEN</b><small>JOYERÍA · SEVILLA</small></div>
+    <div id="e3" class="brand"><b>OROBRIZ CARMEN</b><small>JOYERÍA · SEVILLA</small></div>
   </div>
 </div>
 

@@ -1,4 +1,4 @@
-# Reel Virgen del Carmen — Orobris Carmen
+# Reel Virgen del Carmen — Orobriz Carmen
 
 Fuentes para regenerar el reel (estilo adaptado del reel de referencia).
 Los vídeos y audios no se versionan; se generan con estos scripts.
