@@ -39,6 +39,21 @@ herramientas o materiales. Se monta con el mismo motor: solo cambia el `project.
 El reel original además intercalaba grabaciones de pantalla a pantalla completa; eso aún no
 está en el motor.
 
+### F3 · Monólogo de personaje ✅ probado
+*Ejemplo: La Gran Maricruz (`templates/la-gran-maricruz.json`).*
+
+Humor y marca personal: alguien se presenta enumerando sus mil facetas y remata con una frase.
+Si hay una pausa larga, se recorta a ~1,5 s antes de preparar el vídeo (falso jump cut con zoom).
+
+| Tramo | Duración | Elementos |
+|---|---|---|
+| Gancho | 0–5 s | Pregunta en el título ("¿Quién es *X*?"), nombre en palabra grande |
+| Lista que se acumula | 6–16 s | Pila de pegatinas de colores, una por faceta, sin subtítulos (la pegatina es el subtítulo) |
+| Remate | 16–24 s | Las pegatinas tiemblan y salen volando; palabra grande ("¡Agotador!") con saltos de zoom |
+| Giro | 24–32 s | Barrido + capítulo con el nombre definitivo ("La Gran *X*") |
+| Origen | 32–36 s | Tarjeta con la ruta (lugares que aparecen al nombrarlos) |
+| Frase final | 36–41 s | Palabras grandes y cierre con su lema |
+
 ---
 
 ## Estilos
@@ -55,6 +70,16 @@ Cálido, elegante y artesanal: encaja con joyería, moda, gastronomía y tradici
   cuando entra una tarjeta, zoom al producto al 112 %, barrido dorado diagonal de 0,5 s.
 - **Sonido:** guitarra en arpegios sobre cadencia andaluza (La m–Sol–Fa–Mi) a 76 bpm,
   13 dB bajo la voz y bajando sola cuando se habla; efectos whoosh / pop / shimmer / tick.
+
+### E2 · Pop Atrevido ✅ (`styles/pop-atrevido.json`)
+Divertido y con energía: humor, marca personal, ocio.
+
+- **Color:** rosa `#FF4FA3` (palabras clave), azul eléctrico `#3B4BFF`, lima `#C8F43A`,
+  blanco, naranja `#FF8A1F` (las pegatinas rotan entre ellos), tinta `#14121A`.
+- **Tipografía:** *Bagel Fat One* (redonda y gruesa) para claves y títulos; **Bricolage Grotesque** 800 para textos.
+- **Imagen:** más contraste y saturación, sin tinte cálido.
+- **Movimiento:** saltos de zoom más marcados (110 %), barrido rosa→azul.
+- **Sonido:** arpegios en mayor (Do–Sol–La m–Fa) a 104 bpm.
 
 ---
 

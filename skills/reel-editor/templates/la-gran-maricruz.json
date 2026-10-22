@@ -1,0 +1,236 @@
+{
+ "style": "pop-atrevido",
+ "video_end": 41.3,
+ "end_card_duration": 2.7,
+ "safe_top": 1305,
+ "captions": [
+  [
+   0.05,
+   "Hola,"
+  ],
+  [
+   0.98,
+   "siempre he sido…"
+  ],
+  [
+   3.01,
+   "me conocéis"
+  ],
+  [
+   4.38,
+   "como"
+  ],
+  [
+   4.89,
+   "**Maricruz**",
+   6.0
+  ],
+  [
+   16.16,
+   "**¡Agotador!**"
+  ],
+  [
+   18.0,
+   "**¡Agotador!**"
+  ],
+  [
+   19.08,
+   "tantas *Maricruces*"
+  ],
+  [
+   20.61,
+   "me han llevado"
+  ],
+  [
+   21.15,
+   "a la *locura*"
+  ],
+  [
+   22.7,
+   "y al **maricomio**",
+   24.55
+  ],
+  [
+   24.61,
+   "Y ahora mismo"
+  ],
+  [
+   25.54,
+   "solamente"
+  ],
+  [
+   26.66,
+   "quiero"
+  ],
+  [
+   27.64,
+   "ser una *Maricruz*",
+   29.3
+  ],
+  [
+   30.04,
+   "si te gusta, *bien*"
+  ],
+  [
+   31.17,
+   "y si no, **también**",
+   32.4
+  ],
+  [
+   36.28,
+   "estos son mis"
+  ],
+  [
+   36.82,
+   "**inicios**"
+  ],
+  [
+   37.74,
+   "Sigue,"
+  ],
+  [
+   38.27,
+   "que la *película*"
+  ],
+  [
+   39.94,
+   "**continúa**"
+  ]
+ ],
+ "captions_left_from": null,
+ "hook": {
+  "start": 0.1,
+  "end": 4.8,
+  "line1": "¿Quién es *Maricruz*?",
+  "line2": "UNA Y MIL"
+ },
+ "stickers": {
+  "clear": 16.1,
+  "items": [
+   {
+    "text": "Maricruz de la Harley",
+    "at": 6.12,
+    "x": 235,
+    "y": 1335,
+    "rot": -4,
+    "fs": 36
+   },
+   {
+    "text": "Maricruz de la Furgoneta",
+    "at": 7.1,
+    "x": 770,
+    "y": 1355,
+    "rot": 3,
+    "fs": 36
+   },
+   {
+    "text": "Maricruz del Sexshop",
+    "at": 8.26,
+    "x": 225,
+    "y": 1450,
+    "rot": 3,
+    "fs": 36
+   },
+   {
+    "text": "Maricruz de la Tienda Erótica",
+    "at": 9.32,
+    "x": 730,
+    "y": 1462,
+    "rot": -3,
+    "fs": 36
+   },
+   {
+    "text": "la madre",
+    "at": 11.84,
+    "x": 150,
+    "y": 1565,
+    "rot": -6,
+    "fs": 36
+   },
+   {
+    "text": "la hija",
+    "at": 12.48,
+    "x": 360,
+    "y": 1570,
+    "rot": 4,
+    "fs": 36
+   },
+   {
+    "text": "la hermana",
+    "at": 13.19,
+    "x": 585,
+    "y": 1562,
+    "rot": -3,
+    "fs": 36
+   },
+   {
+    "text": "la novia",
+    "at": 13.9,
+    "x": 810,
+    "y": 1572,
+    "rot": 5,
+    "fs": 36
+   },
+   {
+    "text": "la ex",
+    "at": 14.71,
+    "x": 975,
+    "y": 1555,
+    "rot": -8,
+    "fs": 36
+   }
+  ]
+ },
+ "chapters": [
+  {
+   "start": 29.6,
+   "end": 31.1,
+   "a": "La Gran",
+   "b": "Maricruz",
+   "transition": true
+  }
+ ],
+ "card": {
+  "start": 32.4,
+  "end": 36.15,
+  "title": "Mis *inicios*",
+  "tag": "LA RUTA",
+  "items": [
+   {
+    "n": "1",
+    "name": "Conil",
+    "at": 33.19
+   },
+   {
+    "n": "2",
+    "name": "Sevilla",
+    "at": 34.35
+   },
+   {
+    "n": "3",
+    "name": "Antequera",
+    "at": 35.56
+   }
+  ],
+  "name_px": 48
+ },
+ "callout": null,
+ "punches": [
+  4.89,
+  16.16,
+  18.0,
+  24.61,
+  36.82
+ ],
+ "emphasis": [
+  22.7,
+  39.94
+ ],
+ "product_zoom": null,
+ "end_card": {
+  "kicker": "SIGUE, QUE",
+  "title": "La película continúa",
+  "brand": "LA GRAN MARICRUZ",
+  "sub": "DE CONIL A ANTEQUERA"
+ }
+}

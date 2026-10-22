@@ -65,13 +65,16 @@ o lo comparta por Google Drive con "cualquier persona con el enlace" y descárga
   "end_card_duration": 2.5,
   "safe_top": 1210,                     // px; de faces.json
   "captions": [[0.0, "Como sabéis,"], [0.5, "la *Virgen del Carmen*"], [5.03, "a la **mar**"]],
+  // [inicio, texto] o [inicio, texto, fin] para que no se quede en pantalla bajo pegatinas/tarjeta
   "captions_left_from": 28.76,          // null = siempre centrados
+  "stickers": {"clear": 16.1, "items": [{"text": "Maricruz de la Harley", "at": 6.12, "x": 235, "y": 1335, "rot": -4, "fs": 36}]},
+                                         // pila de pegatinas (x,y = centro); en "clear" tiemblan y salen volando
   "hook": {"start": 0.1, "end": 3.8, "line1": "La *Virgen del Carmen*", "line2": "PATRONA DE LOS MARINEROS",
            "sticker": {"text": "Sin mar → Por el río", "start": 1.6, "end": 3.8}},
   "chapters": [{"start": 7.35, "end": 11.45, "a": "Sevilla:", "b": "Por el río", "transition": true}],
   "card": {"start": 13.4, "end": 23.3, "title": "Las *2* Vírgenes del río", "tag": "GUÁRDALO",
            "items": [{"n": "I", "name": "Carmen de|Calatrava", "sub": "Dama de Calatrava", "at": 16.0}],
-           "highlight": {"item": 0, "at": 21.88}},   // "|" = salto de línea
+           "highlight": {"item": 0, "at": 21.88}, "name_px": 30},   // "|" = salto de línea; name_px = tamaño de los nombres
   "callout": {"start": 30.9, "end": 34.77, "text": "Escapulario *del Carmen*", "right": 60, "top": 1585, "arrow_right": 232},
   "punches": [3.8, 12.22, 23.4],        // saltos de zoom (falsos jump cuts) al empezar frase
   "emphasis": [26.62],                  // empujes lentos en el momento emocional
@@ -80,4 +83,7 @@ o lo comparta por Google Drive con "cualquier persona con el enlace" y descárga
 }
 ```
 
-Ejemplo completo: `templates/virgen-del-carmen.json`.
+Ejemplos completos: `templates/virgen-del-carmen.json` (Dorado Editorial) y `templates/la-gran-maricruz.json` (Pop Atrevido).
+
+Pausas largas: recórtalas con FFmpeg (`trim`/`atrim` + `concat`) **antes** de `prepare.py` y pon un `punch` en el punto de corte.
+Nunca uses `random()` en GSAP: el render usa varios procesos y cada uno sacaría valores distintos.

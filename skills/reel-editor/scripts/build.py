@@ -4,7 +4,7 @@
 Uso: python3 build.py PROYECTO
 Las posiciones verticales salen de safe_top: todo lo que dura en pantalla va por debajo de la cara.
 """
-import html as H, json, os, re, sys
+import html as H, json, os, random, re, sys
 
 SKILL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 P = sys.argv[1]
@@ -71,7 +71,7 @@ card = pj.get("card")
 if card:
     a, b = card["start"], card["end"]
     cols = "".join(
-        f'<div id="ci{k}"><div class="n">{H.escape(it.get("n", ""))}</div><div class="nm">{H.escape(it["name"]).replace("|", "<br>")}</div>'
+        f'<div id="ci{k}"><div class="n">{H.escape(it.get("n", ""))}</div><div class="nm" style="font-size:{card.get("name_px", 30)}px">{H.escape(it["name"]).replace("|", "<br>")}</div>'
         f'<div class="sub" id="cs{k}">{H.escape(it.get("sub", ""))}</div></div>' for k, it in enumerate(card["items"]))
     tag = f'<em>{H.escape(card["tag"])}</em>' if card.get("tag") else ""
     clip("card", "card", a, b, f'<div class="hd"><b>{rich(card["title"])}</b>{tag}</div>'
@@ -99,11 +99,34 @@ if co:
         clip("arr", "arrow", a + .15, b, "", f'right:{co["arrow_right"]}px;top:{co["top"] + 83}px')
         js.append(f'tl.from("#arr", {{scaleY:0, duration:.35, ease:"power2.out"}}, {a + .15});')
 
+# ---------- pila de pegatinas (se acumulan y salen volando) ----------
+pile = pj.get("stickers")
+if pile:
+    pal = C.get("sticker_palette", [C["sticker"]])
+    clear = pile["clear"]
+    for k, it in enumerate(pile["items"]):
+        bg = it.get("color", pal[k % len(pal)])
+        fg = "#fff" if bg.lower() in ("#3b4bff", "#1e3557", "#e0207a") else C["ink"]
+        clip(f"pl{k}", "pst", it["at"], clear + .6, H.escape(it["text"]),
+             f'left:{it["x"]}px;top:{it["y"]}px;background:{bg};color:{fg};font-size:{it.get("fs", 44)}px')
+        js.append(f'tl.set("#pl{k}", {{xPercent:-50, yPercent:-50, rotation:{it.get("rot", 0)}}}, 0);')
+        js.append(f'tl.from("#pl{k}", {{scale:0, rotation:{it.get("rot", 0) - 20}, duration:.35, ease:"back.out(2.6)", immediateRender:false}}, {it["at"]});')
+        sfx.append((it["at"], "pop", .55))
+    # valores fijos por pegatina: el render usa varios procesos y random() daría resultados distintos
+    rnd = random.Random(7)
+    for k, it in enumerate(pile["items"]):
+        r0 = it.get("rot", 0)
+        js.append(f'tl.to("#pl{k}", {{x:{rnd.uniform(-14, 14):.1f}, rotation:{r0 + rnd.uniform(-6, 6):.1f}, duration:.06, repeat:4, yoyo:true}}, {clear - .32});')
+        js.append(f'tl.to("#pl{k}", {{y:{rnd.uniform(500, 800):.0f}, x:{rnd.uniform(-300, 300):.0f}, rotation:{rnd.uniform(-90, 90):.0f}, '
+                  f'opacity:0, duration:.55, ease:"power2.in"}}, {clear + k * .025:.3f});')
+    sfx.append((clear - .05, "whoosh", .8))
+
 # ---------- subtítulos ----------
 caps, left_from = pj["captions"], pj.get("captions_left_from")
 emph = set(pj.get("emphasis", []))
-for i, (s, txt) in enumerate(caps):
-    e = caps[i + 1][0] if i + 1 < len(caps) else VID
+for i, cap in enumerate(caps):
+    s, txt = cap[0], cap[1]
+    e = cap[2] if len(cap) > 2 else (caps[i + 1][0] if i + 1 < len(caps) else VID)  # 3er valor = fin explícito
     cls = "cap left" if left_from is not None and s >= left_from else "cap"
     clip(f"k{i}", cls, s, e, f'<span class="ln">{rich(txt)}</span>')
     js.append(f'tl.from("#k{i} .ln", {{opacity:0, y:18, scale:.92, duration:.16, ease:"power2.out"}}, {s});')
@@ -158,7 +181,9 @@ if ec:
 
 css = f"""
 :root {{ --gold:{C['gold']}; --gold-deep:{C['gold_deep']}; --cream:{C['cream']}; --ink:{C['ink']};
-  --navy:{C['navy']}; --sticker:{C['sticker']}; --display:{F['display']}; --sans:{F['sans']}; }}
+  --navy:{C['navy']}; --sticker:{C['sticker']}; --display:{F['display']}; --sans:{F['sans']};
+  --dstyle:{F.get('display_style', 'italic')}; --dweight:{F.get('display_weight', '700')};
+  --kw-stroke:{C.get('kw_stroke', 'rgba(60,40,10,.45)')}; }}
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body {{ width:1080px; height:1920px; overflow:hidden; background:#000; }}
 #root {{ position:relative; width:1080px; height:1920px; overflow:hidden; font-family:var(--sans); }}
@@ -172,29 +197,31 @@ html, body {{ width:1080px; height:1920px; overflow:hidden; background:#000; }}
   line-height:1.08; color:#fff; letter-spacing:-.5px; text-shadow:0 4px 14px rgba(0,0,0,.65), 0 0 30px rgba(0,0,0,.35); }}
 .cap.left {{ right:400px; text-align:left; }}
 .cap .ln {{ display:inline-block; }}
-.kw {{ font-family:var(--display); font-style:italic; font-weight:700; color:var(--gold); font-size:1.12em;
-  -webkit-text-stroke:2px rgba(60,40,10,.45); paint-order:stroke fill; }}
+.kw {{ font-family:var(--display); font-style:var(--dstyle); font-weight:var(--dweight); color:var(--gold); font-size:1.12em;
+  -webkit-text-stroke:2px var(--kw-stroke); paint-order:stroke fill; }}
 .kw.big {{ display:block; font-size:2.1em; line-height:.95; }}
 .title {{ position:absolute; left:0; right:0; top:{S + 5}px; text-align:center; color:#fff; text-shadow:0 4px 18px rgba(0,0,0,.55); }}
-.title .l1 {{ font-family:var(--display); font-style:italic; font-weight:500; font-size:94px; line-height:1; }}
+.title .l1 {{ font-family:var(--display); font-style:var(--dstyle); font-weight:var(--dweight); font-size:94px; line-height:1; }}
 .title .l1 .kw {{ font-size:1em; -webkit-text-stroke:0; }}
 .title .l2 {{ margin-top:14px; font-weight:700; font-size:30px; letter-spacing:13px; }}
 .sticker {{ position:absolute; left:92px; top:{S + 182}px; transform:rotate(-3deg); background:var(--sticker); color:var(--ink);
   font-weight:800; font-size:50px; padding:10px 26px 12px; border-radius:14px; box-shadow:0 10px 26px rgba(0,0,0,.35); }}
 .chap {{ position:absolute; left:0; right:0; top:{S + 15}px; text-align:center; color:#fff; text-shadow:0 4px 18px rgba(0,0,0,.55); white-space:nowrap; }}
 .chap .a {{ font-weight:700; font-size:56px; vertical-align:10px; margin-right:14px; }}
-.chap .b {{ font-family:var(--display); font-style:italic; font-weight:700; font-size:116px; color:var(--gold); }}
+.chap .b {{ font-family:var(--display); font-style:var(--dstyle); font-weight:var(--dweight); font-size:116px; color:var(--gold); }}
 .spark {{ position:absolute; color:#FFF1C9; font-size:40px; text-shadow:0 0 14px rgba(255,220,140,.9); }}
 .card {{ position:absolute; left:60px; right:60px; top:{S - 12}px; background:var(--cream); border-radius:34px;
   padding:22px 34px 26px; color:var(--ink); box-shadow:0 16px 44px rgba(0,0,0,.38); }}
 .card .hd {{ display:flex; justify-content:space-between; align-items:baseline; border-bottom:2px solid #E8DABD; padding-bottom:12px; margin-bottom:16px; }}
-.card .hd b {{ font-family:var(--display); font-style:italic; font-weight:500; font-size:52px; }}
+.card .hd b {{ font-family:var(--display); font-style:var(--dstyle); font-weight:var(--dweight); font-size:52px; }}
 .card .hd b .kw {{ color:var(--gold-deep); font-size:1em; -webkit-text-stroke:0; }}
 .card .hd em {{ font-style:normal; font-weight:700; font-size:20px; letter-spacing:5px; color:#B08B44; }}
 .card .cols {{ display:grid; gap:24px; text-align:center; }}
-.card .n {{ font-family:var(--display); font-weight:700; font-size:46px; color:var(--navy); line-height:1; }}
+.card .n {{ font-family:var(--display); font-weight:var(--dweight); font-size:46px; color:var(--navy); line-height:1; }}
 .card .nm {{ font-weight:800; font-size:30px; line-height:1.12; margin-top:6px; }}
 .card .sub {{ display:inline-block; margin-top:8px; font-size:24px; font-weight:600; color:#6B6252; padding:2px 10px; border-radius:8px; }}
+.pst {{ position:absolute; font-weight:800; font-size:44px; padding:8px 22px 10px;
+  border-radius:14px; white-space:nowrap; box-shadow:0 8px 20px rgba(0,0,0,.35); }}
 .pill {{ position:absolute; background:var(--cream); color:var(--ink); font-weight:800; font-size:36px; padding:14px 28px;
   border-radius:60px; box-shadow:0 10px 26px rgba(0,0,0,.35); }}
 .pill .kw {{ color:#9A7120; font-size:1em; -webkit-text-stroke:0; }}
@@ -206,9 +233,9 @@ html, body {{ width:1080px; height:1920px; overflow:hidden; background:#000; }}
 .end {{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:38px;
   text-align:center; color:#fff; padding:0 90px; }}
 .end .k1 {{ font-weight:700; font-size:44px; letter-spacing:4px; }}
-.end .k2 {{ font-family:var(--display); font-style:italic; font-weight:700; font-size:120px; line-height:1; color:var(--gold); text-shadow:0 6px 24px rgba(0,0,0,.45); }}
+.end .k2 {{ font-family:var(--display); font-style:var(--dstyle); font-weight:var(--dweight); font-size:120px; line-height:1; color:var(--gold); text-shadow:0 6px 24px rgba(0,0,0,.45); }}
 .end .brand {{ background:var(--cream); color:var(--ink); border-radius:36px; padding:34px 64px 30px; box-shadow:0 18px 50px rgba(0,0,0,.4); }}
-.end .brand b {{ display:block; font-family:var(--display); font-weight:700; font-size:72px; letter-spacing:6px; }}
+.end .brand b {{ display:block; font-family:var(--display); font-weight:var(--dweight); font-size:72px; letter-spacing:6px; }}
 .end .brand small {{ display:block; margin-top:8px; font-weight:600; font-size:30px; letter-spacing:8px; color:#8A6A2A; }}
 """
 
