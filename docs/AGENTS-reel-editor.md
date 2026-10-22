@@ -12,5 +12,11 @@ Este proyecto monta reels verticales (Instagram/TikTok) a partir de vídeos habl
   - **Entrega**: indica la ruta de `PROYECTO/render/final.mp4` y ábrelo con el reproductor del sistema.
   - **Reels de Instagram**: si `yt-dlp` falla por inicio de sesión, usa
     `yt-dlp --cookies-from-browser chrome URL` (o el navegador que use) o pide que suba el archivo.
+- **Windows**: todo se ejecuta dentro de WSL2 (Ubuntu), en `~/reels-saltimvanki` (no en `/mnt/c`,
+  que es mucho más lento). Si estás en PowerShell, lanza los comandos con
+  `wsl -d Ubuntu -- bash -lc "cd ~/reels-saltimvanki && ..."`.
+  Los vídeos de entrada están en `C:\Users\<usuario>\Videos\Reels\Entrada` (`/mnt/c/Users/<usuario>/Videos/Reels/Entrada`):
+  cópialos a WSL antes de preparar. Copia cada `final.mp4` y el `guion.html` a
+  `C:\Users\<usuario>\Videos\Reels\Terminados` y ábrelos con `explorer.exe`.
 - Guarda cada proyecto en `proyectos/NOMBRE/` y no subas vídeos al repositorio.
 - No renderices nunca sin que el guion visual esté aprobado.

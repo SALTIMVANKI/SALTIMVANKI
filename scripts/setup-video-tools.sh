@@ -31,7 +31,10 @@ python3 -m pip install -q -U yt-dlp "opencv-python-headless<5" numpy 2>/dev/null
   || python3 -m pip install -q -U --break-system-packages yt-dlp "opencv-python-headless<5" numpy
 
 npm install -g "hyperframes@${HYPERFRAMES_VERSION}" || $SUDO npm install -g "hyperframes@${HYPERFRAMES_VERSION}"
-# Chrome headless que HyperFrames necesita para renderizar
+# Chrome headless que HyperFrames necesita para renderizar (+ sus bibliotecas en Ubuntu/WSL)
+if command -v apt-get >/dev/null; then
+  $SUDO env "PATH=$PATH" npx -y playwright@1.48.2 install-deps chromium >/dev/null
+fi
 hyperframes browser ensure
 
 # whisper.cpp -> subtítulos automáticos (hyperframes transcribe)
