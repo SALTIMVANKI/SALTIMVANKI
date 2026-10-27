@@ -1,0 +1,10 @@
+# Material de vídeo: se queda en el ordenador, no en GitHub
+entrada/
+salida/
+referencias/
+trabajo/
+*.mp4
+*.mov
+*.m4a
+*.wav
+*.bin
