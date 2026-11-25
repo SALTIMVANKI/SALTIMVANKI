@@ -1,0 +1,294 @@
+<title>La pirámide del comprador</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: reto (comentario de una persona) + pirámide clicable a la izquierda, ficha del nivel a la derecha; móvil en una columna. Paleta Saltimvanki. */
+:root{
+  --bg:#FBF3DF; --surface:#FFFFFF; --fg:#23262B; --muted:#5F5A50; --line:#E6DAB9; --soft:#F1E5C4;
+  --accent:#33356B; --accent-ink:#FFFFFF; --ok:#2C7A4B; --bad:#B93A35;
+  --l1:#23262B; --l1-ink:#FBD44C;
+  --l2:#33356B; --l2-ink:#FFFFFF;
+  --l3:#F4728C; --l3-ink:#23262B;
+  --l4:#FBD44C; --l4-ink:#23262B;
+  --font:'Poppins','Segoe UI',system-ui,sans-serif; --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --bad:#FF8C83; --l1:#0F1014; --l2:#4B4E9A; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --bad:#FF8C83; --l1:#0F1014; --l2:#4B4E9A; color-scheme:dark;}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:10px}
+header h1{font-size:clamp(1.9rem,4.6vw,3.1rem);font-weight:800;letter-spacing:-.01em}
+header h1 span{background:var(--l3);color:#23262B;padding:0 .18em;border-radius:6px}
+.lead{max-width:64ch;color:var(--muted);font-size:1.02rem}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px}
+.seg button{font:inherit;font-weight:600;font-size:.9rem;border:0;background:transparent;color:var(--fg);padding:8px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.stats{display:flex;gap:18px;align-items:center;font-variant-numeric:tabular-nums}
+.stat{display:flex;flex-direction:column;line-height:1.2}
+.stat b{font-size:1.25rem}
+.stat small{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.progress{width:140px;height:8px;border-radius:999px;background:var(--soft);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}}
+.play{display:flex;flex-direction:column;gap:18px;min-width:0}
+
+.reto{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.reto .eyebrow{color:var(--accent)}
+.person{display:flex;gap:12px;align-items:flex-start}
+.avatar{flex:0 0 40px;height:40px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-weight:700;color:var(--fg)}
+.bubble{background:var(--bg);border-radius:4px 14px 14px 14px;padding:10px 14px;font-size:1.02rem;font-weight:500;min-width:0}
+.who{font-size:.78rem;color:var(--muted);font-weight:600;margin-bottom:2px}
+.q{color:var(--muted);font-size:.9rem}
+.feedback{min-height:1.4em;font-weight:600;font-size:.92rem}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+
+.pyr{display:flex;flex-direction:column;align-items:center;gap:6px}
+.lvl{font:inherit;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  padding:12px 14px;min-height:62px;text-align:center;transition:transform .15s,filter .15s;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%)}
+.lvl:hover{transform:scale(1.015);filter:brightness(1.05)}
+.lvl:focus-visible,.seg button:focus-visible,.btn:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
+.lvl.sel{box-shadow:inset 0 0 0 4px var(--fg)}
+.lvl .pct{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums}
+.lvl .nm{font-weight:700;font-size:.92rem}
+.lvl .dots{display:flex;gap:4px}
+.lvl .dots i{width:9px;height:9px;border-radius:50%;border:2px solid currentColor;opacity:.8}
+.lvl .dots i.f{background:currentColor;opacity:1}
+.lvl.shake{animation:shake .4s}
+.lvl.pop{animation:pop .45s}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes pop{50%{transform:scale(1.05)}}
+.l4{width:34%;background:var(--l4);color:var(--l4-ink);clip-path:polygon(30% 0,70% 0,100% 100%,0 100%);min-height:70px;padding-top:22px}
+.l3{width:56%;background:var(--l3);color:var(--l3-ink)}
+.l2{width:78%;background:var(--l2);color:var(--l2-ink)}
+.l1{width:100%;background:var(--l1);color:var(--l1-ink);min-height:78px}
+.pyr-note{font-size:.8rem;color:var(--muted);text-align:center}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:860px){.panel{position:static}}
+.panel h2{font-size:1.4rem;font-weight:800}
+.chip{display:inline-flex;font-size:.8rem;font-weight:700;padding:4px 10px;border-radius:999px;align-self:flex-start}
+.panel h3{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.panel ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px}
+.example{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:.92rem}
+.warn{border-left:4px solid var(--bad);padding:6px 12px;font-size:.9rem}
+.steps{display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.steps b{color:var(--fg)}
+
+#finale{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:18px}
+#finale h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800}
+.prompt{font-weight:600;background:var(--bg);border-radius:10px;padding:10px 14px}
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.compare{grid-template-columns:minmax(0,1fr)}}
+.answer{border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);min-width:0}
+.answer.with{border:2px solid var(--accent)}
+.answer h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.mix{display:flex;flex-direction:column;gap:6px}
+.mixrow{display:grid;grid-template-columns:110px minmax(0,1fr) 34px;gap:8px;align-items:center;font-size:.8rem;font-variant-numeric:tabular-nums}
+.track{height:12px;background:var(--soft);border-radius:999px;overflow:hidden}
+.track i{display:block;height:100%;border-radius:999px}
+.reach{font-weight:700}
+.post{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.react{font-size:.85rem;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Taller práctico · anavictoria.ia</p>
+    <h1>La <span>pirámide</span> del comprador</h1>
+    <p class="lead">De cada 100 personas que te ven, solo 3 quieren comprar ya. Las otras 97 necesitan otro mensaje. Escucha lo que dice cada persona y colócala en su nivel.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Modo de juego">
+      <button id="mode-reto" aria-pressed="true">Modo reto</button>
+      <button id="mode-explorar" aria-pressed="false">Modo explorar</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="score">0</b><small>Puntos</small></div>
+      <div class="stat"><b id="count">0 / 8</b><small>Personas</small></div>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    </div>
+  </div>
+
+  <main class="layout">
+    <section class="play">
+      <div class="reto" aria-live="polite">
+        <p class="eyebrow" id="reto-step">Persona 1 de 8</p>
+        <div class="person" id="person">
+          <div class="avatar" id="avatar">?</div>
+          <div class="bubble"><p class="who" id="who"></p><p id="say"></p></div>
+        </div>
+        <p class="q" id="reto-q">¿En qué nivel de la pirámide está? Toca su nivel.</p>
+        <p class="feedback" id="feedback"></p>
+      </div>
+      <div class="pyr" id="pyr"></div>
+      <p class="pyr-note">Reparto según la ponencia del Talent Lab 2026. Los puntos de cada nivel muestran a cuántas personas has colocado.</p>
+    </section>
+    <aside class="panel" id="info" aria-live="polite"></aside>
+  </main>
+
+  <section id="finale" hidden>
+    <p class="eyebrow">Pirámide completa · <span id="final-score"></span></p>
+    <h2>Mismo mes, 12 publicaciones, dos estrategias</h2>
+    <p class="prompt">Objetivo: llenar el taller «Dale cerebro a tu IA».</p>
+    <div class="compare">
+      <div class="answer">
+        <h3>Sin pirámide: todo es venta</h3>
+        <div class="mix" id="mix-sin"></div>
+        <p class="reach">Te escucha el 3 % de tu público.</p>
+        <p class="post">«Taller de IA el 15 de enero, 97 €. ¡Plazas limitadas, apúntate ya!»</p>
+        <p class="react">Laura, que escribe sus posts a mano cada domingo, pasa de largo: no sabe que tiene un problema.</p>
+      </div>
+      <div class="answer with">
+        <h3>Con pirámide: un mensaje por nivel</h3>
+        <div class="mix" id="mix-con"></div>
+        <p class="reach">Le hablas al 100 % y vas subiendo a la gente de nivel.</p>
+        <p class="post">«¿Cuántas horas pasaste este mes escribiendo posts? Te enseño a recuperar 5 a la semana. Sígueme y mañana te cuento cómo.»</p>
+        <p class="react">Laura se para, se ve reflejada y te sigue. En unas semanas estará en el nivel de compra.</p>
+      </div>
+    </div>
+    <div class="btns">
+      <button class="btn" id="again">Jugar otra vez</button>
+      <button class="btn ghost" id="explore">Repasar los niveles</button>
+    </div>
+  </section>
+
+  <footer>Personas de ejemplo · Saltimvanki Content &amp; Media · anavictoria.ia</footer>
+</div>
+
+<script>
+(function(){
+const LV=[
+ {id:4,cls:'l4',pct:'3 %',name:'Decisión',short:'En modo «comprar ahora»',
+  piensa:'Ya sabe que lo quiere. Solo le falta saber cuánto, cuándo y cómo.',
+  necesita:['Oferta clara: precio, fecha y qué incluye','Plazas limitadas o fecha límite real','Testimonios y garantía','Un botón directo: comprar o reservar llamada'],
+  cta:'Comprar o reservar una llamada',
+  ejemplo:'Story: «Quedan 4 plazas para el taller del 15 de enero. Precio de lanzamiento hasta el viernes. Responde TALLER y te paso el enlace.»',
+  error:'Hacerle esperar o mandarle más contenido educativo. Se enfría y compra a otro.',
+  pista:'Fíjate si pregunta por precio, fechas o cómo empezar.'},
+ {id:3,cls:'l3',pct:'17 %',name:'Consideración',short:'Recopilando información',
+  piensa:'Sabe que hay soluciones y está comparando cuál le conviene.',
+  necesita:['Demostraciones en directo','Casos reales con resultados','Tu método explicado paso a paso','Comparativas honestas'],
+  cta:'Ver la clase gratuita o el webinar',
+  ejemplo:'Directo: «Monto el cerebro de un hotel en 20 minutos delante de ti». Al final, enlace a la clase gratuita.',
+  error:'Darle solo frases inspiradoras. Necesita pruebas para decidir.',
+  pista:'Fíjate si está comparando opciones o guardando cursos.'},
+ {id:2,cls:'l2',pct:'20 %',name:'Awareness',short:'Sabe que tiene un problema',
+  piensa:'Nota que algo falla, pero no está buscando solución. Está abierto si se la enseñas.',
+  necesita:['Explicar por qué le pasa','Enseñarle que tiene solución','Un recurso gratuito y fácil','Que vea que le entiendes'],
+  cta:'Comentar una palabra para recibir la guía gratis',
+  ejemplo:'Carrusel: «Por qué tu IA suena a robot (y no es culpa tuya)». Final: «Comenta CEREBRO y te mando la guía».',
+  error:'Venderle el taller directamente. Todavía no sabe que tu solución existe.',
+  pista:'Fíjate si se queja de un problema, aunque no busque nada.'},
+ {id:1,cls:'l1',pct:'60 %',name:'Pre-awareness',short:'No sabe que tiene un problema',
+  piensa:'Cree que todo va bien o que «es lo que hay». Es buen candidato, pero todavía no lo sabe.',
+  necesita:['Antes y después','Errores comunes que reconozca','Curiosidad y sorpresa','Historias de alguien como él o ella'],
+  cta:'Seguir la cuenta',
+  ejemplo:'Reel: «Tardas 3 horas en lo que la IA hace en 10 minutos, si sabes dársela». Final: «Sígueme, mañana te enseño cómo».',
+  error:'Hablarle de precios, cursos o herramientas. No sabe para qué los querría.',
+  pista:'Fíjate si cree que no le hace falta nada o que «siempre se ha hecho así».'}
+];
+const BYL=Object.fromEntries(LV.map(l=>[l.id,l]));
+const PEOPLE=[
+ {n:'Laura',r:'Peluquería en Málaga',lv:1,t:'Yo escribo mis posts a mano, como siempre. Me lleva la tarde del domingo, pero es lo que hay.'},
+ {n:'Paco',r:'Taller mecánico',lv:1,t:'¿La IA? Eso es para empresas grandes. A mi taller no le hace falta.'},
+ {n:'Marta',r:'Abogada autónoma',lv:2,t:'Uso ChatGPT, pero lo que me da suena a robot. No sé si es culpa mía.'},
+ {n:'Iván',r:'Tienda online',lv:2,t:'Con la IA pierdo mucho tiempo. A veces tardo más que haciéndolo yo.'},
+ {n:'Rocío',r:'Formadora',lv:3,t:'¿Qué me conviene más, un GPT personalizado o un proyecto de Claude con mis documentos?'},
+ {n:'Javier',r:'Agencia inmobiliaria',lv:3,t:'He guardado tres cursos de IA y estoy comparando cuál encaja con mi negocio.'},
+ {n:'Elena',r:'Clínica de fisioterapia',lv:4,t:'¿Cuándo empieza el próximo taller y cuánto cuesta?'},
+ {n:'Boris',r:'Grupo hotelero',lv:4,t:'Si me lo montas tú para los dos hoteles, ¿podemos empezar en enero?'}
+];
+const MIX_SIN=[[1,0],[2,0],[3,0],[4,12]],MIX_CON=[[1,5],[2,4],[3,2],[4,1]];
+
+const $=id=>document.getElementById(id);
+const pyr=$('pyr'),btn={};
+LV.forEach(l=>{
+  const b=document.createElement('button');b.type='button';b.className='lvl '+l.cls;b.dataset.id=l.id;
+  b.setAttribute('aria-label',`${l.name}, ${l.pct}: ${l.short}`);
+  b.innerHTML=`<span class="pct">${l.pct}</span><span class="nm">${l.name}</span><span class="dots"><i></i><i></i></span>`;
+  b.addEventListener('click',()=>choose(l.id));b.addEventListener('animationend',()=>b.classList.remove('shake','pop'));
+  pyr.appendChild(b);btn[l.id]=b;
+});
+let st;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function reset(){st={mode:st?st.mode:'reto',order:shuffle(PEOPLE),i:0,tries:0,score:0,filled:{1:0,2:0,3:0,4:0},sel:null};
+  $('finale').hidden=true;$('feedback').textContent='';$('feedback').className='feedback';intro();render()}
+function dots(){LV.forEach(l=>{[...btn[l.id].querySelectorAll('.dots i')].forEach((d,k)=>d.classList.toggle('f',k<st.filled[l.id]))})}
+function render(){
+  const done=st.i>=PEOPLE.length;dots();
+  $('score').textContent=st.score;$('count').textContent=Math.min(st.i,8)+' / 8';$('prog').style.width=(st.i/8*100)+'%';
+  $('mode-reto').setAttribute('aria-pressed',st.mode==='reto');$('mode-explorar').setAttribute('aria-pressed',st.mode==='explorar');
+  $('person').hidden=st.mode==='explorar'||done;
+  if(st.mode==='explorar'){$('reto-step').textContent='Modo explorar';$('reto-q').textContent='Toca un nivel de la pirámide para ver qué piensa esa persona y qué contenido necesita.';return}
+  if(done){$('reto-step').textContent='Pirámide completa';$('reto-q').textContent='Baja para ver la diferencia entre publicar sin pirámide y con pirámide.';return}
+  const p=st.order[st.i];$('reto-step').textContent=`Persona ${st.i+1} de 8`;$('avatar').textContent=p.n[0];$('who').textContent=`${p.n} · ${p.r}`;$('say').textContent=`«${p.t}»`;
+  $('reto-q').textContent='¿En qué nivel de la pirámide está? Toca su nivel.';
+}
+function choose(id){
+  if(st.mode==='explorar'||st.i>=PEOPLE.length){showInfo(id);return}
+  const p=st.order[st.i],fb=$('feedback');
+  if(id===p.lv){
+    const pts=st.tries===0?100:st.tries===1?50:25;st.score+=pts;st.tries=0;st.filled[id]++;st.i++;
+    btn[id].classList.remove('pop');void btn[id].offsetWidth;btn[id].classList.add('pop');
+    fb.className='feedback ok';fb.textContent=`Correcto: ${p.n} está en ${BYL[id].name}. +${pts} puntos`;showInfo(id,p);render();
+    if(st.i>=PEOPLE.length)setTimeout(finale,600);
+  }else{
+    st.tries++;btn[id].classList.remove('shake');void btn[id].offsetWidth;btn[id].classList.add('shake');
+    fb.className='feedback bad';fb.textContent=`No es ${BYL[id].name}. Pista: ${BYL[p.lv].pista}`;
+  }
+}
+function showInfo(id,p){
+  const l=BYL[id];if(st.sel)btn[st.sel].classList.remove('sel');st.sel=id;btn[id].classList.add('sel');
+  $('info').innerHTML=`<span class="chip" style="background:var(--l${id});color:var(--l${id}-ink)">${l.pct} de tu público</span>
+  <h2>${l.name}</h2>
+  ${p?`<p class="example"><b>${p.n}:</b> «${p.t}»</p>`:''}
+  <div><h3>Qué piensa</h3><p>${l.piensa}</p></div>
+  <div><h3>Qué contenido necesita</h3><ul>${l.necesita.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+  <div><h3>La única acción que le pides</h3><p><b>${l.cta}</b></p></div>
+  <div><h3>Ejemplo de pieza</h3><p class="example">${l.ejemplo}</p></div>
+  <div><h3>Error típico</h3><p class="warn">${l.error}</p></div>`;
+}
+function intro(){
+  $('info').innerHTML=`<p class="eyebrow">Cómo se juega</p><h2>4 niveles, 4 mensajes</h2>
+  <p>Cada persona está en un momento distinto. Si a todas les dices lo mismo, solo te escucha una pequeña parte.</p>
+  <div class="steps"><p><b>Modo reto:</b> lee lo que dice cada persona y toca su nivel. 100 puntos a la primera, 50 a la segunda y 25 después.</p>
+  <p><b>Modo explorar:</b> toca cualquier nivel para ver qué piensa esa persona, qué contenido necesita y qué error evitar.</p>
+  <p><b>Al final:</b> verás el mismo mes de publicaciones hecho sin pirámide y con pirámide.</p></div>`;
+}
+function mix(elId,rows){
+  $(elId).innerHTML=rows.map(([id,n])=>`<div class="mixrow"><span>${BYL[id].name}</span><span class="track"><i style="width:${n/12*100}%;background:var(--l${id})"></i></span><span>${n}</span></div>`).join('');
+}
+function finale(){
+  $('final-score').textContent=`${st.score} de 800 puntos`;mix('mix-sin',MIX_SIN);mix('mix-con',MIX_CON);$('finale').hidden=false;
+  try{$('finale').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}catch(e){}
+}
+$('mode-reto').addEventListener('click',()=>{st.mode='reto';st.tries=0;$('feedback').textContent='';render()});
+$('mode-explorar').addEventListener('click',()=>{st.mode='explorar';$('feedback').textContent='';render()});
+$('again').addEventListener('click',()=>{reset();window.scrollTo({top:0,behavior:'smooth'})});
+$('explore').addEventListener('click',()=>{st.mode='explorar';render();showInfo(1);$('info').scrollIntoView({behavior:'smooth',block:'start'})});
+reset();
+})();
+</script>
