@@ -1,0 +1,73 @@
+<div class="wrap" style="--hl:var(--c1)">
+  <header>
+    <p class="eyebrow">Premio de la Feria de la IA · anavictoria.ia</p>
+    <h1>Dale <span>cerebro</span> a tu IA</h1>
+    <p class="lead">La guía para que tu IA (ChatGPT, Claude o Gemini) trabaje como alguien de tu equipo que conoce tu negocio. Son 7 piezas: rellénalas aquí mismo y al final copias tu cerebro completo para pegarlo en tu IA.</p>
+  </header>
+  <section class="adapt" id="adapt"></section>
+  <section class="steps">
+    <div class="card"><span class="tag" style="background:var(--c1)">Paso 1</span><h3>Lee cada pieza</h3><p class="note">Qué es, qué preguntas responder y un ejemplo adaptado a tu negocio.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c2)">Paso 2</span><h3>Rellena la tuya</h3><p class="note">Escribe en cada recuadro. Frases cortas y concretas. Se guarda en este navegador.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c5)">Paso 3</span><h3>Copia y carga</h3><p class="note">Copia tu cerebro completo y pégalo en tu IA. Abajo te explico dónde.</p></div>
+  </section>
+  <section class="sec" id="pieces"></section>
+  <section class="sec">
+    <h2>Tu cerebro, listo para copiar</h2>
+    <div class="card">
+      <div class="row"><p class="note">Incluye tus 7 piezas y las instrucciones maestras. Si una pieza está vacía, aparece el ejemplo como guía para que la completes.</p><button class="btn" id="copy-all" type="button">Copiar mi cerebro</button></div>
+      <pre class="out" id="out"></pre>
+    </div>
+  </section>
+  <section class="sec">
+    <h2>Dónde pegarlo</h2>
+    <div class="steps">
+      <div class="card"><h3>ChatGPT</h3><ol><li>Crea un <b>Proyecto</b> o un GPT personalizado.</li><li>Pega tu cerebro en las <b>instrucciones</b>.</li><li>Sube como archivos tu web, fichas, carta o catálogo (pieza 2).</li></ol></div>
+      <div class="card"><h3>Claude</h3><ol><li>Crea un <b>Proyecto</b>.</li><li>Pega tu cerebro en las <b>instrucciones del proyecto</b>.</li><li>Añade tus documentos al <b>conocimiento del proyecto</b>.</li></ol></div>
+      <div class="card"><h3>Gemini</h3><ol><li>Crea una <b>Gem</b>.</li><li>Pega tu cerebro en sus <b>instrucciones</b>.</li><li>Adjunta tus documentos.</li></ol></div>
+    </div>
+    <p class="note">Los nombres de los menús pueden cambiar con las actualizaciones de cada herramienta. Revisa cada mes tu cerebro: nuevas ofertas, temporadas y preguntas de clientes.</p>
+  </section>
+  <footer>Guía gratuita de la Feria de la IA · anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+<script>
+const PIECES=[
+ {n:1,t:'Identidad',c:'c1',que:'Quién eres y cómo hablas. Es lo que hace que la IA suene a ti y no a cualquiera.',
+  q:['¿Qué haces y para quién?','¿Qué te hace diferente?','¿Cómo hablas: tuteas, eres formal, usas humor?','Palabras que usas siempre y palabras que nunca dirías','Un texto tuyo que te encante (pégalo como ejemplo)'],
+  ex:'{negocio} es {tipo}. Ayudamos a {cliente} a {resultado}. Nuestro tono es {tono}. Tuteamos. Palabras que sí: claro, cerca, a tu lado. Palabras que nunca: «low cost», «barato», tecnicismos sin explicar.'},
+ {n:2,t:'Archivo',c:'c2',que:'Toda la información real de tu negocio, para que la IA consulte en lugar de inventar.',
+  q:['¿Qué vendes exactamente? Qué incluye y precio','Horarios, plazos, zonas o envíos','Las 10 preguntas que más te hacen y sus respuestas','Políticas: cancelaciones, devoluciones, garantías','Reseñas y testimonios reales'],
+  ex:'Servicio principal: {oferta}. Qué incluye, cuánto dura y precio. Las 10 preguntas que más nos hacen {cliente}, con su respuesta. Política de cancelación. 5 reseñas reales de clientes. (Además, sube como archivos tu web, catálogo o fichas.)'},
+ {n:3,t:'Influencia',c:'c3',que:'Tu entorno: quién te sigue, qué funciona en tus redes y qué hacen otros en tu sector.',
+  q:['¿Quién te sigue en redes? Edad, ciudad, intereses','Tus 3 publicaciones que mejor funcionaron y por qué','3 competidores y qué hacen bien','3 referentes que te inspiran (de tu sector o de otro)','Hashtags y temas que mueven a tu público'],
+  ex:'Nos siguen sobre todo {cliente} de {ciudad}. En {canal} funcionan mejor los vídeos cortos con consejos prácticos y el antes y después. Competidores: tres negocios de {ciudad} que publican poco y sin constancia. Referente: cuentas que explican fácil lo difícil.'},
+ {n:4,t:'Psicología',c:'c4',que:'Lo que siente tu cliente: su problema, lo que desea, lo que le frena y en qué momento está.',
+  q:['¿Quién es tu cliente ideal? Descríbelo como una persona','¿Qué problema tiene y cómo lo dice él?','¿Qué desea conseguir?','¿Qué le frena para comprar? (dinero, tiempo, miedo, desconfianza)','¿En qué nivel está? No sabe que tiene el problema / lo sabe / compara / quiere comprar'],
+  ex:'Cliente ideal: {cliente}. Su problema: {problema}. Lo que desea: {resultado}. Lo que le frena: no tener tiempo y no saber si le va a funcionar. Muchos todavía no saben que tiene solución: hay que contárselo antes de venderle.'},
+ {n:5,t:'Estilo',c:'c5',que:'Cómo se ve tu marca, para que todo lo visual que te proponga la IA sea reconocible.',
+  q:['Tus colores (con su código si lo tienes)','Tus tipografías','Cómo son tus fotos: luz, lugares, personas','Lo que nunca usarías en una imagen','Referencias visuales que te gustan'],
+  ex:'Colores de {negocio}: dos colores principales y uno de acento (con su código). Tipografía clara y redondeada. Fotos con luz natural, personas reales y lugares de {ciudad}. Nunca imágenes de stock frías ni colores chillones.'},
+ {n:6,t:'Búsquedas',c:'c1',que:'Lo que la gente busca de verdad. Datos reales, no suposiciones.',
+  q:['Si tienes web: las búsquedas con las que te encuentran (Google Search Console)','Preguntas y reseñas de tu ficha de Google Business Profile','Si no tienes datos: escribe «'+'{oferta} en {ciudad}» en Google y apunta las sugerencias','Las preguntas que te hacen por WhatsApp o en el mostrador','Temporadas: cuándo te buscan más'],
+  ex:'La gente busca «{oferta} en {ciudad}», «precio de {oferta}» y «mejor {tipo} cerca de mí». Las preguntas que más llegan por WhatsApp son sobre precio, disponibilidad y cómo funciona. En primavera y antes de verano sube la demanda.'},
+ {n:7,t:'Instrucciones',c:'c2',que:'El manual que le dice a la IA cómo usar todo lo anterior. Este texto se genera solo con tus datos.',
+  q:['¿Qué debe consultar antes de responder?','¿Cómo deben ser las respuestas: largas, cortas, con listas?','¿Qué no debe hacer nunca?','¿Qué hace si le falta un dato?'],
+  ex:'Eres el asistente de {negocio}, {tipo}. Antes de escribir, consulta: Identidad para el tono, Archivo para los datos, Psicología para adaptar el mensaje a {cliente} y Búsquedas para elegir los temas. Escribe con un tono {tono}, frases cortas y sin tecnicismos. No inventes datos: si te falta información, pregúntame. Termina cada contenido con una sola llamada a la acción. Nunca uses palabras de la lista de «palabras que nunca».'}
+];
+let mine={};try{mine=JSON.parse(localStorage.getItem('cerebro-piezas')||'{}')}catch(e){}
+const saveMine=()=>{try{localStorage.setItem('cerebro-piezas',JSON.stringify(mine))}catch(e){}};
+function render(){
+  document.getElementById('pieces').innerHTML='<h2>Las 7 piezas</h2>'+PIECES.map(p=>`<article class="card" id="p${p.n}">
+    <span class="tag" style="background:var(--${p.c});${p.c==='c3'?'color:#fff':''}">Pieza ${p.n} de 7</span><h3>${p.t}</h3><p>${p.que}</p>
+    <div><p class="eyebrow">Preguntas para rellenarla</p><ul>${p.q.map(x=>`<li>${fillH(x)}</li>`).join('')}</ul></div>
+    <div><p class="eyebrow">Ejemplo para tu negocio</p><p class="ex">${fillH(p.ex)}</p></div>
+    <label class="eyebrow" for="t${p.n}">Tu pieza ${p.n}</label><textarea id="t${p.n}" data-n="${p.n}" placeholder="Escribe aquí tu ${p.t.toLowerCase()}…">${esc(mine[p.n]||'')}</textarea>
+    <div class="row"><span class="note">Truco: copia el ejemplo y cámbialo con tus datos.</span><button class="btn ghost" type="button" data-copy="${p.n}">Copiar ejemplo</button></div></article>`).join('');
+  document.querySelectorAll('textarea[data-n]').forEach(t=>t.addEventListener('input',()=>{mine[t.dataset.n]=t.value;saveMine();out()}));
+  document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>copy(fillT(PIECES[b.dataset.copy-1].ex),b)));
+  out();
+}
+function text(){const v=vars();return `CEREBRO DE ${v.negocio.toUpperCase()}\n\n`+PIECES.map(p=>`## ${p.n}. ${p.t}\n${(mine[p.n]&&mine[p.n].trim())||'[Por completar] '+fillT(p.ex)}`).join('\n\n')}
+function out(){document.getElementById('out').textContent=text()}
+document.getElementById('copy-all').addEventListener('click',e=>copy(text(),e.target));
+buildAdapt(document.getElementById('adapt'));U.onChange=render;render();
+</script>

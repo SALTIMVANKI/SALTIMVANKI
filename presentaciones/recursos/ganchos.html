@@ -1,0 +1,152 @@
+<title>30 ganchos que paran el scroll</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Recurso descargable de anavictoria.ia: cabecera + selector de negocio (adapta todos los ejemplos) + contenido copiable. Paleta Saltimvanki. */
+:root{
+  --bg:#FBF3DF; --surface:#FFFFFF; --fg:#23262B; --muted:#5F5A50; --line:#E6DAB9; --soft:#F1E5C4;
+  --accent:#33356B; --accent-ink:#FFFFFF; --ok:#2C7A4B; --mark:#FDE38A; --mark-ink:#23262B;
+  --c1:#FBD44C; --c2:#F4728C; --c3:#33356B; --c4:#FDE38A; --c5:#F9A9B8;
+  --font:'Poppins','Segoe UI',system-ui,sans-serif; --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --mark:#5A4B12; --mark-ink:#FFF3C4; --c3:#4B4E9A; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --mark:#5A4B12; --mark-ink:#FFF3C4; --c3:#4B4E9A; color-scheme:dark;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:26px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:10px}
+header h1{font-size:clamp(1.9rem,4.8vw,3rem);font-weight:800;letter-spacing:-.01em}
+header h1 span{background:var(--hl);color:#23262B;padding:0 .16em;border-radius:6px}
+.lead{max-width:64ch;color:var(--muted);font-size:1.02rem}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:4px;padding:0 .15em}
+.adapt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.adapt h2{font-size:1.05rem;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:7px 14px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.form{grid-template-columns:minmax(0,1fr)}}
+.form label{display:flex;flex-direction:column;gap:3px;font-size:.78rem;font-weight:600;color:var(--muted)}
+.form input,textarea{font:inherit;font-size:.92rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.note{font-size:.8rem;color:var(--muted)}
+.btn{font:inherit;font-weight:700;font-size:.85rem;border:0;border-radius:999px;padding:8px 16px;cursor:pointer;background:var(--accent);color:var(--accent-ink);white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.done{background:var(--ok);color:#fff}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec>h2{font-size:1.45rem;font-weight:800}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h3{font-size:1.1rem;font-weight:800}
+.tag{display:inline-flex;align-self:flex-start;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:999px;color:#23262B}
+.ex{background:var(--bg);border-radius:10px;padding:11px 13px;font-size:.92rem}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.card ul,.card ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:3px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps .card h3{font-size:1rem}
+pre.out{white-space:pre-wrap;word-break:break-word;background:var(--bg);border-radius:10px;padding:14px;font:inherit;font-size:.88rem;margin:0;max-height:460px;overflow:auto}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+</style>
+<div class="wrap" style="--hl:var(--c2)">
+  <header>
+    <p class="eyebrow">Premio de la Feria de la IA · anavictoria.ia</p>
+    <h1>30 ganchos que <span>paran el scroll</span></h1>
+    <p class="lead">Tienes 3 segundos para que alguien deje de bajar. Aquí tienes 30 fórmulas en 5 tipos, ya escritas para tu negocio. Copia, ajusta una palabra y graba.</p>
+  </header>
+  <section class="adapt" id="adapt"></section>
+  <section class="steps">
+    <div class="card"><span class="tag" style="background:var(--c1)">1. Gancho</span><h3>Los 3 primeros segundos</h3><p class="note">Di la frase nada más empezar, sin «hola» y con el texto también en pantalla.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c2)">2. Valor</span><h3>Cumple lo que prometes</h3><p class="note">Si prometes 3 pasos, da 3 pasos. Si no cumples, pierdes la confianza.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c5)">3. Una acción</span><h3>Pide solo una cosa</h3><p class="note">Seguir, comentar una palabra, ver la clase o comprar. Solo una.</p></div>
+  </section>
+  <div class="chips" role="group" aria-label="Filtrar por tipo" id="filters"></div>
+  <section class="sec" id="list"></section>
+  <section class="card">
+    <h3>¿Qué acción pides al final?</h3>
+    <ul>
+      <li><b>Si aún no te conocen:</b> «Sígueme, mañana te cuento más».</li>
+      <li><b>Si saben que tienen el problema:</b> «Comenta [PALABRA] y te mando [recurso]».</li>
+      <li><b>Si están comparando:</b> «Mira la clase gratis, el enlace está en la bio».</li>
+      <li><b>Si quieren comprar:</b> «Responde QUIERO y te paso el enlace».</li>
+    </ul>
+  </section>
+  <footer>Plantilla gratuita de la Feria de la IA · anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+
+<script>
+const SECTORS={
+ autonomo:{label:'Autónomo de servicios',tipo:'abogada autónoma',negocio:'Despacho Laura Ruiz',cliente:'autónomos y pequeñas empresas',oferta:'asesoría laboral',problema:'pierden horas con el papeleo y temen una sanción',resultado:'tener todo en regla sin perder tiempo',tono:'cercano, claro y sin tecnicismos',ciudad:'Málaga',canal:'Instagram y LinkedIn'},
+ pyme:{label:'Pyme de servicios',tipo:'clínica de fisioterapia',negocio:'Clínica Movimiento',cliente:'personas con dolor de espalda y deportistas',oferta:'fisioterapia',problema:'conviven con el dolor y no saben qué tratamiento les sirve',resultado:'moverse sin dolor',tono:'profesional, empático y tranquilo',ciudad:'Málaga',canal:'Instagram y Google'},
+ producto:{label:'Marca de producto',tipo:'marca de cosmética natural',negocio:'Aloe Sur',cliente:'mujeres de 30 a 50 años con piel sensible',oferta:'cremas naturales',problema:'gastan dinero en cremas que les irritan la piel',resultado:'cuidar la piel sin irritaciones',tono:'fresco, honesto y cercano',ciudad:'Málaga',canal:'Instagram y TikTok'},
+ hosteleria:{label:'Hostelería y turismo',tipo:'hotel boutique',negocio:'Hotel Brisa',cliente:'parejas y viajeros que buscan una escapada',oferta:'escapadas en el centro',problema:'no encuentran un sitio con encanto y bien ubicado',resultado:'disfrutar de una escapada sin preocupaciones',tono:'cálido y elegante',ciudad:'Málaga',canal:'Instagram y Google'},
+ comercio:{label:'Comercio local',tipo:'peluquería de barrio',negocio:'Peluquería Rizos',cliente:'vecinas y vecinos del barrio',oferta:'cortes y color',problema:'salen de la peluquería sin el look que querían',resultado:'salir con el pelo que querían',tono:'alegre y cercano',ciudad:'Málaga',canal:'Instagram y WhatsApp'},
+ formacion:{label:'Formación y mentoría',tipo:'formadora y mentora',negocio:'Escuela Paso a Paso',cliente:'profesionales que quieren reinventarse',oferta:'cursos y mentorías',problema:'quieren cambiar de rumbo pero no saben por dónde empezar',resultado:'dar el paso con un plan claro',tono:'motivador y práctico',ciudad:'Málaga',canal:'Instagram y YouTube'}
+};
+const FIELDS=[['negocio','Nombre de tu negocio'],['tipo','A qué te dedicas'],['cliente','Tu cliente ideal'],['oferta','Tu producto o servicio'],['problema','Su problema (empieza por un verbo: «pierden…»)'],['resultado','Lo que consigue contigo (empieza por un verbo: «tener…»)'],['tono','Tu tono de voz'],['ciudad','Tu ciudad'],['canal','Tus redes principales']];
+const U={store:null,sector:'autonomo',mine:{},onChange:null};
+try{const s=JSON.parse(localStorage.getItem('recurso-negocio')||'null');if(s){U.sector=s.sector||U.sector;U.mine=s.mine||{}}}catch(e){}
+function saveU(){try{localStorage.setItem('recurso-negocio',JSON.stringify({sector:U.sector,mine:U.mine}))}catch(e){}}
+function vars(){const base=SECTORS[U.sector==='mio'?'autonomo':U.sector];if(U.sector!=='mio')return base;const v={...base};FIELDS.forEach(([k])=>{if(U.mine[k]&&U.mine[k].trim())v[k]=U.mine[k].trim()});return v}
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fillH=s=>{const v=vars();return esc(s).replace(/\{(\w+)\}/g,(m,k)=>v[k]?`<mark>${esc(v[k])}</mark>`:m)};
+const fillT=s=>{const v=vars();return s.replace(/\{(\w+)\}/g,(m,k)=>v[k]||m)};
+function copy(text,btn){
+  const ok=()=>{const t=btn.textContent;btn.textContent='Copiado';btn.classList.add('done');setTimeout(()=>{btn.textContent=t;btn.classList.remove('done')},1400)};
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){btn.textContent='Selecciona y copia'}document.body.removeChild(ta)};
+  try{navigator.clipboard.writeText(text).then(ok,fallback)}catch(e){fallback()}
+}
+function buildAdapt(el){
+  el.innerHTML=`<h2>Adapta este recurso a tu negocio</h2><p class="note">Elige el tipo de negocio más parecido al tuyo, o escribe tus datos. Todos los ejemplos se reescriben solos. Lo resaltado en amarillo es lo que cambia.</p>
+  <div class="chips" role="group" aria-label="Tipo de negocio">${Object.entries(SECTORS).map(([k,s])=>`<button type="button" data-s="${k}">${s.label}</button>`).join('')}<button type="button" data-s="mio">Mi negocio</button></div>
+  <div class="form" id="mine" hidden>${FIELDS.map(([k,l])=>`<label for="f-${k}">${l}<input id="f-${k}" data-k="${k}" placeholder="${esc(SECTORS.autonomo[k])}"></label>`).join('')}</div>
+  <p class="note" id="mine-note" hidden>Lo que dejes vacío se rellena con el ejemplo. Tus datos se guardan solo en este navegador.</p>`;
+  el.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{U.sector=b.dataset.s;saveU();paintAdapt(el);U.onChange&&U.onChange()}));
+  el.querySelectorAll('#mine input').forEach(i=>{i.value=U.mine[i.dataset.k]||'';i.addEventListener('input',()=>{U.mine[i.dataset.k]=i.value;saveU();U.onChange&&U.onChange()})});
+  paintAdapt(el);
+}
+function paintAdapt(el){el.querySelectorAll('[data-s]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===U.sector));const m=U.sector==='mio';el.querySelector('#mine').hidden=!m;el.querySelector('#mine-note').hidden=!m}
+</script>
+<script>
+const TYPES=[
+ {k:'promesa',t:'Promesa',c:'c1',d:'Dices el resultado y lo fácil o rápido que es.',h:[
+  'En 3 minutos te enseño a {resultado}.','3 pasos para {resultado} (el segundo casi nadie lo hace).','Así consiguen {cliente} {resultado}.',
+  'Guarda este vídeo: es lo que necesitas para {resultado}.','Si eres de {cliente}, esto te va a ahorrar mucho tiempo.','Lo que hacemos en {negocio} para que nuestros clientes consigan {resultado}.']},
+ {k:'error',t:'Error común',c:'c2',d:'Señalas algo que están haciendo mal. Se quedan para ver si es su caso.',h:[
+  'Deja de hacer esto si quieres {resultado}.','La mayoría de {cliente} {problema}. Y no es culpa suya.','3 errores que te alejan de {resultado}.',
+  'Lo estás haciendo al revés: así no vas a {resultado}.','El error número 1 antes de elegir {oferta}.','Si te pasa esto, no es mala suerte: es este error.']},
+ {k:'curiosidad',t:'Curiosidad',c:'c5',d:'Abres una pregunta que quieren cerrar.',h:[
+  'Lo que nadie te cuenta sobre {oferta}.','Hay un truco para {resultado} que casi nadie usa.','La pregunta que más nos hacen en {negocio} (la respuesta te va a sorprender).',
+  '¿Sabías que la mayoría de {cliente} {problema}?','Esto es lo que pasa de verdad detrás de {oferta}.','Te enseño algo de {oferta} que no verás en otro sitio.']},
+ {k:'serie',t:'Reto o serie',c:'c4',d:'Conviertes el contenido en capítulos. Vuelven para ver el siguiente.',h:[
+  'Día 1 de 30 enseñando cómo trabajamos en {negocio}.','Parte 1: cómo conseguir {resultado}. Mañana, la parte 2.','Reto de 7 días para {resultado}. ¿Te apuntas?',
+  'Un truco de {oferta} cada día. Hoy, el número 1.','Antes y después de un cliente de {negocio}. Hoy, el antes.','Semana 1: empiezo de cero en {canal} con {negocio}.']},
+ {k:'calle',t:'Calle e historia',c:'c3',d:'Personas reales, lugares reconocibles y lo que pasa detrás.',h:[
+  'Pregunto en {ciudad} qué opinan de {oferta}.','Un día en {negocio} en 30 segundos.','Lo que me dijo ayer un cliente me hizo cambiar mi forma de trabajar.',
+  'Salgo a la calle en {ciudad} a preguntar a {cliente} qué les preocupa.','Detrás de las cámaras de {negocio}.','Le pregunté a 5 personas cómo eligen {oferta}.']}
+];
+let filter='todos';
+const F=document.getElementById('filters');
+F.innerHTML=[['todos','Todos (30)'],...TYPES.map(t=>[t.k,t.t])].map(([k,l])=>`<button type="button" data-f="${k}">${l}</button>`).join('');
+F.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f;render()}));
+function render(){
+  F.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===filter));
+  let n=0;
+  document.getElementById('list').innerHTML=TYPES.map(t=>{const start=n;n+=t.h.length;if(filter!=='todos'&&filter!==t.k)return'';
+    return `<h2>${t.t}</h2><p class="note">${t.d}</p><div class="sec">${t.h.map((h,i)=>`<article class="card"><div class="row"><span class="tag" style="background:var(--${t.c});${t.c==='c3'?'color:#fff':''}">${start+i+1} · ${t.t}</span><button class="btn ghost" type="button" data-t="${t.k}" data-i="${i}">Copiar</button></div><p class="ex" style="font-size:1rem;font-weight:600">${fillH(h)}</p></article>`).join('')}</div>`}).join('');
+  document.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>copy(fillT(TYPES.find(t=>t.k===b.dataset.t).h[b.dataset.i]),b)));
+}
+buildAdapt(document.getElementById('adapt'));U.onChange=render;render();
+</script>
+

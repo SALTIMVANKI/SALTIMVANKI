@@ -1,0 +1,169 @@
+<title>Dale cerebro a tu IA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Recurso descargable de anavictoria.ia: cabecera + selector de negocio (adapta todos los ejemplos) + contenido copiable. Paleta Saltimvanki. */
+:root{
+  --bg:#FBF3DF; --surface:#FFFFFF; --fg:#23262B; --muted:#5F5A50; --line:#E6DAB9; --soft:#F1E5C4;
+  --accent:#33356B; --accent-ink:#FFFFFF; --ok:#2C7A4B; --mark:#FDE38A; --mark-ink:#23262B;
+  --c1:#FBD44C; --c2:#F4728C; --c3:#33356B; --c4:#FDE38A; --c5:#F9A9B8;
+  --font:'Poppins','Segoe UI',system-ui,sans-serif; --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --mark:#5A4B12; --mark-ink:#FFF3C4; --c3:#4B4E9A; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --mark:#5A4B12; --mark-ink:#FFF3C4; --c3:#4B4E9A; color-scheme:dark;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:26px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:10px}
+header h1{font-size:clamp(1.9rem,4.8vw,3rem);font-weight:800;letter-spacing:-.01em}
+header h1 span{background:var(--hl);color:#23262B;padding:0 .16em;border-radius:6px}
+.lead{max-width:64ch;color:var(--muted);font-size:1.02rem}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:4px;padding:0 .15em}
+.adapt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.adapt h2{font-size:1.05rem;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:7px 14px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.form{grid-template-columns:minmax(0,1fr)}}
+.form label{display:flex;flex-direction:column;gap:3px;font-size:.78rem;font-weight:600;color:var(--muted)}
+.form input,textarea{font:inherit;font-size:.92rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.note{font-size:.8rem;color:var(--muted)}
+.btn{font:inherit;font-weight:700;font-size:.85rem;border:0;border-radius:999px;padding:8px 16px;cursor:pointer;background:var(--accent);color:var(--accent-ink);white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.done{background:var(--ok);color:#fff}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec>h2{font-size:1.45rem;font-weight:800}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h3{font-size:1.1rem;font-weight:800}
+.tag{display:inline-flex;align-self:flex-start;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:999px;color:#23262B}
+.ex{background:var(--bg);border-radius:10px;padding:11px 13px;font-size:.92rem}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.card ul,.card ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:3px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps .card h3{font-size:1rem}
+pre.out{white-space:pre-wrap;word-break:break-word;background:var(--bg);border-radius:10px;padding:14px;font:inherit;font-size:.88rem;margin:0;max-height:460px;overflow:auto}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+</style>
+<div class="wrap" style="--hl:var(--c1)">
+  <header>
+    <p class="eyebrow">Premio de la Feria de la IA · anavictoria.ia</p>
+    <h1>Dale <span>cerebro</span> a tu IA</h1>
+    <p class="lead">La guía para que tu IA (ChatGPT, Claude o Gemini) trabaje como alguien de tu equipo que conoce tu negocio. Son 7 piezas: rellénalas aquí mismo y al final copias tu cerebro completo para pegarlo en tu IA.</p>
+  </header>
+  <section class="adapt" id="adapt"></section>
+  <section class="steps">
+    <div class="card"><span class="tag" style="background:var(--c1)">Paso 1</span><h3>Lee cada pieza</h3><p class="note">Qué es, qué preguntas responder y un ejemplo adaptado a tu negocio.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c2)">Paso 2</span><h3>Rellena la tuya</h3><p class="note">Escribe en cada recuadro. Frases cortas y concretas. Se guarda en este navegador.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c5)">Paso 3</span><h3>Copia y carga</h3><p class="note">Copia tu cerebro completo y pégalo en tu IA. Abajo te explico dónde.</p></div>
+  </section>
+  <section class="sec" id="pieces"></section>
+  <section class="sec">
+    <h2>Tu cerebro, listo para copiar</h2>
+    <div class="card">
+      <div class="row"><p class="note">Incluye tus 7 piezas y las instrucciones maestras. Si una pieza está vacía, aparece el ejemplo como guía para que la completes.</p><button class="btn" id="copy-all" type="button">Copiar mi cerebro</button></div>
+      <pre class="out" id="out"></pre>
+    </div>
+  </section>
+  <section class="sec">
+    <h2>Dónde pegarlo</h2>
+    <div class="steps">
+      <div class="card"><h3>ChatGPT</h3><ol><li>Crea un <b>Proyecto</b> o un GPT personalizado.</li><li>Pega tu cerebro en las <b>instrucciones</b>.</li><li>Sube como archivos tu web, fichas, carta o catálogo (pieza 2).</li></ol></div>
+      <div class="card"><h3>Claude</h3><ol><li>Crea un <b>Proyecto</b>.</li><li>Pega tu cerebro en las <b>instrucciones del proyecto</b>.</li><li>Añade tus documentos al <b>conocimiento del proyecto</b>.</li></ol></div>
+      <div class="card"><h3>Gemini</h3><ol><li>Crea una <b>Gem</b>.</li><li>Pega tu cerebro en sus <b>instrucciones</b>.</li><li>Adjunta tus documentos.</li></ol></div>
+    </div>
+    <p class="note">Los nombres de los menús pueden cambiar con las actualizaciones de cada herramienta. Revisa cada mes tu cerebro: nuevas ofertas, temporadas y preguntas de clientes.</p>
+  </section>
+  <footer>Guía gratuita de la Feria de la IA · anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+
+<script>
+const SECTORS={
+ autonomo:{label:'Autónomo de servicios',tipo:'abogada autónoma',negocio:'Despacho Laura Ruiz',cliente:'autónomos y pequeñas empresas',oferta:'asesoría laboral',problema:'pierden horas con el papeleo y temen una sanción',resultado:'tener todo en regla sin perder tiempo',tono:'cercano, claro y sin tecnicismos',ciudad:'Málaga',canal:'Instagram y LinkedIn'},
+ pyme:{label:'Pyme de servicios',tipo:'clínica de fisioterapia',negocio:'Clínica Movimiento',cliente:'personas con dolor de espalda y deportistas',oferta:'fisioterapia',problema:'conviven con el dolor y no saben qué tratamiento les sirve',resultado:'moverse sin dolor',tono:'profesional, empático y tranquilo',ciudad:'Málaga',canal:'Instagram y Google'},
+ producto:{label:'Marca de producto',tipo:'marca de cosmética natural',negocio:'Aloe Sur',cliente:'mujeres de 30 a 50 años con piel sensible',oferta:'cremas naturales',problema:'gastan dinero en cremas que les irritan la piel',resultado:'cuidar la piel sin irritaciones',tono:'fresco, honesto y cercano',ciudad:'Málaga',canal:'Instagram y TikTok'},
+ hosteleria:{label:'Hostelería y turismo',tipo:'hotel boutique',negocio:'Hotel Brisa',cliente:'parejas y viajeros que buscan una escapada',oferta:'escapadas en el centro',problema:'no encuentran un sitio con encanto y bien ubicado',resultado:'disfrutar de una escapada sin preocupaciones',tono:'cálido y elegante',ciudad:'Málaga',canal:'Instagram y Google'},
+ comercio:{label:'Comercio local',tipo:'peluquería de barrio',negocio:'Peluquería Rizos',cliente:'vecinas y vecinos del barrio',oferta:'cortes y color',problema:'salen de la peluquería sin el look que querían',resultado:'salir con el pelo que querían',tono:'alegre y cercano',ciudad:'Málaga',canal:'Instagram y WhatsApp'},
+ formacion:{label:'Formación y mentoría',tipo:'formadora y mentora',negocio:'Escuela Paso a Paso',cliente:'profesionales que quieren reinventarse',oferta:'cursos y mentorías',problema:'quieren cambiar de rumbo pero no saben por dónde empezar',resultado:'dar el paso con un plan claro',tono:'motivador y práctico',ciudad:'Málaga',canal:'Instagram y YouTube'}
+};
+const FIELDS=[['negocio','Nombre de tu negocio'],['tipo','A qué te dedicas'],['cliente','Tu cliente ideal'],['oferta','Tu producto o servicio'],['problema','Su problema (empieza por un verbo: «pierden…»)'],['resultado','Lo que consigue contigo (empieza por un verbo: «tener…»)'],['tono','Tu tono de voz'],['ciudad','Tu ciudad'],['canal','Tus redes principales']];
+const U={store:null,sector:'autonomo',mine:{},onChange:null};
+try{const s=JSON.parse(localStorage.getItem('recurso-negocio')||'null');if(s){U.sector=s.sector||U.sector;U.mine=s.mine||{}}}catch(e){}
+function saveU(){try{localStorage.setItem('recurso-negocio',JSON.stringify({sector:U.sector,mine:U.mine}))}catch(e){}}
+function vars(){const base=SECTORS[U.sector==='mio'?'autonomo':U.sector];if(U.sector!=='mio')return base;const v={...base};FIELDS.forEach(([k])=>{if(U.mine[k]&&U.mine[k].trim())v[k]=U.mine[k].trim()});return v}
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fillH=s=>{const v=vars();return esc(s).replace(/\{(\w+)\}/g,(m,k)=>v[k]?`<mark>${esc(v[k])}</mark>`:m)};
+const fillT=s=>{const v=vars();return s.replace(/\{(\w+)\}/g,(m,k)=>v[k]||m)};
+function copy(text,btn){
+  const ok=()=>{const t=btn.textContent;btn.textContent='Copiado';btn.classList.add('done');setTimeout(()=>{btn.textContent=t;btn.classList.remove('done')},1400)};
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){btn.textContent='Selecciona y copia'}document.body.removeChild(ta)};
+  try{navigator.clipboard.writeText(text).then(ok,fallback)}catch(e){fallback()}
+}
+function buildAdapt(el){
+  el.innerHTML=`<h2>Adapta este recurso a tu negocio</h2><p class="note">Elige el tipo de negocio más parecido al tuyo, o escribe tus datos. Todos los ejemplos se reescriben solos. Lo resaltado en amarillo es lo que cambia.</p>
+  <div class="chips" role="group" aria-label="Tipo de negocio">${Object.entries(SECTORS).map(([k,s])=>`<button type="button" data-s="${k}">${s.label}</button>`).join('')}<button type="button" data-s="mio">Mi negocio</button></div>
+  <div class="form" id="mine" hidden>${FIELDS.map(([k,l])=>`<label for="f-${k}">${l}<input id="f-${k}" data-k="${k}" placeholder="${esc(SECTORS.autonomo[k])}"></label>`).join('')}</div>
+  <p class="note" id="mine-note" hidden>Lo que dejes vacío se rellena con el ejemplo. Tus datos se guardan solo en este navegador.</p>`;
+  el.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{U.sector=b.dataset.s;saveU();paintAdapt(el);U.onChange&&U.onChange()}));
+  el.querySelectorAll('#mine input').forEach(i=>{i.value=U.mine[i.dataset.k]||'';i.addEventListener('input',()=>{U.mine[i.dataset.k]=i.value;saveU();U.onChange&&U.onChange()})});
+  paintAdapt(el);
+}
+function paintAdapt(el){el.querySelectorAll('[data-s]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===U.sector));const m=U.sector==='mio';el.querySelector('#mine').hidden=!m;el.querySelector('#mine-note').hidden=!m}
+</script>
+<script>
+const PIECES=[
+ {n:1,t:'Identidad',c:'c1',que:'Quién eres y cómo hablas. Es lo que hace que la IA suene a ti y no a cualquiera.',
+  q:['¿Qué haces y para quién?','¿Qué te hace diferente?','¿Cómo hablas: tuteas, eres formal, usas humor?','Palabras que usas siempre y palabras que nunca dirías','Un texto tuyo que te encante (pégalo como ejemplo)'],
+  ex:'{negocio} es {tipo}. Ayudamos a {cliente} a {resultado}. Nuestro tono es {tono}. Tuteamos. Palabras que sí: claro, cerca, a tu lado. Palabras que nunca: «low cost», «barato», tecnicismos sin explicar.'},
+ {n:2,t:'Archivo',c:'c2',que:'Toda la información real de tu negocio, para que la IA consulte en lugar de inventar.',
+  q:['¿Qué vendes exactamente? Qué incluye y precio','Horarios, plazos, zonas o envíos','Las 10 preguntas que más te hacen y sus respuestas','Políticas: cancelaciones, devoluciones, garantías','Reseñas y testimonios reales'],
+  ex:'Servicio principal: {oferta}. Qué incluye, cuánto dura y precio. Las 10 preguntas que más nos hacen {cliente}, con su respuesta. Política de cancelación. 5 reseñas reales de clientes. (Además, sube como archivos tu web, catálogo o fichas.)'},
+ {n:3,t:'Influencia',c:'c3',que:'Tu entorno: quién te sigue, qué funciona en tus redes y qué hacen otros en tu sector.',
+  q:['¿Quién te sigue en redes? Edad, ciudad, intereses','Tus 3 publicaciones que mejor funcionaron y por qué','3 competidores y qué hacen bien','3 referentes que te inspiran (de tu sector o de otro)','Hashtags y temas que mueven a tu público'],
+  ex:'Nos siguen sobre todo {cliente} de {ciudad}. En {canal} funcionan mejor los vídeos cortos con consejos prácticos y el antes y después. Competidores: tres negocios de {ciudad} que publican poco y sin constancia. Referente: cuentas que explican fácil lo difícil.'},
+ {n:4,t:'Psicología',c:'c4',que:'Lo que siente tu cliente: su problema, lo que desea, lo que le frena y en qué momento está.',
+  q:['¿Quién es tu cliente ideal? Descríbelo como una persona','¿Qué problema tiene y cómo lo dice él?','¿Qué desea conseguir?','¿Qué le frena para comprar? (dinero, tiempo, miedo, desconfianza)','¿En qué nivel está? No sabe que tiene el problema / lo sabe / compara / quiere comprar'],
+  ex:'Cliente ideal: {cliente}. Su problema: {problema}. Lo que desea: {resultado}. Lo que le frena: no tener tiempo y no saber si le va a funcionar. Muchos todavía no saben que tiene solución: hay que contárselo antes de venderle.'},
+ {n:5,t:'Estilo',c:'c5',que:'Cómo se ve tu marca, para que todo lo visual que te proponga la IA sea reconocible.',
+  q:['Tus colores (con su código si lo tienes)','Tus tipografías','Cómo son tus fotos: luz, lugares, personas','Lo que nunca usarías en una imagen','Referencias visuales que te gustan'],
+  ex:'Colores de {negocio}: dos colores principales y uno de acento (con su código). Tipografía clara y redondeada. Fotos con luz natural, personas reales y lugares de {ciudad}. Nunca imágenes de stock frías ni colores chillones.'},
+ {n:6,t:'Búsquedas',c:'c1',que:'Lo que la gente busca de verdad. Datos reales, no suposiciones.',
+  q:['Si tienes web: las búsquedas con las que te encuentran (Google Search Console)','Preguntas y reseñas de tu ficha de Google Business Profile','Si no tienes datos: escribe «'+'{oferta} en {ciudad}» en Google y apunta las sugerencias','Las preguntas que te hacen por WhatsApp o en el mostrador','Temporadas: cuándo te buscan más'],
+  ex:'La gente busca «{oferta} en {ciudad}», «precio de {oferta}» y «mejor {tipo} cerca de mí». Las preguntas que más llegan por WhatsApp son sobre precio, disponibilidad y cómo funciona. En primavera y antes de verano sube la demanda.'},
+ {n:7,t:'Instrucciones',c:'c2',que:'El manual que le dice a la IA cómo usar todo lo anterior. Este texto se genera solo con tus datos.',
+  q:['¿Qué debe consultar antes de responder?','¿Cómo deben ser las respuestas: largas, cortas, con listas?','¿Qué no debe hacer nunca?','¿Qué hace si le falta un dato?'],
+  ex:'Eres el asistente de {negocio}, {tipo}. Antes de escribir, consulta: Identidad para el tono, Archivo para los datos, Psicología para adaptar el mensaje a {cliente} y Búsquedas para elegir los temas. Escribe con un tono {tono}, frases cortas y sin tecnicismos. No inventes datos: si te falta información, pregúntame. Termina cada contenido con una sola llamada a la acción. Nunca uses palabras de la lista de «palabras que nunca».'}
+];
+let mine={};try{mine=JSON.parse(localStorage.getItem('cerebro-piezas')||'{}')}catch(e){}
+const saveMine=()=>{try{localStorage.setItem('cerebro-piezas',JSON.stringify(mine))}catch(e){}};
+function render(){
+  document.getElementById('pieces').innerHTML='<h2>Las 7 piezas</h2>'+PIECES.map(p=>`<article class="card" id="p${p.n}">
+    <span class="tag" style="background:var(--${p.c});${p.c==='c3'?'color:#fff':''}">Pieza ${p.n} de 7</span><h3>${p.t}</h3><p>${p.que}</p>
+    <div><p class="eyebrow">Preguntas para rellenarla</p><ul>${p.q.map(x=>`<li>${fillH(x)}</li>`).join('')}</ul></div>
+    <div><p class="eyebrow">Ejemplo para tu negocio</p><p class="ex">${fillH(p.ex)}</p></div>
+    <label class="eyebrow" for="t${p.n}">Tu pieza ${p.n}</label><textarea id="t${p.n}" data-n="${p.n}" placeholder="Escribe aquí tu ${p.t.toLowerCase()}…">${esc(mine[p.n]||'')}</textarea>
+    <div class="row"><span class="note">Truco: copia el ejemplo y cámbialo con tus datos.</span><button class="btn ghost" type="button" data-copy="${p.n}">Copiar ejemplo</button></div></article>`).join('');
+  document.querySelectorAll('textarea[data-n]').forEach(t=>t.addEventListener('input',()=>{mine[t.dataset.n]=t.value;saveMine();out()}));
+  document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>copy(fillT(PIECES[b.dataset.copy-1].ex),b)));
+  out();
+}
+function text(){const v=vars();return `CEREBRO DE ${v.negocio.toUpperCase()}\n\n`+PIECES.map(p=>`## ${p.n}. ${p.t}\n${(mine[p.n]&&mine[p.n].trim())||'[Por completar] '+fillT(p.ex)}`).join('\n\n')}
+function out(){document.getElementById('out').textContent=text()}
+document.getElementById('copy-all').addEventListener('click',e=>copy(text(),e.target));
+buildAdapt(document.getElementById('adapt'));U.onChange=render;render();
+</script>
+

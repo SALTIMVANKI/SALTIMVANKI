@@ -1,0 +1,63 @@
+<div class="wrap" style="--hl:var(--c4)">
+  <header>
+    <p class="eyebrow">Premio de la Feria de la IA · anavictoria.ia</p>
+    <h1>50 ideas de <span>contenido</span> con IA</h1>
+    <p class="lead">Un mes y medio de publicaciones, ordenadas según en qué momento está tu público: desde quien aún no te conoce hasta quien quiere comprar. Cada idea trae su llamada a la acción y un prompt para que tu IA te escriba el guion.</p>
+  </header>
+  <section class="adapt" id="adapt"></section>
+  <section class="card">
+    <h3>Cómo repartirlas</h3>
+    <p class="note">De cada 10 publicaciones: 4 para quien aún no te conoce, 4 para quien ya sabe que tiene el problema, 1 para quien compara y 1 para quien quiere comprar. Si todo es venta, solo te escucha una pequeña parte de tu público.</p>
+  </section>
+  <div class="chips" role="group" aria-label="Filtrar por nivel" id="lv"></div>
+  <div class="chips" role="group" aria-label="Filtrar por formato" id="fm"></div>
+  <p class="note" id="count" aria-live="polite"></p>
+  <section class="sec" id="list"></section>
+  <footer>Banco gratuito de la Feria de la IA · anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+<script>
+const LV=[
+ {k:'pre',t:'Aún no te conocen',c:'c1',cta:'Sígueme para más'},
+ {k:'aw',t:'Saben que tienen el problema',c:'c2',cta:'Comenta [PALABRA] y te mando el recurso'},
+ {k:'con',t:'Están comparando',c:'c5',cta:'Mira la clase gratis o pide información'},
+ {k:'dec',t:'Quieren comprar',c:'c4',cta:'Reserva o compra con el enlace'}];
+const I=[
+ ['pre','Reel','Un día normal en {negocio} en 30 segundos.'],['pre','Reel','Antes y después de un cliente (con su permiso).'],['pre','Carrusel','5 errores que cometen {cliente} sin darse cuenta.'],
+ ['pre','Reel','El mito más repetido sobre {oferta}, desmontado.'],['pre','Post','La frase que más repiten {cliente} y lo que de verdad significa.'],['pre','Reel','La pregunta que más te hacen, respondida en 15 segundos.'],
+ ['pre','Carrusel','Lo que nadie te cuenta antes de elegir {oferta}.'],['pre','Reel','Grabado en un sitio conocido de {ciudad}: un consejo rápido de tu sector.'],['pre','Story','Encuesta «¿Te pasa esto?» con el problema de {cliente}.'],
+ ['pre','Reel','Trend del momento: «{cliente} cuando…».'],['pre','Carrusel','5 palabras de tu sector explicadas fácil.'],['pre','Reel','Detrás de las cámaras: cómo preparas {oferta}.'],
+ ['pre','Post','Tu historia: por qué empezaste {negocio}.'],['pre','Reel','Un dato curioso de tu sector que casi nadie sabe.'],['pre','Reel','Expectativa contra realidad de {oferta}.'],
+ ['aw','Carrusel','Por qué {cliente} {problema} (y no es culpa suya).'],['aw','Reel','3 señales de que necesitas ayuda con esto.'],['aw','Reel','Lo que te cuesta cada mes no resolverlo.'],
+ ['aw','Carrusel','Checklist: ¿estás cometiendo estos errores?'],['aw','Reel','El primer paso para {resultado}, en 60 segundos.'],['aw','Story','Pregunta abierta: «¿Qué es lo que más te cuesta?» y responde las mejores.'],
+ ['aw','Reel','Mito contra realidad sobre cómo {resultado}.'],['aw','Carrusel','Guía rápida para {resultado}, con recurso gratis al final.'],['aw','Reel','Respuesta en vídeo a un comentario real.'],
+ ['aw','Post','Caso: alguien que estaba como tú y lo que cambió.'],['aw','Reel','La pregunta que debes hacerte antes de elegir {oferta}.'],['aw','Carrusel','Una plantilla gratuita que ahorra tiempo.'],
+ ['aw','Reel','«Si te pasa esto, comenta [PALABRA]», contado con humor.'],['aw','Directo','Preguntas y respuestas sobre el problema de {cliente}.'],['aw','Reel','Serie: día 1 de 7 para {resultado}.'],
+ ['con','Reel','Así trabajamos en {negocio}, paso a paso.'],['con','Carrusel','Comparativa honesta: hacerlo por tu cuenta o con ayuda.'],['con','Reel','Caso real con resultados (con permiso del cliente).'],
+ ['con','Directo','Demo en directo: resuelvo el caso de un seguidor.'],['con','Carrusel','Preguntas frecuentes antes de contratar {oferta}.'],['con','Reel','Qué incluye {oferta} y qué no.'],
+ ['con','Post','Testimonio de un cliente con su foto.'],['con','Reel','Mi método en 3 pasos.'],['con','Carrusel','Cómo elegir bien {oferta} (aunque no sea conmigo).'],
+ ['con','Story','Cuenta atrás para la clase gratuita.'],['con','Reel','Las 3 dudas que más escucho y mi respuesta.'],['con','Directo','Clase gratuita de 20 minutos sobre cómo {resultado}.'],
+ ['dec','Story','Plazas o unidades limitadas, con fecha límite real.'],['dec','Reel','Oferta de lanzamiento: qué incluye y hasta cuándo.'],['dec','Post','Tu garantía: qué pasa si no te funciona.'],
+ ['dec','Story','«Responde QUIERO y te mando el enlace».'],['dec','Reel','Qué pasa el primer día que empiezas con {negocio}.'],['dec','Carrusel','Precios claros y para quién es cada opción.'],
+ ['dec','Story','Testimonio con enlace directo de reserva.'],['dec','Reel','Último día: recordatorio con un extra para quien decida hoy.']];
+let used=new Set(),flv='todos',ffm='todos';try{used=new Set(JSON.parse(localStorage.getItem('ideas-usadas')||'[]'))}catch(e){}
+const saveUsed=()=>{try{localStorage.setItem('ideas-usadas',JSON.stringify([...used]))}catch(e){}};
+const FMS=['Reel','Carrusel','Post','Story','Directo'];
+const lvEl=document.getElementById('lv'),fmEl=document.getElementById('fm');
+lvEl.innerHTML=[['todos','Todos los niveles'],...LV.map(l=>[l.k,l.t])].map(([k,t])=>`<button type="button" data-l="${k}">${t}</button>`).join('');
+fmEl.innerHTML=[['todos','Todos los formatos'],...FMS.map(f=>[f,f])].map(([k,t])=>`<button type="button" data-m="${k}">${t}</button>`).join('');
+lvEl.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{flv=b.dataset.l;render()}));
+fmEl.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ffm=b.dataset.m;render()}));
+const prompt=(i)=>{const [l,f,t]=I[i],L=LV.find(x=>x.k===l);return fillT(`Usa el cerebro de mi negocio ({negocio}). Escribe un ${f.toLowerCase()} sobre esta idea: «${t}». Empieza con un gancho en la primera frase, da un consejo útil para {cliente} y termina con una sola llamada a la acción: «${L.cta}». Tono: {tono}.`)};
+function render(){
+  lvEl.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===flv));fmEl.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===ffm));
+  const vis=I.map((x,i)=>[x,i]).filter(([x])=>(flv==='todos'||x[0]===flv)&&(ffm==='todos'||x[1]===ffm));
+  document.getElementById('count').textContent=`${vis.length} ideas · ${used.size} usadas de 50`;
+  document.getElementById('list').innerHTML=vis.map(([[l,f,t],i])=>{const L=LV.find(x=>x.k===l);return `<article class="card" style="${used.has(i)?'opacity:.6':''}">
+   <div class="row"><span class="tag" style="background:var(--${L.c})">${i+1} · ${L.t}</span><span class="note">${f}</span></div>
+   <p style="font-weight:600;font-size:1.02rem">${fillH(t)}</p><p class="note">Llamada a la acción: ${L.cta}</p>
+   <div class="row"><label class="note" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="u${i}" data-u="${i}" ${used.has(i)?'checked':''}> Ya la he usado</label><button class="btn" type="button" data-p="${i}">Copiar prompt para tu IA</button></div></article>`}).join('')||'<p class="note">No hay ideas con este filtro.</p>';
+  document.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>copy(prompt(+b.dataset.p),b)));
+  document.querySelectorAll('[data-u]').forEach(c=>c.addEventListener('change',()=>{c.checked?used.add(+c.dataset.u):used.delete(+c.dataset.u);saveUsed();render()}));
+}
+buildAdapt(document.getElementById('adapt'));U.onChange=render;render();
+</script>

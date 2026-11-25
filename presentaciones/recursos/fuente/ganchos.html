@@ -1,0 +1,56 @@
+<div class="wrap" style="--hl:var(--c2)">
+  <header>
+    <p class="eyebrow">Premio de la Feria de la IA · anavictoria.ia</p>
+    <h1>30 ganchos que <span>paran el scroll</span></h1>
+    <p class="lead">Tienes 3 segundos para que alguien deje de bajar. Aquí tienes 30 fórmulas en 5 tipos, ya escritas para tu negocio. Copia, ajusta una palabra y graba.</p>
+  </header>
+  <section class="adapt" id="adapt"></section>
+  <section class="steps">
+    <div class="card"><span class="tag" style="background:var(--c1)">1. Gancho</span><h3>Los 3 primeros segundos</h3><p class="note">Di la frase nada más empezar, sin «hola» y con el texto también en pantalla.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c2)">2. Valor</span><h3>Cumple lo que prometes</h3><p class="note">Si prometes 3 pasos, da 3 pasos. Si no cumples, pierdes la confianza.</p></div>
+    <div class="card"><span class="tag" style="background:var(--c5)">3. Una acción</span><h3>Pide solo una cosa</h3><p class="note">Seguir, comentar una palabra, ver la clase o comprar. Solo una.</p></div>
+  </section>
+  <div class="chips" role="group" aria-label="Filtrar por tipo" id="filters"></div>
+  <section class="sec" id="list"></section>
+  <section class="card">
+    <h3>¿Qué acción pides al final?</h3>
+    <ul>
+      <li><b>Si aún no te conocen:</b> «Sígueme, mañana te cuento más».</li>
+      <li><b>Si saben que tienen el problema:</b> «Comenta [PALABRA] y te mando [recurso]».</li>
+      <li><b>Si están comparando:</b> «Mira la clase gratis, el enlace está en la bio».</li>
+      <li><b>Si quieren comprar:</b> «Responde QUIERO y te paso el enlace».</li>
+    </ul>
+  </section>
+  <footer>Plantilla gratuita de la Feria de la IA · anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+<script>
+const TYPES=[
+ {k:'promesa',t:'Promesa',c:'c1',d:'Dices el resultado y lo fácil o rápido que es.',h:[
+  'En 3 minutos te enseño a {resultado}.','3 pasos para {resultado} (el segundo casi nadie lo hace).','Así consiguen {cliente} {resultado}.',
+  'Guarda este vídeo: es lo que necesitas para {resultado}.','Si eres de {cliente}, esto te va a ahorrar mucho tiempo.','Lo que hacemos en {negocio} para que nuestros clientes consigan {resultado}.']},
+ {k:'error',t:'Error común',c:'c2',d:'Señalas algo que están haciendo mal. Se quedan para ver si es su caso.',h:[
+  'Deja de hacer esto si quieres {resultado}.','La mayoría de {cliente} {problema}. Y no es culpa suya.','3 errores que te alejan de {resultado}.',
+  'Lo estás haciendo al revés: así no vas a {resultado}.','El error número 1 antes de elegir {oferta}.','Si te pasa esto, no es mala suerte: es este error.']},
+ {k:'curiosidad',t:'Curiosidad',c:'c5',d:'Abres una pregunta que quieren cerrar.',h:[
+  'Lo que nadie te cuenta sobre {oferta}.','Hay un truco para {resultado} que casi nadie usa.','La pregunta que más nos hacen en {negocio} (la respuesta te va a sorprender).',
+  '¿Sabías que la mayoría de {cliente} {problema}?','Esto es lo que pasa de verdad detrás de {oferta}.','Te enseño algo de {oferta} que no verás en otro sitio.']},
+ {k:'serie',t:'Reto o serie',c:'c4',d:'Conviertes el contenido en capítulos. Vuelven para ver el siguiente.',h:[
+  'Día 1 de 30 enseñando cómo trabajamos en {negocio}.','Parte 1: cómo conseguir {resultado}. Mañana, la parte 2.','Reto de 7 días para {resultado}. ¿Te apuntas?',
+  'Un truco de {oferta} cada día. Hoy, el número 1.','Antes y después de un cliente de {negocio}. Hoy, el antes.','Semana 1: empiezo de cero en {canal} con {negocio}.']},
+ {k:'calle',t:'Calle e historia',c:'c3',d:'Personas reales, lugares reconocibles y lo que pasa detrás.',h:[
+  'Pregunto en {ciudad} qué opinan de {oferta}.','Un día en {negocio} en 30 segundos.','Lo que me dijo ayer un cliente me hizo cambiar mi forma de trabajar.',
+  'Salgo a la calle en {ciudad} a preguntar a {cliente} qué les preocupa.','Detrás de las cámaras de {negocio}.','Le pregunté a 5 personas cómo eligen {oferta}.']}
+];
+let filter='todos';
+const F=document.getElementById('filters');
+F.innerHTML=[['todos','Todos (30)'],...TYPES.map(t=>[t.k,t.t])].map(([k,l])=>`<button type="button" data-f="${k}">${l}</button>`).join('');
+F.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f;render()}));
+function render(){
+  F.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===filter));
+  let n=0;
+  document.getElementById('list').innerHTML=TYPES.map(t=>{const start=n;n+=t.h.length;if(filter!=='todos'&&filter!==t.k)return'';
+    return `<h2>${t.t}</h2><p class="note">${t.d}</p><div class="sec">${t.h.map((h,i)=>`<article class="card"><div class="row"><span class="tag" style="background:var(--${t.c});${t.c==='c3'?'color:#fff':''}">${start+i+1} · ${t.t}</span><button class="btn ghost" type="button" data-t="${t.k}" data-i="${i}">Copiar</button></div><p class="ex" style="font-size:1rem;font-weight:600">${fillH(h)}</p></article>`).join('')}</div>`}).join('');
+  document.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>copy(fillT(TYPES.find(t=>t.k===b.dataset.t).h[b.dataset.i]),b)));
+}
+buildAdapt(document.getElementById('adapt'));U.onChange=render;render();
+</script>

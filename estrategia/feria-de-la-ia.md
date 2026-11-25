@@ -52,6 +52,16 @@ Así respetas lo que te molesta como usuaria y no pierdes la relación.
 - Tiro de dardos (GANCHO): https://claude.ai/artifact/S7R8zLnGFa4yKGwsx6sBY4
 - Tormenta de ideas (IDEAS): https://claude.ai/artifact/LuwCuMXoCDj5QrqjidmSiz
 
+## Premios (recursos adaptables a cualquier negocio)
+
+Cada recurso tiene un selector de tipo de negocio (autónomo, pyme de servicios, marca de producto, hostelería, comercio local, formación o «Mi negocio» con sus propios datos) y todos los ejemplos se reescriben solos.
+
+- Guía «Dale cerebro a tu IA»: https://claude.ai/artifact/FpXaekSDezwTcgHyubMi4g
+- 30 ganchos que paran el scroll: https://claude.ai/artifact/6r4fBYg95HHgCxGggPWTom
+- 50 ideas de contenido con IA: https://claude.ai/artifact/WrTDAGJ9CbW64MjukHmWtS
+
+Fuente: `presentaciones/recursos/fuente/` (regenerar con `python3 presentaciones/recursos/fuente/construir.py`).
+
 ## Cómo se monta
 
 1. Reel con gancho y la palabra clave: «Comenta CEREBRO y juega para ganarte la guía».
