@@ -79,7 +79,109 @@ Presenta siempre tres opciones. La mayoría elige la del medio, y la cara hace q
 
 ---
 
-## 2. Reunión con Boris (Grupo Chinitas): guion
+## 2. Catálogo de servicios: convertir tus procesos en productos
+
+Cada proceso que ya haces para ti puede ser un servicio. La fórmula es la misma: **lo instalo, lo dejo configurado con tu cerebro de marca y te enseño a usarlo.** El Cerebro IA (apartado 1) es la base. Los demás servicios se montan encima y, si el cliente ya tiene cerebro, salen mejor y más rápido. Por eso son la venta cruzada natural.
+
+### 2.1 Método para convertir un proceso en servicio
+
+Rellena esta ficha por cada proceso:
+
+| Campo | Pregunta |
+|---|---|
+| Nombre | ¿Cómo se llama? Que sea fácil de recordar ("Tu Clon Digital", "Newsletter a Contenido"). |
+| Promesa | ¿Qué consigue el cliente, en una frase? |
+| Para quién | ¿Qué categoría de cliente lo necesita? |
+| Qué necesito del cliente | Accesos, materiales, horas de su tiempo. |
+| Entregable | ¿Qué se lleva exactamente? (herramientas instaladas, plantillas, guía, vídeo). |
+| Horas reales | Mídelo la primera vez. |
+| Coste de herramientas | Licencias que paga el cliente (siempre a su nombre). |
+| Precio | Instalación + mantenimiento opcional. |
+| Demo WOW | ¿Qué le enseño en 3 minutos para que lo quiera? |
+| Contenido | ¿Qué vídeo de anavictoria.ia sale de este servicio? |
+
+**Regla:** cada servicio nuevo se prueba primero contigo (tu caso) o con un cliente piloto con precio de lanzamiento. Después se graba como caso y se publica el precio normal.
+
+### 2.2 Servicio "Tu Clon Digital" (voz + avatar + kit de vídeo)
+
+**Promesa:** "Crea tus vídeos tú solo, con tu voz y tu imagen, sin depender de nadie."
+
+**Qué incluye**
+1. **Clon de voz** con ElevenLabs (cuenta del cliente): grabación guiada de muestras con buen audio, creación de la voz y pruebas en español, con acento y entonación revisados.
+2. **Avatar** con HeyGen (cuenta del cliente): grabación de vídeo base (luz, fondo, encuadre), creación del avatar y pruebas.
+3. **Kit de vídeo en su ordenador:** instalación de FFmpeg, Whisper (subtítulos y transcripción) y HyperFrames (vídeos a partir de plantillas), más los asistentes de IA que los manejan.
+4. **3 a 5 estilos de vídeo a medida** con su branding: reel con subtítulos dinámicos, vídeo explicativo con texto en pantalla, tutorial de pantalla, cortes de un vídeo largo, carrusel animado.
+5. **Formación:** 2 sesiones para que haga un vídeo completo de principio a fin él solo, y una guía paso a paso.
+
+**Precios orientativos (sin IVA)**
+| Módulo | Precio |
+|---|---|
+| Clon de voz | 300 - 500 € |
+| Avatar | 400 - 700 € |
+| Kit de vídeo + 3-5 estilos + formación | 900 - 1.500 € |
+| **Pack completo "Tu Clon Digital"** | **1.800 - 2.900 €** |
+| Mantenimiento (nuevos estilos, actualizaciones, dudas) | 90 - 190 €/mes |
+
+Las licencias de ElevenLabs y HeyGen las paga el cliente aparte. Explícale el coste mensual antes de firmar, para que no haya sorpresas.
+
+**Imprescindible (legal y ético)**
+- **Consentimiento por escrito** de la persona clonada: solo ella puede autorizar el uso de su voz y su imagen. Las plataformas lo exigen y el clon se crea en **su** cuenta, no en la de Saltimvanki.
+- Contrato que deje claro que la voz y el avatar son del cliente y que Saltimvanki no los usa para nada más.
+- Recomendar que etiquete el contenido generado con IA cuando sea un avatar o una voz sintética. La normativa europea de IA va en esa dirección y además genera confianza.
+- Comprobar antes el ordenador del cliente (sistema operativo, memoria, espacio) para la instalación del kit.
+
+**Demo WOW:** en la reunión, tu propio clon presenta la propuesta. Después le enseñas un reel tuyo hecho de principio a fin en 10 minutos.
+
+**Contenido que genera:** "Me he clonado y esto es lo que ha pasado", "Hago 5 reels en una hora sin grabarme", series del antes y después de un cliente.
+
+### 2.3 Servicio "Newsletter a Contenido" (Gmail como fuente de ideas)
+
+**Promesa:** "Todo lo que lees en tu bandeja de entrada se convierte en contenido, campañas y embudos con tu estilo."
+
+**Qué incluye**
+1. **Conexión de Gmail** vía Composio, en la cuenta del cliente y con los permisos mínimos (solo lectura de las newsletters).
+2. **Organización de la bandeja:** filtros y etiquetas para que todas las newsletters vayan a un sitio.
+3. **Proceso semanal automático:** la IA lee las newsletters de la semana, resume tendencias y novedades del sector y propone:
+   - ideas de reels y carruseles con guion,
+   - un email de newsletter propia listo para revisar,
+   - ideas de campañas de email marketing y de embudos (lead magnet, secuencia, oferta).
+4. **Todo pasa por su cerebro de marca:** sale con su tono, sus servicios y sus clientes en mente.
+5. **Formación** para revisar, editar y publicar en 30 minutos a la semana.
+
+**Precios orientativos (sin IVA)**
+| Módulo | Precio |
+|---|---|
+| Instalación y configuración | 700 - 1.200 € |
+| Mantenimiento y ajustes | 90 - 190 €/mes |
+| Versión "lo hacemos por ti" (Saltimvanki revisa y entrega el contenido cada semana) | 390 - 690 €/mes |
+
+**Imprescindible:** contrato de encargo de tratamiento (vamos a leer correos), permisos solo de lectura y excluir los correos que no sean newsletters.
+
+**Demo WOW:** conectas tu propio Gmail delante del cliente y en 2 minutos sale la propuesta de contenido de la semana con los temas de sus newsletters.
+
+### 2.4 Otros procesos tuyos que ya pueden ser servicio
+
+| Servicio | Qué hace | Precio orientativo |
+|---|---|---|
+| Presentaciones con tu tono de voz | Plantilla y asistente que crean presentaciones a medida con tu marca | 400 - 800 € |
+| Respuestas humanizadas | Instrucciones para que la IA responda emails, reseñas y mensajes como la persona | 300 - 600 € |
+| Respuesta a reseñas de Google | Automatización con Business Profile + tono de marca (ideal hoteles) | 500 - 900 € + 60 - 120 €/mes |
+| Informe SEO mensual con IA | Search Console + Analytics → informe explicado y tareas | 150 - 290 €/mes |
+| Carruseles y reels con plantillas | Estilos de carrusel y guion con IA para su marca | 400 - 900 € |
+| Extraer contenido de vídeos largos | Un directo o conferencia → transcripción, artículos, reels y posts | 300 - 600 € por vídeo o paquete mensual |
+
+### 2.5 Cómo se ordena todo para vender
+
+1. **Puerta de entrada:** Cerebro IA. Sin cerebro, nada sale bien.
+2. **Servicios "encima":** Clon Digital, Newsletter a Contenido, reseñas, informes, presentaciones.
+3. **Recurrente:** mantenimiento mensual de cada servicio. Es lo que da estabilidad a Saltimvanki.
+4. **Formación (anavictoria.ia):** cada servicio tiene su versión "hazlo tú" en workshop o programa para quien no puede pagar el servicio hecho.
+
+En la propuesta a Boris, menciona el Clon Digital y la respuesta a reseñas como "siguiente fase". Así ya sabe lo que viene.
+
+---
+
+## 3. Reunión con Boris (Grupo Chinitas): guion
 
 **Objetivo:** que salga queriendo el paquete Pro y con fecha de inicio.
 
@@ -99,9 +201,9 @@ Presenta siempre tres opciones. La mayoría elige la del medio, y la cara hace q
 
 ---
 
-## 3. Embudo de venta de anavictoria.ia
+## 4. Embudo de venta de anavictoria.ia
 
-### 3.1 Niveles de conciencia → tipo de contenido
+### 4.1 Niveles de conciencia → tipo de contenido
 
 | Nivel | Qué piensa la persona | Contenido | Acción del vídeo |
 |---|---|---|---|
@@ -113,7 +215,7 @@ Presenta siempre tres opciones. La mayoría elige la del medio, y la cara hace q
 
 **Cada vídeo tiene una sola acción.** No mezcles "sígueme, comenta y compra" en el mismo vídeo.
 
-### 3.2 Recorrido completo
+### 4.2 Recorrido completo
 
 ```
 Contenido (reels, carruseles, series)
@@ -137,7 +239,7 @@ Clientes con perfil de empresa → Saltimvanki (servicio hecho para ellos)
 3. Formador / docente / profesional del conocimiento: "Quiero crear clases, presentaciones y materiales con mi estilo".
 4. Creador / agencia / freelance de marketing: "Quiero ofrecer esto a mis clientes".
 
-### 3.3 Escalera de productos (orientativa)
+### 4.3 Escalera de productos (orientativa)
 
 | Producto | Formato | Precio orientativo |
 |---|---|---|
@@ -152,46 +254,46 @@ Clientes con perfil de empresa → Saltimvanki (servicio hecho para ellos)
 
 ---
 
-## 4. Estrategia de contenido y viralidad
+## 5. Estrategia de contenido y viralidad
 
-### 4.1 Identidad de anavictoria.ia
+### 5.1 Identidad de anavictoria.ia
 - **Quién:** la profesional que usa IA cada día en su empresa, con clientes y con alumnos. No teoría: casos reales.
 - **Promesa:** "Te enseño a darle cerebro a tu IA para que trabaje como tú".
 - **Tono:** cercano, directo, andaluz sin complejos, con humor y ejemplos de negocios reales.
 
-### 4.2 Pilares (reparte la semana)
+### 5.2 Pilares (reparte la semana)
 1. **Educar (40%):** trucos, procesos, "cómo hago X con IA".
 2. **Demostrar (25%):** antes/después, demos de pantalla, efecto WOW.
 3. **Inspirar (15%):** detrás de las cámaras, conferencias, EOI, Saltimvanki.
 4. **Vender (20%):** casos, testimonios, clase gratuita, plazos.
 
-### 4.3 Formatos que funcionan
+### 5.3 Formatos que funcionan
 - **Series con FOMO:** "Día 1 de 30 entrenando a la IA de un hotel", "Parte 2 mañana". Hace volver a la gente y gana seguidores.
 - **Copiar formatos virales, no contenido:** guarda cada semana 10 reels virales de tu nicho, analiza el gancho, la estructura y la duración, y adáptalos a tu tema. Lo que funciona se repite.
 - **Carruseles sin cara (estilo cuentas faceless):** guías paso a paso, plantillas, listas. Sirven para las cuentas nicho.
 - **Geolocalización:** graba en sitios reconocibles de Málaga (Muelle Uno, Soho, Málaga Tech Park, Calle Larios), nombra el sitio en el vídeo y en el texto, etiqueta la ubicación y usa hashtags locales (#Malaga #MalagaEmprende #PymesMalaga). Así el algoritmo te enseña al público cercano, que es el que contrata servicios y va a eventos.
 - **Directos con demo:** uno al mes, conectado a la clase gratuita.
 
-### 4.4 Ritmo mínimo realista
+### 5.4 Ritmo mínimo realista
 - 4 reels/semana + 2 carruseles + historias diarias + 1 directo/mes.
 - Un día a la semana de grabación en bloque. La IA (con tu propio cerebro de marca) escribe guiones, textos y carruseles; tú grabas y revisas.
 
-### 4.5 Composio
+### 5.5 Composio
 - Investigar si Composio tiene programa de partners, afiliados o embajadores (comisión, visibilidad, contenido patrocinado).
 - Grabar el tutorial "Conecta Instagram a tu IA con Composio" como contenido de valor y como prueba para proponerles colaboración.
 
 ---
 
-## 5. Cuentas nicho de marca blanca (fase 2: a partir de marzo-abril 2027)
+## 6. Cuentas nicho de marca blanca (fase 2: a partir de marzo-abril 2027)
 
 **Solo cuando el embudo de anavictoria.ia ya convierta.** Si no, multiplicas cuentas que no venden.
 
-### 5.1 Cómo funciona
+### 6.1 Cómo funciona
 - Saltimvanki crea y es **dueña** de varias cuentas, cada una con identidad propia y un nicho claro.
 - Cada cuenta la presenta una persona (creador UGC o mentor del tema), pero **la cuenta no depende de la persona**: la identidad es de la marca y la persona se puede sustituir.
 - Todas las cuentas llevan al **mismo embudo** (formación, mentoría, asesoramiento). Toda la facturación se hace a través de la marca.
 
-### 5.2 Ideas de nichos (validar con estudio de mercado)
+### 6.2 Ideas de nichos (validar con estudio de mercado)
 - IA para hostelería y turismo (aprovecha el caso Chinitas).
 - IA para docentes y formadores.
 - IA para inmobiliarias.
@@ -199,38 +301,38 @@ Clientes con perfil de empresa → Saltimvanki (servicio hecho para ellos)
 - Escribir mejor (poesía, textos, copy) con IA, con un mentor que domine el tema.
 - Aprender idiomas con IA.
 
-### 5.3 Ficha de cada cuenta
+### 6.3 Ficha de cada cuenta
 - Nombre, objetivo de la cuenta y producto al que lleva.
 - Perfil del público y nivel de conciencia.
 - Identidad: tono, estética, formatos, frases propias.
 - Figura: mentor experto o creador UGC.
 - KPIs: seguidores, comentarios con PALABRA, leads, ventas.
 
-### 5.4 Retribución de los creadores
+### 6.4 Retribución de los creadores
 - Fijo por pieza o por mes + **gamificación**: premios económicos por objetivos (leads, ventas), viajes, menciones especiales en eventos.
 - **Contrato obligatorio:** cesión de derechos de imagen y del contenido, la cuenta pertenece a Saltimvanki, confidencialidad, cómo se hace el relevo de persona. Que lo revise un abogado.
 
 ---
 
-## 6. Ana Victoria como speaker
+## 7. Ana Victoria como speaker
 
-### 6.1 Posicionamiento
+### 7.1 Posicionamiento
 "La mentora que enseña a darle cerebro a la IA." Experiencia real: empresa, clientes y alumnos EOI.
 
-### 6.2 Tres charlas firma
+### 7.2 Tres charlas firma
 1. **"Si le das basura, te devuelve basura": cómo darle cerebro a tu IA.** Para pymes y emprendedores.
 2. **IA con criterio en hostelería y turismo: del caso real al resultado.** Para asociaciones de hoteleros y turismo (con el caso Chinitas).
 3. **De usar la IA a dirigirla: equipos que trabajan con IA y no para la IA.** Para empresas, RR. HH. y formación.
 
 Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la acción: código QR a la guía gratuita → entra en tu embudo.
 
-### 6.3 Kit de speaker (prepararlo en diciembre)
+### 7.3 Kit de speaker (prepararlo en diciembre)
 - One-pager en PDF: bio corta, foto, 3 charlas, formatos (keynote 30-45 min, taller 2-3 h, mesa redonda), contacto.
 - Vídeo de 2 minutos hablando en público (aunque sea en una clase de la EOI o un directo).
 - Página "Conferencias" en la web.
 - Testimonios de alumnos EOI y de clientes.
 
-### 6.4 Dónde empezar en Málaga y alrededores
+### 7.4 Dónde empezar en Málaga y alrededores
 - **Talent Lab:** contactar con la organización para la próxima edición (aplicar como ponente o taller).
 - Cámara de Comercio de Málaga, Confederación de Empresarios de Málaga (CEM), Promálaga, Diputación de Málaga.
 - Málaga Tech Park, Polo Nacional de Contenidos Digitales, coworkings y comunidades tech.
@@ -241,7 +343,7 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 
 **Escalera de precios:** primeras 3-5 charlas gratis o con caché simbólico a cambio de grabación, fotos y testimonio. Después, 300-800 € por charla local y 800-1.500 € o más por taller o keynote de empresa (orientativo).
 
-### 6.5 Primer contacto: plantilla de email
+### 7.5 Primer contacto: plantilla de email
 
 > **Asunto:** Propuesta de ponencia: "Si le das basura a la IA, te devuelve basura"
 >
@@ -260,7 +362,7 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 
 ---
 
-## 7. Hoja de ruta
+## 8. Hoja de ruta
 
 ### Diciembre 2026: producto y primer cliente
 - [ ] Preparar la demo WOW con los datos de los hoteles de Chinitas.
@@ -269,6 +371,8 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 - [ ] Calcular horas reales del cerebro de marca (para ajustar precios).
 - [ ] Crear tu propio cerebro de marca de anavictoria.ia (es tu escaparate).
 - [ ] Kit de speaker y lista de 20 entidades de Málaga.
+- [ ] Probar en ti el Clon Digital y Newsletter a Contenido, y medir horas.
+- [ ] Rellenar la ficha de servicio (apartado 2.1) de cada proceso que ya haces.
 
 ### Enero 2027: embudo
 - [ ] Guía gratuita "Dale cerebro a tu IA" + landing + formulario con categorías.
@@ -282,6 +386,7 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 - [ ] Primer workshop de pago.
 - [ ] Serie de contenido "30 días entrenando una IA".
 - [ ] Ofrecer el paquete Cerebro IA a 5 clientes actuales de Saltimvanki.
+- [ ] Primer cliente piloto de Clon Digital o Newsletter a Contenido (precio de lanzamiento).
 - [ ] Primera charla dada (aunque sea gratis), grabada.
 
 ### Marzo - junio 2027: escalar
@@ -295,6 +400,7 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 |---|---|---|
 | Saltimvanki | Paquetes Cerebro IA vendidos | 3 |
 | Saltimvanki | Ingresos recurrentes de mantenimiento | 3 clientes |
+| Saltimvanki | Servicios del catálogo vendidos (Clon, Newsletter, reseñas…) | 2 |
 | anavictoria.ia | Leads (emails con categoría) | 300 |
 | anavictoria.ia | Asistentes a la clase gratuita | 50 por edición |
 | anavictoria.ia | Conversión a workshop | 10 % de los asistentes |
@@ -302,7 +408,7 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 
 ---
 
-## 8. Esta semana (lo primero)
+## 9. Esta semana (lo primero)
 
 1. Preparar la demo de Search Console de los hoteles de Chinitas.
 2. Montar la propuesta de 3 paquetes para Boris.
