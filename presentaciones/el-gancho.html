@@ -1,0 +1,243 @@
+<title>El gancho que para el scroll</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Motor común de juegos anavictoria.ia: reto con opciones + tablero visual a la izquierda, ficha a la derecha; final con y sin. Paleta Saltimvanki. */
+:root{
+  --bg:#FBF3DF; --surface:#FFFFFF; --fg:#23262B; --muted:#5F5A50; --line:#E6DAB9; --soft:#F1E5C4;
+  --accent:#33356B; --accent-ink:#FFFFFF; --ok:#2C7A4B; --bad:#B93A35;
+  --c1:#FBD44C; --c1-ink:#23262B; --c2:#F4728C; --c2-ink:#23262B; --c3:#33356B; --c3-ink:#FFFFFF;
+  --c4:#FDE38A; --c4-ink:#23262B; --c5:#F9A9B8; --c5-ink:#23262B; --c6:#23262B; --c6-ink:#FBD44C;
+  --font:'Poppins','Segoe UI',system-ui,sans-serif; --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --bad:#FF8C83; --c3:#4B4E9A; --c6:#0F1014; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --bad:#FF8C83; --c3:#4B4E9A; --c6:#0F1014; color-scheme:dark;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0}
+a{color:inherit}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:10px}
+header h1{font-size:clamp(1.9rem,4.6vw,3.1rem);font-weight:800;letter-spacing:-.01em}
+header h1 span{background:var(--hl);color:#23262B;padding:0 .18em;border-radius:6px}
+.lead{max-width:64ch;color:var(--muted);font-size:1.02rem}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px}
+.seg button{font:inherit;font-weight:600;font-size:.9rem;border:0;background:transparent;color:var(--fg);padding:8px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.stats{display:flex;gap:18px;align-items:center;font-variant-numeric:tabular-nums}
+.stat{display:flex;flex-direction:column;line-height:1.2}
+.stat b{font-size:1.25rem}
+.stat small{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.progress{width:140px;height:8px;border-radius:999px;background:var(--soft);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s}
+.layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}}
+.play{display:flex;flex-direction:column;gap:18px;min-width:0}
+.reto{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.reto .eyebrow{color:var(--accent)}
+.reto h2{font-size:1.12rem;font-weight:700}
+.ctx{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:.95rem;display:flex;flex-direction:column;gap:4px}
+.ctx .who{font-size:.78rem;color:var(--muted);font-weight:600}
+.ctx dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:0}
+.ctx dt{font-size:.78rem;color:var(--muted);font-weight:600}
+.ctx dd{margin:0;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{font:inherit;color:var(--fg);text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;transition:transform .15s,border-color .15s}
+.opt:hover{transform:translateY(-1px);border-color:var(--accent)}
+.opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.opt .tx{min-width:0}
+.opt .ans{display:inline-block;margin-left:6px;font-size:.72rem;font-weight:700;color:var(--ok);text-transform:uppercase;letter-spacing:.06em}
+.opt.shake{animation:shake .4s;border-color:var(--bad)}
+.opt:focus-visible,.seg button:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.feedback{min-height:1.4em;font-weight:600;font-size:.92rem}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+
+/* tableros visuales */
+.vis{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px}
+.vis>.eyebrow{margin-bottom:2px}
+.slot{border:1.5px dashed var(--line);border-radius:10px;padding:8px 12px;color:var(--muted);font-size:.85rem}
+.fill{animation:in .45s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes in{from{opacity:0;transform:translateY(-10px) scale(1.03)}to{opacity:1;transform:none}}
+.funnel{align-items:center;gap:5px}
+.funnel .band{text-align:center;font-weight:600;font-size:.85rem;padding:9px 12px;border-radius:8px;min-width:0}
+.funnel .band.slot{border-radius:8px}
+.chiprow{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--bg)}
+.chiprow .tag{flex:0 0 auto;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px}
+.chiprow .tx{font-size:.88rem;min-width:0}
+.bubble{max-width:92%;padding:8px 12px;border-radius:14px;font-size:.88rem}
+.bubble.me{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px}
+.bubble .st{display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.bins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.bin{border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px;min-height:92px}
+.bin h3{font-size:.8rem;font-weight:700}
+.bin .ppl{display:flex;flex-wrap:wrap;gap:4px}
+.bin .ppl span{font-size:.75rem;font-weight:600;background:var(--surface);color:var(--fg);border-radius:999px;padding:2px 8px}
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:end;height:190px}
+.day{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;font-variant-numeric:tabular-nums}
+.day .col{width:100%;border-radius:8px 8px 4px 4px;background:var(--soft);transition:height .6s}
+.day.on .col{background:var(--hl)}
+.day b{font-size:.85rem} .day small{font-size:.72rem;color:var(--muted)}
+.ficha{display:flex;flex-direction:column;gap:6px}
+.frow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;font-size:.86rem;padding:6px 0;border-bottom:1px solid var(--line)}
+.frow dt{font-weight:700;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.frow dd{margin:0}
+.frow dd.empty{color:var(--muted)}
+.mail{background:var(--bg);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:.88rem}
+.mail .line{min-height:1.2em}
+.mail .line.empty{height:12px;border-radius:6px;background:var(--soft)}
+.mail .subj{font-weight:700}
+@media (max-width:480px){.frow{grid-template-columns:minmax(0,1fr)}.days{height:160px}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:860px){.panel{position:static}}
+.panel h2{font-size:1.4rem;font-weight:800}
+.chip{display:inline-flex;font-size:.8rem;font-weight:700;padding:4px 10px;border-radius:999px;align-self:flex-start;background:var(--hl);color:#23262B}
+.panel h3{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.panel ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px}
+.example{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:.92rem}
+.warn{border-left:4px solid var(--bad);padding:6px 12px;font-size:.9rem}
+.steps{display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.steps b{color:var(--fg)}
+#finale{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:18px}
+#finale h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800}
+.prompt{font-weight:600;background:var(--bg);border-radius:10px;padding:10px 14px}
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.compare{grid-template-columns:minmax(0,1fr)}}
+.answer{border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);min-width:0}
+.answer.with{border:2px solid var(--accent)}
+.answer h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.answer .res{font-weight:700}
+.answer .note{font-size:.85rem;color:var(--muted)}
+.answer .box{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.answer ol,.answer ul{margin:0;padding-left:1.2em;font-size:.9rem;display:flex;flex-direction:column;gap:3px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:var(--accent);color:var(--accent-ink);text-decoration:none}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap" style="--hl:var(--c1)">
+  <header>
+    <p class="eyebrow">Academia anavictoria.ia · Taller práctico</p>
+    <h1>El gancho que <span>para el scroll</span></h1>
+    <p class="lead">Tienes 3 segundos. Si la primera frase no engancha, la persona sigue bajando y tu vídeo no existe. Elige la frase que la hace parar.</p>
+  </header>
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Modo de juego">
+      <button id="mode-reto" aria-pressed="true">Modo reto</button>
+      <button id="mode-explorar" aria-pressed="false">Modo explorar</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="score">0</b><small>Puntos</small></div>
+      <div class="stat"><b id="count">0</b><small>Vídeos</small></div>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    </div>
+  </div>
+  <main class="layout">
+    <section class="play">
+      <div class="reto" aria-live="polite">
+        <p class="eyebrow" id="step"></p>
+        <div class="ctx" id="ctx" hidden></div>
+        <h2 id="q"></h2>
+        <div class="opts" id="opts"></div>
+        <p class="feedback" id="feedback"></p>
+      </div>
+      <div class="vis" id="vis"></div>
+    </section>
+    <aside class="panel" id="info" aria-live="polite"></aside>
+  </main>
+  <section id="finale" hidden></section>
+  <footer>Ejemplos ficticios · Saltimvanki Content &amp; Media · anavictoria.ia</footer>
+</div>
+
+<script>
+const CFG={"rounds": [{"ctx": "<span class='who'>Tema del vídeo<\/span>Cómo escribir tus posts más rápido con IA", "tag": "Promesa", "ok": 0, "b": "«En 3 minutos tu IA va a escribir tus posts como tú.»", "opts": [{"t": "«En 3 minutos tu IA va a escribir tus posts como tú.»", "why": ""}, {"t": "«Hola a todos, hoy vamos a hablar de cómo usar la IA para escribir posts.»", "why": "El saludo gasta los 3 segundos. Nadie se queda por un «hola»."}, {"t": "«La inteligencia artificial es una herramienta muy útil para los negocios.»", "why": "Es verdad, pero no promete nada concreto."}], "info": {"chip": "Tipo de gancho", "title": "Promesa", "que": "Dices el resultado que va a conseguir y en cuánto tiempo. La persona se queda para cobrarlo.", "lista": ["Resultado concreto", "Tiempo o esfuerzo pequeño", "Que se pueda cumplir en el vídeo"], "ejemplo": "«En 60 segundos te enseño a que ChatGPT deje de sonar a robot.»", "error": "Prometer algo que el vídeo no cumple: pierdes la confianza.", "lh": "Fórmula"}}, {"ctx": "<span class='who'>Tema del vídeo<\/span>Errores al usar ChatGPT", "tag": "Error común", "ok": 0, "b": "«Deja de hacer esto con ChatGPT: le pides textos sin darle cerebro.»", "opts": [{"t": "«Deja de hacer esto con ChatGPT: le pides textos sin darle cerebro.»", "why": ""}, {"t": "«Algunos consejos sobre ChatGPT.»", "why": "Demasiado vago: no sabe qué va a aprender."}, {"t": "«ChatGPT tiene muchas funciones interesantes.»", "why": "No toca ningún problema suyo."}], "info": {"chip": "Tipo de gancho", "title": "Error común", "que": "Señalas algo que la persona está haciendo mal. Se queda para ver si es su caso.", "lista": ["«Deja de…» o «Estás haciendo mal…»", "Un error que tu público reconozca", "La solución dentro del vídeo"], "ejemplo": "«Si tu IA te da textos genéricos, el problema no es la IA. Es esto.»", "error": "Ridiculizar a quien comete el error.", "lh": "Fórmula"}}, {"ctx": "<span class='who'>Tema del vídeo<\/span>GPTs personalizados", "tag": "Curiosidad", "ok": 0, "b": "«Lo que nadie te cuenta de los GPTs personalizados.»", "opts": [{"t": "«Lo que nadie te cuenta de los GPTs personalizados.»", "why": ""}, {"t": "«Tutorial de GPTs personalizados, parte 1.»", "why": "Suena a clase larga. El título técnico no despierta curiosidad."}], "info": {"chip": "Tipo de gancho", "title": "Curiosidad", "que": "Abres una pregunta que la persona quiere cerrar. Se queda para saber la respuesta.", "lista": ["Un secreto o algo poco conocido", "Sin dar la respuesta al principio", "Cumplir lo que prometes"], "ejemplo": "«Hay un botón en ChatGPT que casi nadie usa y cambia todo.»", "error": "Abusar del misterio sin dar nada a cambio.", "lh": "Fórmula"}}, {"ctx": "<span class='who'>Tema del vídeo<\/span>Serie: entrenar la IA de un hotel", "tag": "Reto / serie", "ok": 0, "b": "«Día 1 de 30: entreno la IA de un hotel de Málaga. Mañana, el resultado.»", "opts": [{"t": "«Día 1 de 30: entreno la IA de un hotel de Málaga. Mañana, el resultado.»", "why": ""}, {"t": "«Hoy he estado trabajando con un hotel.»", "why": "Cuenta lo que haces, pero no da motivo para volver mañana."}], "info": {"chip": "Tipo de gancho", "title": "Reto o serie", "que": "Conviertes el contenido en capítulos. El FOMO de perderse el siguiente hace que te sigan.", "lista": ["Numerar: «Día 1 de 30», «Parte 2»", "Anunciar qué pasa en el siguiente", "Publicar con constancia"], "ejemplo": "«Parte 3: hoy la IA del hotel responde sola sus primeras 20 reseñas.»", "error": "Empezar una serie y dejarla a medias.", "lh": "Fórmula"}}, {"ctx": "<span class='who'>Tema del vídeo<\/span>Cómo usa la gente la IA (grabado en la calle)", "tag": "Calle", "ok": 0, "b": "«Pregunto en calle Larios para qué usa la gente la IA. La tercera respuesta me dejó loca.»", "opts": [{"t": "«Pregunto en calle Larios para qué usa la gente la IA. La tercera respuesta me dejó loca.»", "why": ""}, {"t": "«Encuesta sobre el uso de la IA.»", "why": "Suena a informe, no a vídeo. Y pierde la geolocalización."}], "info": {"chip": "Tipo de gancho", "title": "Inspiración en la calle", "que": "Personas reales en un sitio reconocible. Engancha y además el algoritmo te enseña al público cercano.", "lista": ["Un lugar reconocible de tu ciudad", "Pregunta corta y abierta", "Mencionar el sitio y etiquetar la ubicación"], "ejemplo": "«Le pregunto a 5 comerciantes del Soho si la IA les quita trabajo.»", "error": "Grabar sin permiso de las personas que salen.", "lh": "Fórmula"}}, {"ctx": "<span class='who'>Tema del vídeo<\/span>Por qué hay que darle contexto a la IA", "tag": "Trend", "ok": 0, "b": "Audio viral + «Yo pidiéndole a ChatGPT un texto sin darle contexto».", "opts": [{"t": "Usar el audio viral del momento con el texto «Yo pidiéndole a ChatGPT un texto sin darle contexto» y cara de decepción", "why": ""}, {"t": "Explicar con voz en off qué es el contexto durante 60 segundos", "why": "Puede funcionar como carrusel o vídeo largo, pero no aprovecha la ola del trend."}], "info": {"chip": "Tipo de gancho", "title": "Trend", "que": "Te subes a un formato o audio que ya está funcionando y lo adaptas a tu tema. Lo que funciona se repite.", "lista": ["Audio o formato en tendencia esta semana", "Adaptado a tu tema", "Publicarlo rápido: los trends duran poco"], "ejemplo": "Formato «Expectativa vs realidad»: lo que esperas de la IA y lo que te da sin cerebro.", "error": "Copiar el contenido de otra persona en vez del formato.", "lh": "Fórmula"}}, {"ctx": "<span class='who'>Final del vídeo<\/span>Vídeo de pre-awareness para gente que aún no te conoce", "tag": "Una acción", "ok": 0, "b": "Cierre: «Sígueme, mañana te enseño cómo.»", "q": "¿Cómo terminas el vídeo?", "opts": [{"t": "«Sígueme, mañana te enseño cómo.»", "why": ""}, {"t": "«Compra mi taller, enlace en la bio, y comenta, comparte y guarda.»", "why": "Cinco acciones a la vez: no hace ninguna. Y a quien no te conoce no le vendes todavía."}], "info": {"chip": "Regla", "title": "Un vídeo, una acción", "que": "Cada vídeo pide una sola cosa, según el nivel de la persona: seguir, comentar, ver la clase o comprar.", "lista": ["Pre-awareness: seguir", "Awareness: comentar la palabra", "Consideración: ver la clase gratis", "Decisión: comprar o reservar"], "ejemplo": "«Comenta CEREBRO y te mando la guía.»", "error": "Terminar sin pedir nada o pidiéndolo todo.", "lh": "Una acción por nivel"}}], "vis": {"type": "chips", "title": "Tu banco de ganchos", "slot": "Gancho"}, "intro": {"h2": "3 segundos para ganar", "p": "Cada vídeo empieza con un gancho y termina con una sola acción. En medio, el valor.", "reto": "elige la frase que haría que tú dejaras de hacer scroll.", "final": "verás el mismo vídeo con y sin gancho."}, "finale": {"eyebrow": "Banco de ganchos completo", "h2": "El mismo vídeo, con y sin gancho", "prompt": "Tema: cómo conseguir que la IA escriba como tú.", "sin": {"h3": "Sin gancho", "html": "<p class='box'>«Hola a todos, ¿qué tal? Bueno, hoy quería hablaros un poco de la inteligencia artificial, que está muy de moda…»<\/p><p class='res'>La mayoría pasa de largo antes del segundo 3.<\/p><p class='note'>Y al final pide seguir, comentar, compartir y comprar a la vez.<\/p>"}, "con": {"h3": "Con gancho y una acción", "html": "<p class='box'>«En 3 minutos tu IA va a escribir tus posts como tú.» [3 pasos con la pantalla] «Comenta CEREBRO y te mando la plantilla.»<\/p><p class='res'>Se queda, aprende y te deja su comentario.<\/p><p class='note'>El gancho retiene, el valor convence y la única acción convierte.<\/p>"}}, "stepLabel": "Vídeo", "q": "¿Con qué frase empiezas?", "doneStep": "Todos los ganchos elegidos", "doneText": "Ya tienes un gancho para cada tipo. Baja para ver la diferencia."};
+(function(){
+const $=id=>document.getElementById(id),R=CFG.rounds,N=R.length;
+const esc=s=>String(s);
+let st;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function reset(){st={mode:st?st.mode:'reto',i:0,tries:0,score:0,done:[]};$('finale').hidden=true;fb('','');intro();render()}
+function fb(c,t){const f=$('feedback');f.className='feedback '+c;f.textContent=t}
+function render(){
+  $('score').textContent=st.score;$('count').textContent=st.i+' / '+N;$('prog').style.width=(st.i/N*100)+'%';
+  $('mode-reto').setAttribute('aria-pressed',st.mode==='reto');$('mode-explorar').setAttribute('aria-pressed',st.mode==='explorar');
+  vis();
+  const opts=$('opts');opts.innerHTML='';
+  if(st.i>=N){$('step').textContent=CFG.doneStep;$('ctx').hidden=true;$('q').textContent=CFG.doneText;return}
+  const r=R[st.i];$('step').textContent=(r.step||CFG.stepLabel+' '+(st.i+1))+' de '+N;
+  if(r.ctx){$('ctx').hidden=false;$('ctx').innerHTML=r.ctx}else $('ctx').hidden=true;
+  $('q').textContent=r.q||CFG.q;
+  shuffle(r.opts.map((o,k)=>({...o,k}))).forEach((o,j)=>{
+    const b=document.createElement('button');b.type='button';b.className='opt';
+    b.innerHTML=`<span class="k">${'ABCD'[j]}</span><span class="tx">${o.t}${st.mode==='explorar'&&o.k===r.ok?'<span class="ans">Respuesta</span>':''}</span>`;
+    b.addEventListener('click',()=>choose(o.k,b));b.addEventListener('animationend',()=>b.classList.remove('shake'));opts.appendChild(b);
+  });
+}
+function choose(k,b){
+  const r=R[st.i];
+  if(st.mode==='explorar'||k===r.ok){
+    let pts=0;if(st.mode==='reto'){pts=st.tries===0?100:st.tries===1?50:25;st.score+=pts}
+    st.tries=0;st.done.push(st.i);showInfo(r.info);st.i++;
+    fb('ok',st.mode==='reto'?`Correcto. +${pts} puntos`:'Respuesta correcta');render();
+    if(st.i>=N)setTimeout(finale,600);
+  }else{
+    st.tries++;b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');
+    fb('bad','No es la mejor. '+(r.opts[k].why||''));
+  }
+}
+const COL=k=>`background:var(--c${k%6+1});color:var(--c${k%6+1}-ink)`;
+function vis(){
+  const v=$('vis'),V=CFG.vis,done=new Set(st.done);let h=`<p class="eyebrow">${V.title}</p>`;
+  if(V.type==='funnel'){v.className='vis funnel';R.forEach((r,i)=>{const w=100-i*(45/(N-1));
+    h+=done.has(i)?`<div class="band fill" style="width:${w}%;${COL(i)}">${i+1}. ${r.b}</div>`:`<div class="band slot" style="width:${w}%">Paso ${i+1}</div>`})}
+  else if(V.type==='chips'){v.className='vis';R.forEach((r,i)=>{h+=done.has(i)?`<div class="chiprow fill"><span class="tag" style="${COL(i)}">${r.tag}</span><span class="tx">${r.b}</span></div>`:`<div class="slot">${V.slot} ${i+1}</div>`})}
+  else if(V.type==='chat'){v.className='vis';R.forEach((r,i)=>{h+=done.has(i)?`<div class="bubble me fill"><span class="st">${r.tag}</span>${r.b}</div>`:`<div class="slot">${V.slot} ${i+1}: ${r.tag}</div>`})}
+  else if(V.type==='bins'){v.className='vis';h+='<div class="bins">'+V.bins.map((bn,j)=>{const ppl=R.filter((r,i)=>done.has(i)&&r.ok===j).map(r=>`<span class="fill">${r.b}</span>`).join('');
+      return `<div class="bin" style="${COL(j)}"><h3>${bn}</h3><div class="ppl">${ppl}</div></div>`}).join('')+'</div>'}
+  else if(V.type==='days'){v.className='vis';const mx=Math.max(...R.map(r=>r.v));h+='<div class="days">'+R.map((r,i)=>{const on=done.has(i);
+      return `<div class="day ${on?'on':''}"><b>${on?r.v:''}</b><div class="col" style="height:${on?Math.max(6,r.v/mx*130):6}px"></div><small>${r.tag}</small></div>`}).join('')+'</div>';
+      const tot=R.filter((r,i)=>done.has(i)).reduce((a,r)=>a+r.v,0);h+=`<p class="eyebrow" style="text-align:right">${V.total}: ${tot}</p>`}
+  else if(V.type==='ficha'){v.className='vis';h+='<dl class="ficha">'+R.map((r,i)=>`<div class="frow"><dt>${r.tag}</dt><dd class="${done.has(i)?'fill':'empty'}">${done.has(i)?r.b:'Por completar'}</dd></div>`).join('')+'</dl>'}
+  else if(V.type==='email'){v.className='vis';h+='<div class="mail">'+R.map((r,i)=>done.has(i)?`<div class="line fill ${i===0?'subj':''}">${i===0?'Asunto: ':''}${r.b}</div>`:`<div class="line empty" title="${r.tag}"></div>`).join('')+'</div>'}
+  v.innerHTML=h;
+}
+function showInfo(f){
+  $('info').innerHTML=`<span class="chip">${f.chip}</span><h2>${f.title}</h2><p>${f.que}</p>
+  ${f.lista?`<div><h3>${f.lh||'Qué lleva'}</h3><ul>${f.lista.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+  ${f.ejemplo?`<div><h3>Ejemplo</h3><p class="example">${f.ejemplo}</p></div>`:''}
+  ${f.error?`<div><h3>Error típico</h3><p class="warn">${f.error}</p></div>`:''}`;
+}
+function intro(){$('info').innerHTML=`<p class="eyebrow">Cómo se juega</p><h2>${CFG.intro.h2}</h2><p>${CFG.intro.p}</p>
+  <div class="steps"><p><b>Modo reto:</b> ${CFG.intro.reto} 100 puntos a la primera, 50 a la segunda y 25 después.</p>
+  <p><b>Modo explorar:</b> la respuesta correcta aparece marcada. Sirve para presentarlo en un taller o en una reunión.</p>
+  <p><b>Al final:</b> ${CFG.intro.final}</p></div>`}
+function finale(){
+  const F=CFG.finale,f=$('finale');
+  f.innerHTML=`<p class="eyebrow">${F.eyebrow} · ${st.mode==='reto'?st.score+' de '+N*100+' puntos':'modo explorar'}</p><h2>${F.h2}</h2>
+  ${F.prompt?`<p class="prompt">${F.prompt}</p>`:''}
+  <div class="compare"><div class="answer"><h3>${F.sin.h3}</h3>${F.sin.html}</div><div class="answer with"><h3>${F.con.h3}</h3>${F.con.html}</div></div>
+  <div class="btns"><button class="btn" id="again">Jugar otra vez</button><button class="btn ghost" id="explore">Repasar en modo explorar</button></div>`;
+  f.hidden=false;
+  $('again').addEventListener('click',()=>{reset();window.scrollTo({top:0,behavior:'smooth'})});
+  $('explore').addEventListener('click',()=>{st.mode='explorar';reset();window.scrollTo({top:0,behavior:'smooth'})});
+  try{f.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}catch(e){}
+}
+$('mode-reto').addEventListener('click',()=>{st.mode='reto';st.tries=0;fb('','');render()});
+$('mode-explorar').addEventListener('click',()=>{st.mode='explorar';fb('','');render()});
+reset();
+})();
+</script>

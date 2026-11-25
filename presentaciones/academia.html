@@ -1,0 +1,139 @@
+<title>Academia anavictoria.ia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: cabecera con progreso + itinerario en 5 módulos, cada uno con sus juegos en tarjetas. Paleta Saltimvanki. */
+:root{
+  --bg:#FBF3DF; --surface:#FFFFFF; --fg:#23262B; --muted:#5F5A50; --line:#E6DAB9; --soft:#F1E5C4;
+  --accent:#33356B; --accent-ink:#FFFFFF; --ok:#2C7A4B;
+  --c1:#FBD44C; --c2:#F4728C; --c3:#33356B; --c4:#FDE38A; --c5:#F9A9B8; --ink-dark:#23262B; --ink-light:#FFFFFF;
+  --font:'Poppins','Segoe UI',system-ui,sans-serif; --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --c3:#4B4E9A; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46; --soft:#2B2D35;
+  --accent:#FBD44C; --accent-ink:#23262B; --ok:#6FD195; --c3:#4B4E9A; color-scheme:dark;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:end}
+@media (max-width:820px){header{grid-template-columns:minmax(0,1fr)}}
+.hero{display:flex;flex-direction:column;gap:12px}
+.hero h1{font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-.015em}
+.hero h1 span{background:var(--c1);color:var(--ink-dark);padding:0 .16em;border-radius:8px}
+.lead{max-width:60ch;color:var(--muted);font-size:1.05rem}
+.quote{font-weight:700;font-size:1.05rem}
+.me{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.me .row{display:flex;justify-content:space-between;align-items:baseline;font-variant-numeric:tabular-nums}
+.me b{font-size:1.6rem}
+.track{height:10px;border-radius:999px;background:var(--soft);overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.75rem;font-weight:800;background:var(--soft);color:var(--muted);border:2px dashed var(--line)}
+.badge.on{border:0;color:var(--ink-dark)}
+.me small{color:var(--muted);font-size:.78rem}
+.mod{display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:820px){.mod{grid-template-columns:minmax(0,1fr);gap:12px}}
+.modhead{display:flex;flex-direction:column;gap:6px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:820px){.modhead{position:static}}
+.modhead .n{font-size:.75rem;font-weight:800;letter-spacing:.12em;color:var(--muted)}
+.modhead h2{font-size:1.35rem;font-weight:800}
+.modhead p{color:var(--muted);font-size:.9rem}
+#mods{display:flex;flex-direction:column;gap:34px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card .top{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.card .top .num{font-weight:800;font-size:.8rem;letter-spacing:.08em}
+.card .top .min{font-size:.75rem;font-weight:600;opacity:.85}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{font-size:1.1rem;font-weight:800}
+.card .learn{font-size:.88rem;color:var(--muted)}
+.card .for{font-size:.75rem;font-weight:600;color:var(--muted)}
+.card .act{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:auto;flex-wrap:wrap}
+.play{font:inherit;font-weight:700;font-size:.9rem;text-decoration:none;border-radius:999px;padding:9px 18px;background:var(--accent);color:var(--accent-ink)}
+.play:focus-visible,.done-tog input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.done-tog{display:inline-flex;gap:6px;align-items:center;font-size:.8rem;font-weight:600;cursor:pointer;color:var(--muted)}
+.done-tog input{accent-color:var(--ok);width:16px;height:16px}
+.card.is-done{border-color:var(--ok)}
+.how{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:820px){.how{grid-template-columns:minmax(0,1fr)}}
+.how h3{font-size:1rem;font-weight:800;margin-bottom:4px}
+.how p{font-size:.9rem;color:var(--muted)}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="hero">
+      <p class="eyebrow">Academia anavictoria.ia · Saltimvanki Content &amp; Media</p>
+      <h1>Aprende IA y ventas <span>jugando</span></h1>
+      <p class="quote">«Si le das basura a la IA, te devuelve basura.»</p>
+      <p class="lead">Nueve juegos cortos para darle cerebro a tu IA, crear contenido que engancha, montar tu embudo y vender sin miedo. Cada juego te reta, te explica y te enseña el mismo caso con y sin el método.</p>
+    </div>
+    <div class="me" aria-live="polite">
+      <div class="row"><span class="eyebrow">Tu progreso</span><b id="done-n">0 / 9</b></div>
+      <div class="track"><i id="done-bar"></i></div>
+      <div class="badges" id="badges"></div>
+      <small>Marca cada juego como completado al terminarlo. Tu progreso se guarda solo en este navegador.</small>
+    </div>
+  </header>
+
+  <section class="how">
+    <div><h3>1. El reto</h3><p>Contestas lo que crees. Aciertos a la primera: 100 puntos.</p></div>
+    <div><h3>2. La ficha</h3><p>Cada respuesta abre la explicación: qué es, qué lleva, un ejemplo y el error típico.</p></div>
+    <div><h3>3. Con y sin</h3><p>Al final ves el mismo caso hecho sin el método y con el método.</p></div>
+  </section>
+
+  <div id="mods"></div>
+
+  <footer>Los ejemplos de los juegos son ficticios · Academia anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+
+<script>
+(function(){
+const MODS=[
+ {n:'Módulo 1',t:'La base',p:'Antes de crear nada, la IA necesita saber quién eres y a quién le hablas.',games:[
+  {id:'cerebro',t:'El cerebro de tu negocio',l:'Las 7 piezas que necesita tu IA para trabajar con criterio.',f:'Para empezar',m:6,c:'c1',u:'https://claude.ai/artifact/WwtD2viJCr9G3maL4UpaKL'},
+  {id:'piramide',t:'La pirámide del comprador',l:'Los 4 niveles de conciencia y qué mensaje necesita cada uno.',f:'Para empezar',m:5,c:'c2',u:'https://claude.ai/artifact/LSeVhQzUhymtMjFmwFhv1n'}]},
+ {n:'Módulo 2',t:'Contenido que engancha',p:'Tienes 3 segundos para que alguien se pare. Y cuando hay ola, se aprovecha.',games:[
+  {id:'gancho',t:'El gancho que para el scroll',l:'Los tipos de gancho y la regla de un vídeo, una acción.',f:'Contenido',m:5,c:'c1',u:'https://claude.ai/artifact/AGdbKZkwMmmhxwqsAGBmtQ'},
+  {id:'ola',t:'Cabalgar la ola',l:'Qué publicar los 5 días después de un vídeo viral.',f:'Contenido',m:4,c:'c4',u:'https://claude.ai/artifact/TxkhHyTy9Bwcm5NAyzCNvN'}]},
+ {n:'Módulo 3',t:'El embudo',p:'El camino desde que te ven hasta que te compran, personalizado para cada dolor.',games:[
+  {id:'embudo',t:'Monta el embudo',l:'Los 9 pasos del embudo y dónde se pierde la gente.',f:'Embudos',m:6,c:'c2',u:'https://claude.ai/artifact/2GS5x2X6Ume3sVXHAPPc7V'},
+  {id:'duele',t:'¿Qué le duele?',l:'Enviar a cada lead la masterclass que toca su problema.',f:'Embudos',m:5,c:'c4',u:'https://claude.ai/artifact/XASVDsKxFN4m3RmDijk7NQ'}]},
+ {n:'Módulo 4',t:'La venta',p:'Convierte lo que sabes hacer en un servicio y ciérralo con emoción.',games:[
+  {id:'servicio',t:'De proceso a servicio',l:'La ficha para convertir un proceso en un servicio con precio.',f:'Servicios',m:6,c:'c2',u:'https://claude.ai/artifact/65X4PkedEhfedxo8iMfmkL'},
+  {id:'reunion',t:'La reunión WOW',l:'Condiciones, efecto WOW y acción rápida en una reunión real.',f:'Ventas',m:6,c:'c5',u:'https://claude.ai/artifact/7gnYdMaTpwpVZt26oe6y81'}]},
+ {n:'Módulo 5',t:'Tu voz en el escenario',p:'Las conferencias le hablan al 60 % que aún no te conoce.',games:[
+  {id:'email',t:'El email que abre puertas',l:'El email para proponer una ponencia y su seguimiento.',f:'Speaker',m:4,c:'c5',u:'https://claude.ai/artifact/11gqA585PiVJrKAMZdcmBM'}]}
+];
+const ALL=MODS.flatMap(m=>m.games),KEY='academia-hechos';
+let done=new Set();try{done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const ink=c=>c==='c3'?'var(--ink-light)':'var(--ink-dark)';
+let k=0;
+document.getElementById('mods').innerHTML=MODS.map(m=>`<section class="mod"><div class="modhead"><span class="n">${m.n.toUpperCase()}</span><h2>${m.t}</h2><p>${m.p}</p></div>
+  <div class="cards">${m.games.map(g=>{k++;return `<article class="card" data-id="${g.id}">
+   <div class="top" style="background:var(--${g.c});color:${ink(g.c)}"><span class="num">JUEGO ${k}</span><span class="min">${g.m} min</span></div>
+   <div class="body"><h3>${g.t}</h3><p class="learn">${g.l}</p><p class="for">${g.f}</p>
+   <div class="act"><a class="play" href="${g.u}" target="_blank" rel="noopener">Jugar</a>
+   <label class="done-tog"><input type="checkbox" id="done-${g.id}" data-id="${g.id}"><span>Completado</span></label></div></div></article>`}).join('')}</div></section>`).join('');
+function paint(){
+  document.querySelectorAll('.card').forEach(c=>{const on=done.has(c.dataset.id);c.classList.toggle('is-done',on);c.querySelector('input').checked=on});
+  document.getElementById('done-n').textContent=done.size+' / '+ALL.length;
+  document.getElementById('done-bar').style.width=(done.size/ALL.length*100)+'%';
+  document.getElementById('badges').innerHTML=ALL.map((g,i)=>`<span class="badge ${done.has(g.id)?'on':''}" style="${done.has(g.id)?'background:var(--'+g.c+');color:'+ink(g.c):''}" title="${g.t}">${i+1}</span>`).join('');
+}
+document.addEventListener('change',e=>{const id=e.target.dataset&&e.target.dataset.id;if(!id)return;e.target.checked?done.add(id):done.delete(id);save();paint()});
+paint();
+})();
+</script>
