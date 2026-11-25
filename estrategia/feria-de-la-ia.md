@@ -35,15 +35,22 @@ Así respetas lo que te molesta como usuaria y no pierdes la relación.
 | Juego | Mecánica | Mensaje que refuerza | Recurso que se gana |
 |---|---|---|---|
 | ✅ **Explota los globos** | Explotar los 7 globos con las piezas del cerebro y dejar ir los de basura | Si le das basura, te devuelve basura | Guía «Dale cerebro a tu IA» |
-| **Tiro de dardos** | Lanzar dardos a la diana: el centro es el gancho que para el scroll | Los 3 primeros segundos mandan | Plantilla de 30 ganchos |
+| ✅ **Tiro de dardos** | Lanzar dardos a la diana: el centro es el gancho que para el scroll | Los 3 primeros segundos mandan | Plantilla de 30 ganchos |
 | **Pesca de patitos** | Pescar los patitos que llevan un dolor de cliente | Cada dolor, su mensaje | Plantilla de formulario por dolores |
 | **Derriba las latas** | Tirar la pila de latas de errores de prompt | Quitar lo que estropea los resultados | Checklist de errores con la IA |
 | **La ruleta de la fortuna** | Girar la ruleta y que te toque un prompt o un truco | Sorpresa y regalo | Prompt del día (uno distinto cada vez) |
 | **El martillo de fuerza** | Pegar con el martillo; la fuerza depende de lo completo que esté el prompt | Un prompt con contexto llega arriba | Fórmula del prompt completo |
 | **La tómbola** | Abrir boletos hasta encontrar el premio | Curiosidad | Recurso sorpresa del mes |
+| ✅ **Tormenta de ideas** | Juntar 3 fichas iguales (mecánica de juntar tres, con diseño propio); 15 bombillas = premio | Las ideas salen al combinar | Banco de 50 ideas de contenido |
 | **Encesta la pelota** | Encestar los pasos del embudo en orden | Cada paso lleva al siguiente | Mapa del embudo |
 
 **Ojo:** has mencionado una cuenta que explica la retención con una montaña rusa y una noria. Mejor no repetir esa idea concreta, porque es su sello. Nuestra feria usa otros juegos y lleva tu mensaje.
+
+## Enlaces
+
+- Explota los globos (CEREBRO): https://claude.ai/artifact/YcCAmvxSEJRek4cd5cQM8J
+- Tiro de dardos (GANCHO): https://claude.ai/artifact/S7R8zLnGFa4yKGwsx6sBY4
+- Tormenta de ideas (IDEAS): https://claude.ai/artifact/LuwCuMXoCDj5QrqjidmSiz
 
 ## Cómo se monta
 
@@ -54,5 +61,5 @@ Así respetas lo que te molesta como usuaria y no pierdes la relación.
 5. Un juego nuevo al mes, que también es contenido: «Este mes en la feria: tiro de dardos».
 
 ## Pendiente para usarlo de verdad
-- Cambiar el enlace del premio (`RECURSO_URL` en el juego) por el enlace de Drive de la guía real.
+- Cambiar el enlace del premio (`RECURSO_URL` en cada juego) por el enlace de Drive de la guía real.
 - Compartir el juego con enlace público desde el menú Compartir para que lo pueda abrir cualquiera.

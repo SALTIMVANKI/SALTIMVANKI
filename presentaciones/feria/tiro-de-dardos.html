@@ -1,0 +1,123 @@
+<title>Tiro de dardos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Feria de noche: toldo + diana (canvas) + tarjetas de ganchos que se desbloquean. Un solo tema nocturno, deliberado. */
+:root{--night:#17183A;--night2:#24265A;--booth:#33356B;--yellow:#FBD44C;--pink:#F4728C;--cream:#FBF3DF;--muted:#B9B6D6;
+  --display:'Bungee','Poppins',system-ui,sans-serif;--font:'Poppins','Segoe UI',system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0}
+body{background:radial-gradient(120% 80% at 50% 0%,var(--night2),var(--night) 70%);background-color:var(--night);color:var(--cream);font-family:var(--font);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 28px;min-height:100vh}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.sign{text-align:center;display:flex;flex-direction:column;gap:4px}
+.sign .kick{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.sign h1{font-family:var(--display);font-weight:400;font-size:clamp(1.8rem,8vw,2.6rem);line-height:1;margin:0;color:var(--yellow);text-shadow:0 0 18px rgba(251,212,76,.45),0 3px 0 #B8901A}
+.booth{position:relative;border-radius:18px;overflow:hidden;background:var(--booth);box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.awning{height:44px;background:repeating-linear-gradient(90deg,var(--pink) 0 36px,var(--cream) 36px 72px);position:relative}
+.bulbs{position:absolute;top:6px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none}
+.bulbs i{width:9px;height:9px;border-radius:50%;background:var(--yellow);box-shadow:0 0 8px var(--yellow);animation:blink 1.2s infinite}
+.bulbs i:nth-child(2n){animation-delay:.6s}@keyframes blink{50%{opacity:.35;box-shadow:none}}
+canvas{display:block;width:100%;height:min(58vh,520px);touch-action:manipulation;cursor:crosshair}
+.hud{position:absolute;top:56px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none}
+.hud span,.sound{font-family:var(--display);font-size:1rem;color:var(--yellow);background:rgba(23,24,58,.7);padding:4px 10px;border-radius:10px}
+.sound{pointer-events:auto;font:inherit;font-size:.72rem;font-weight:700;border:0;color:var(--cream);cursor:pointer}
+.cards{display:flex;flex-direction:column;gap:8px}
+.card{border:2px dashed rgba(251,243,223,.3);border-radius:12px;padding:10px 12px;font-size:.85rem;color:var(--muted);display:flex;gap:10px;align-items:center}
+.card b{font-family:var(--display);font-weight:400;font-size:.8rem;letter-spacing:.04em;flex:0 0 auto;padding:3px 9px;border-radius:999px;background:rgba(251,243,223,.12)}
+.card.on{border:0;background:var(--cream);color:#23262B;animation:pop .4s}
+.card.on b{background:var(--yellow);color:#23262B}.card.on:nth-child(2n) b{background:var(--pink)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.hint{text-align:center;font-size:.82rem;color:var(--muted)}
+.overlay{position:absolute;inset:44px 0 0 0;background:rgba(23,24,58,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:22px;text-align:center}
+.overlay h2{font-family:var(--display);font-weight:400;font-size:clamp(1.4rem,6vw,2rem);line-height:1.05;margin:0;color:var(--yellow)}
+.overlay p{margin:0;max-width:36ch;line-height:1.5}
+.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:12px 26px;cursor:pointer;background:var(--yellow);color:#23262B;text-decoration:none;box-shadow:0 4px 0 #B8901A}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #B8901A}
+.btn.ghost{background:transparent;color:var(--cream);border:2px solid rgba(251,243,223,.4);box-shadow:none}
+.btn:focus-visible,.sound:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+.prize{background:var(--cream);color:#23262B;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;max-width:320px;transform:rotate(-1.5deg);box-shadow:0 8px 0 var(--pink)}
+.prize small{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#B93A35}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+footer{text-align:center;font-size:.72rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.bulbs i,.card.on{animation:none}}
+</style>
+<div class="wrap">
+  <div class="sign"><span class="kick">La Feria de la IA · anavictoria.ia</span><h1>Tiro de dardos</h1></div>
+  <div class="booth">
+    <div class="awning"><div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <canvas id="c" aria-label="Diana de feria. La mira se mueve sola; toca para lanzar el dardo."></canvas>
+    <div class="hud"><button class="sound" id="sound" type="button" aria-pressed="true">Sonido: sí</button><span id="pts" aria-live="polite">0 pts</span></div>
+    <div class="overlay" id="start">
+      <h2>¡Acierta y desbloquea ganchos!</h2>
+      <p>Comentaste <b>GANCHO</b>. La mira se mueve sola: toca la pantalla para lanzar. Cada dardo que da en la diana desbloquea un tipo de gancho. Con 5, ganas la plantilla.</p>
+      <button class="btn" id="play" type="button">¡A lanzar!</button>
+    </div>
+    <div class="overlay" id="win" hidden>
+      <h2>¡Diana!</h2>
+      <p>Has desbloqueado los 5 tipos de gancho con <b id="final">0</b> puntos.</p>
+      <div class="prize"><small>Has ganado</small><b>Plantilla de 30 ganchos que paran el scroll</b><span style="font-size:.85rem">6 ganchos de cada tipo, listos para adaptar a tu tema.</span></div>
+      <div class="row"><a class="btn" id="claim" href="#" target="_blank" rel="noopener">Abrir mi plantilla</a><button class="btn ghost" id="again" type="button">Jugar otra vez</button></div>
+      <p style="font-size:.8rem;color:var(--muted)">Cada mes hay un juego nuevo en la feria. Sígueme en anavictoria.ia.</p>
+    </div>
+  </div>
+  <div class="cards" id="cards"></div>
+  <p class="hint">El centro vale 50 puntos. Si fallas, no pasa nada: el dardo vuelve.</p>
+  <footer>La Feria de la IA · anavictoria.ia · Saltimvanki Content &amp; Media</footer>
+</div>
+<script>
+(function(){
+/* Enlace al recurso: cámbialo por el enlace de Drive de la plantilla real. */
+const RECURSO_URL='https://claude.ai/artifact/AGdbKZkwMmmhxwqsAGBmtQ';
+document.getElementById('claim').href=RECURSO_URL;
+const HOOKS=[['Promesa','«En 3 minutos tu IA va a escribir como tú.»'],['Error común','«Deja de hacer esto con ChatGPT: le pides textos sin darle cerebro.»'],
+ ['Curiosidad','«Lo que nadie te cuenta de los GPTs personalizados.»'],['Serie','«Día 1 de 30: entreno la IA de un hotel de Málaga.»'],['Calle','«Pregunto en calle Larios para qué usa la gente la IA.»']];
+const cards=document.getElementById('cards');
+HOOKS.forEach((h,i)=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>${i+1}</b><span>Gancho bloqueado</span>`;cards.appendChild(d)});
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');let W,H,DPR,CX,CY,R;
+function resize(){DPR=Math.min(devicePixelRatio||1,2);const r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);CX=W/2;CY=H*.46;R=Math.min(W,H)*.38}
+resize();addEventListener('resize',resize);
+const RINGS=[[1,'#F4728C',5],[.72,'#4B4E9A',10],[.46,'#FBF3DF',25],[.2,'#F4728C',35],[.08,'#FBD44C',50]];
+let running=false,t=0,last=0,darts=[],flying=null,hits=0,pts=0,floats=[],parts=[],sound=true,audio=null;
+const aim=()=>{const sp=1+hits*.12;return[CX+R*.82*Math.sin(t*1.25*sp),CY+R*.82*Math.sin(t*1.85*sp+1)]};
+function board(){
+  ctx.save();ctx.translate(CX,CY);
+  ctx.fillStyle='#8B5A2B';ctx.beginPath();ctx.arc(0,0,R*1.08,0,7);ctx.fill();
+  RINGS.forEach(([f,c])=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(0,0,R*f,0,7);ctx.fill()});
+  ctx.strokeStyle='rgba(23,24,58,.35)';ctx.lineWidth=1.5;for(let i=0;i<16;i++){const a=i/16*6.283;ctx.beginPath();ctx.moveTo(Math.cos(a)*R*.08,Math.sin(a)*R*.08);ctx.lineTo(Math.cos(a)*R,Math.sin(a)*R);ctx.stroke()}
+  ctx.fillStyle='#23262B';ctx.font=`800 ${Math.max(10,R*.075)}px Poppins, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('GANCHO',0,-R*.13);
+  ctx.restore();
+}
+function dart(x,y,s=1){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.strokeStyle='#23262B';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(14,22);ctx.stroke();
+  ctx.fillStyle='#FBD44C';ctx.beginPath();ctx.moveTo(12,19);ctx.lineTo(24,22);ctx.lineTo(16,32);ctx.closePath();ctx.fill();ctx.fillStyle='#E8E8E8';ctx.beginPath();ctx.arc(0,0,2.5,0,7);ctx.fill();ctx.restore()}
+function beep(hit){if(!sound||!audio)return;try{const n=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type=hit?'triangle':'sine';o.frequency.setValueAtTime(hit?520:220,n);o.frequency.exponentialRampToValueAtTime(hit?880:140,n+.15);g.gain.setValueAtTime(.15,n);g.gain.exponentialRampToValueAtTime(.001,n+.25);o.connect(g).connect(audio.destination);o.start(n);o.stop(n+.26)}catch(e){}}
+function throwDart(){if(!running||flying)return;const [x,y]=aim();flying={x0:W/2,y0:H+20,x,y,p:0}}
+function land(f){
+  if(hits>=HOOKS.length)return;
+  const d=Math.hypot(f.x-CX,f.y-CY)/R;let val=0;for(const [rf,,v] of RINGS)if(d<=rf)val=v;
+  if(val){darts.push({x:f.x,y:f.y});pts+=val;const h=HOOKS[hits];const c=cards.children[hits];c.classList.add('on');c.innerHTML=`<b>${h[0]}</b><span>${h[1]}</span>`;hits++;
+    floats.push({x:f.x,y:f.y-10,txt:(val===50?'¡DIANA! ':'')+'+'+val,life:1});for(let i=0;i<12;i++){const a=Math.random()*6.28,s=60+Math.random()*120;parts.push({x:f.x,y:f.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,c:['#FBD44C','#F4728C','#FBF3DF'][i%3]})}
+    beep(true);document.getElementById('pts').textContent=pts+' pts';if(hits===HOOKS.length){running=false;setTimeout(win,600)}}
+  else{floats.push({x:f.x,y:f.y,txt:'¡Casi!',life:1});beep(false)}
+}
+function win(){running=false;document.getElementById('final').textContent=pts;for(let i=0;i<120;i++)parts.push({x:Math.random()*W,y:-20,vx:(Math.random()-.5)*60,vy:60+Math.random()*160,life:2.4,c:['#FBD44C','#F4728C','#FBF3DF'][i%3],conf:1});setTimeout(()=>document.getElementById('win').hidden=false,700)}
+function loop(ts){const dt=Math.min(.05,(ts-(last||ts))/1000);last=ts;t+=dt;ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.035)';for(let x=0;x<W;x+=48)ctx.fillRect(x,0,24,H);
+  board();darts.forEach(d=>dart(d.x,d.y));
+  if(running&&!flying){const [x,y]=aim();ctx.strokeStyle='#FFFFFF';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(x,y,14,0,7);ctx.moveTo(x-22,y);ctx.lineTo(x-8,y);ctx.moveTo(x+8,y);ctx.lineTo(x+22,y);ctx.moveTo(x,y-22);ctx.lineTo(x,y-8);ctx.moveTo(x,y+8);ctx.lineTo(x,y+22);ctx.stroke()}
+  if(flying){flying.p+=dt/.28;const p=Math.min(1,flying.p),e=1-Math.pow(1-p,2);dart(flying.x0+(flying.x-flying.x0)*e,flying.y0+(flying.y-flying.y0)*e,1.8-.8*e);if(p>=1){land(flying);flying=null}}
+  parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=(p.conf?20:240)*dt;p.life-=dt*(p.conf?.5:1.8);ctx.globalAlpha=Math.max(0,Math.min(1,p.life));ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,5,5)});parts=parts.filter(p=>p.life>0);
+  floats.forEach(f=>{f.y-=40*dt;f.life-=dt*.9;ctx.globalAlpha=Math.max(0,f.life);ctx.fillStyle='#FBD44C';ctx.font='800 18px Poppins, sans-serif';ctx.textAlign='center';ctx.fillText(f.txt,f.x,f.y)});floats=floats.filter(f=>f.life>0);ctx.globalAlpha=1;
+  requestAnimationFrame(loop)}
+cv.addEventListener('pointerdown',throwDart);
+addEventListener('keydown',e=>{if(e.code==='Space'&&running){e.preventDefault();throwDart()}});
+function start(){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();audio.resume&&audio.resume()}catch(e){audio=null}
+  darts=[];hits=0;pts=0;parts=[];floats=[];document.getElementById('pts').textContent='0 pts';
+  [...cards.children].forEach((c,i)=>{c.className='card';c.innerHTML=`<b>${i+1}</b><span>Gancho bloqueado</span>`});
+  document.getElementById('start').hidden=true;document.getElementById('win').hidden=true;running=true}
+document.getElementById('play').addEventListener('click',start);document.getElementById('again').addEventListener('click',start);
+document.getElementById('sound').addEventListener('click',e=>{sound=!sound;e.target.textContent='Sonido: '+(sound?'sí':'no');e.target.setAttribute('aria-pressed',sound)});
+requestAnimationFrame(loop);
+})();
+</script>
