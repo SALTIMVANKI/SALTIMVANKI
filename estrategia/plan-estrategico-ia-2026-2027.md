@@ -233,7 +233,9 @@ Oferta con fecha límite → Workshop o programa
 Clientes con perfil de empresa → Saltimvanki (servicio hecho para ellos)
 ```
 
-**Categorías del formulario** (cada una recibe su vídeo y sus emails):
+> **Actualizado tras la ponencia de @marcobevanati** (ver `ponencia-cuentas-nicho-embudo.md`): las categorías que deciden la masterclass y los emails son **dolores** ("¿Qué te pasa hoy con la IA?"). El perfil va en un campo aparte y decide si el lead va a anavictoria.ia o a Saltimvanki. Repesca de todos los leads cada 3 meses.
+
+**Perfiles del formulario** (campo aparte):
 1. Autónomo / pequeño negocio: "Quiero que la IA me ahorre tiempo con el contenido y los clientes".
 2. Empresa / equipo: "Quiero implantar IA en mi empresa" → derivar a Saltimvanki.
 3. Formador / docente / profesional del conocimiento: "Quiero crear clases, presentaciones y materiales con mi estilo".
@@ -373,11 +375,14 @@ Cada charla tiene una demo en directo (el WOW) y termina con una llamada a la ac
 - [ ] Kit de speaker y lista de 20 entidades de Málaga.
 - [ ] Probar en ti el Clon Digital y Newsletter a Contenido, y medir horas.
 - [ ] Rellenar la ficha de servicio (apartado 2.1) de cada proceso que ya haces.
+- [ ] Importar `plantilla-contactos.csv` a Google Sheets y cargar la cartera de Saltimvanki.
 
 ### Enero 2027: embudo
 - [ ] Guía gratuita "Dale cerebro a tu IA" + landing + formulario con categorías.
 - [ ] Automatización "comenta CEREBRO" → DM → landing.
-- [ ] 4 vídeos personalizados (uno por categoría).
+- [ ] 4 masterclass cortas (una por dolor) + secuencia de emails para cada una.
+- [ ] "Kit ola" preparado: landing, clase gratis, palabra clave del DM y 3 stories modelo.
+- [ ] Calendario de repescas trimestrales (marzo, junio, septiembre, diciembre).
 - [ ] Primera clase gratuita en directo.
 - [ ] Caso de éxito Chinitas (vídeo + carrusel).
 - [ ] Enviar 10 propuestas de ponencia.
