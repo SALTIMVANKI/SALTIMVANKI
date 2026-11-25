@@ -1,0 +1,389 @@
+<title>El cerebro de tu negocio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: juego a la izquierda (reto + cerebro + bandeja de piezas), ficha de la pieza a la derecha; en móvil, una columna. Paleta Saltimvanki. */
+:root{
+  --bg:#FBF3DF; --surface:#FFFFFF; --fg:#23262B; --muted:#5F5A50; --line:#E6DAB9;
+  --slot:#F1E5C4; --slot-line:#BFAE82; --accent:#33356B; --accent-ink:#FFFFFF;
+  --ok:#2C7A4B; --bad:#B93A35;
+  --p1:#FBD44C; --p1-ink:#23262B;
+  --p2:#F4728C; --p2-ink:#23262B;
+  --p3:#33356B; --p3-ink:#FFFFFF;
+  --p4:#FDE38A; --p4-ink:#23262B;
+  --p5:#F9A9B8; --p5-ink:#23262B;
+  --p6:#FFFFFF; --p6-ink:#23262B;
+  --p7:#23262B; --p7-ink:#FBD44C;
+  --font:'Poppins','Segoe UI',system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46;
+  --slot:#2B2D35; --slot-line:#5B5E6B; --accent:#FBD44C; --accent-ink:#23262B;
+  --ok:#6FD195; --bad:#FF8C83; --p3:#4B4E9A; --p6:#ECE6D6; --p7:#0F1014; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1B1C21; --surface:#25272E; --fg:#F4EFE3; --muted:#B7B0A0; --line:#3A3C46;
+  --slot:#2B2D35; --slot-line:#5B5E6B; --accent:#FBD44C; --accent-ink:#23262B;
+  --ok:#6FD195; --bad:#FF8C83; --p3:#4B4E9A; --p6:#ECE6D6; --p7:#0F1014; color-scheme:dark;}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header.top{display:flex;flex-direction:column;gap:10px}
+header h1{font-size:clamp(1.9rem,4.6vw,3.1rem);font-weight:800;letter-spacing:-.01em}
+header h1 span{background:var(--p1);color:#23262B;padding:0 .18em;border-radius:6px}
+.lead{max-width:62ch;color:var(--muted);font-size:1.02rem}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px}
+.seg button{font:inherit;font-weight:600;font-size:.9rem;border:0;background:transparent;color:var(--fg);padding:8px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.stats{display:flex;gap:18px;align-items:center;font-variant-numeric:tabular-nums}
+.stat{display:flex;flex-direction:column;line-height:1.2}
+.stat b{font-size:1.25rem}
+.stat small{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.progress{width:140px;height:8px;border-radius:999px;background:var(--slot);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s ease}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}}
+.play{display:flex;flex-direction:column;gap:16px;min-width:0}
+
+.reto{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.reto .eyebrow{color:var(--accent)}
+.reto h2{font-size:1.12rem;font-weight:700}
+.reto .q{color:var(--muted);font-size:.92rem}
+.feedback{min-height:1.4em;font-weight:600;font-size:.92rem}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+
+.board{width:100%;height:auto;display:block}
+.brain-bg{fill:var(--slot)}
+.slot{fill:transparent;stroke:var(--slot-line);stroke-width:1.5;stroke-dasharray:5 5;cursor:pointer}
+.brain-outline{fill:none;stroke:var(--fg);stroke-width:3;opacity:.85;transition:stroke .6s}
+.piece{opacity:0;pointer-events:none;cursor:pointer}
+.piece path{stroke:var(--bg);stroke-width:3.5}
+.piece.on{opacity:1;pointer-events:auto;transform-box:fill-box;transform-origin:center;animation:drop .55s cubic-bezier(.2,.9,.3,1.2)}
+.piece.sel path{stroke:var(--fg);stroke-width:4}
+.piece text{font-family:var(--font);text-anchor:middle;pointer-events:none}
+.piece .num{font-size:12px;font-weight:600;opacity:.75}
+.piece .nm{font-size:15px;font-weight:700}
+@keyframes drop{from{opacity:0;transform:translateY(-34px) scale(1.08)}to{opacity:1;transform:none}}
+.gyri{fill:none;stroke:var(--fg);stroke-width:2;stroke-linecap:round;opacity:0;transition:opacity 1s .3s}
+.board.complete .gyri{opacity:.18}
+.board.complete .brain-outline{stroke:var(--accent)}
+.board.complete .brain-glow{opacity:.55}
+.brain-glow{fill:none;stroke:var(--accent);stroke-width:14;opacity:0;filter:blur(6px);transition:opacity 1s}
+
+.tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.card{font:inherit;color:var(--fg);text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:center;cursor:pointer;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);border-color:var(--slot-line)}
+.card:focus-visible,.seg button:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.card svg{width:44px;height:44px}
+.card .t{font-weight:700;font-size:.92rem;line-height:1.2}
+.card .s{font-size:.76rem;color:var(--muted);line-height:1.3}
+.card.done{opacity:.6}
+.card.done .t::after{content:" ✓";color:var(--ok)}
+.card.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:860px){.panel{position:static}}
+.panel h2{font-size:1.4rem;font-weight:800}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;padding:4px 10px;border-radius:999px;align-self:flex-start}
+.panel h3{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.panel ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px}
+.example{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:.92rem}
+.ask{font-style:italic}
+.steps{display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.steps b{color:var(--fg)}
+
+#finale{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:18px}
+#finale h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800}
+.prompt{font-weight:600;background:var(--bg);border-radius:10px;padding:10px 14px}
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.compare{grid-template-columns:minmax(0,1fr)}}
+.answer{border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line)}
+.answer.with{border:2px solid var(--accent)}
+.answer h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.answer p{font-size:.95rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:.74rem;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Taller práctico · anavictoria.ia</p>
+    <h1>El <span>cerebro</span> de tu negocio</h1>
+    <p class="lead">Tu IA solo es tan buena como lo que sabe de ti. Si le das basura, te devuelve basura. Construye su cerebro pieza a pieza: cada pieza es un documento que le das para que trabaje con criterio.</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Modo de juego">
+      <button id="mode-reto" aria-pressed="true">Modo reto</button>
+      <button id="mode-explorar" aria-pressed="false">Modo explorar</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="score">0</b><small>Puntos</small></div>
+      <div class="stat"><b id="count">0 / 7</b><small>Piezas</small></div>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    </div>
+  </div>
+
+  <main class="layout">
+    <section class="play">
+      <div class="reto" id="reto" aria-live="polite">
+        <p class="eyebrow" id="reto-step">Reto 1 de 7</p>
+        <h2 id="reto-text"></h2>
+        <p class="q" id="reto-q">¿Qué pieza le falta a esta IA? Elígela abajo.</p>
+        <p class="feedback" id="feedback"></p>
+      </div>
+      <svg class="board" id="board" viewBox="0 0 600 360" role="img" aria-label="Cerebro formado por 7 piezas de puzzle"></svg>
+      <div class="tray" id="tray"></div>
+    </section>
+
+    <aside class="panel" id="info" aria-live="polite"></aside>
+  </main>
+
+  <section id="finale" hidden>
+    <p class="eyebrow">Cerebro completo · <span id="final-score"></span></p>
+    <h2>Mismo encargo, dos IAs distintas</h2>
+    <p class="prompt">«Escribe un post de Instagram para anunciar que abrimos la terraza.»</p>
+    <div class="compare">
+      <div class="answer">
+        <h3>IA sin cerebro</h3>
+        <p>¡Gran noticia! Nuestra terraza ya está abierta. Ven a disfrutar de un ambiente único con las mejores vistas y una experiencia inolvidable. ¡Te esperamos! #terraza #verano #hotel</p>
+        <p class="q" style="color:var(--muted);font-size:.85rem">Correcto, pero podría ser de cualquier hotel del mundo.</p>
+      </div>
+      <div class="answer with">
+        <h3>IA con el cerebro de Hotel Brisa</h3>
+        <p>Ya puedes subir. La terraza de Brisa vuelve a abrir con la Catedral enfrente y nuestro vermut de la casa a 4 €. De 18:00 a 00:30, y si estás alojado no necesitas reserva. Lo que más nos preguntáis en Google es si hay terraza con vistas en el centro de Málaga. Pues aquí la tienes. Reserva mesa desde el enlace de la bio. #MalagaCentro #TerrazaMalaga</p>
+        <div class="tags" id="final-tags"></div>
+      </div>
+    </div>
+    <div class="btns">
+      <button class="btn" id="again">Jugar otra vez</button>
+      <button class="btn ghost" id="explore">Repasar las piezas</button>
+    </div>
+  </section>
+
+  <footer>Ejemplo con un negocio ficticio: Hotel Brisa, Málaga · Saltimvanki Content &amp; Media · anavictoria.ia</footer>
+</div>
+
+<script>
+(function(){
+const PIECES=[
+ {id:'identidad',n:1,short:'Identidad',name:'Identidad de marca',tag:'Quién somos y cómo hablamos',row:'T',a:0,b:3,c:1,
+  que:'La carpeta de marca: la personalidad del negocio puesta por escrito para que la IA hable como tú y no como cualquiera.',
+  contiene:['Historia, misión y valores','Servicios y propuesta de valor','Tono de voz: cómo tratamos al cliente','Palabras que sí y palabras que nunca','Ejemplos de textos que nos gustan'],
+  ejemplo:'Hotel boutique familiar en el centro de Málaga. Tuteamos, somos cercanos pero elegantes y nunca decimos «low cost».',
+  pregunta:'¿Quiénes somos y cómo hablamos?',
+  reto:'La IA escribe correcto, pero suena a cualquier hotel: fría y sin personalidad.',
+  pista:'Le falta saber quién eres y con qué voz hablas.'},
+ {id:'archivo',n:2,short:'Archivo',name:'Archivo digital',tag:'Todo lo que tenemos y ofrecemos',row:'T',a:3,b:6,c:2,
+  que:'El repositorio con toda la información real del negocio, para que la IA consulte en vez de inventar.',
+  contiene:['Textos de la web y fichas de producto o habitación','Cartas, tarifas, PDFs y catálogos','Preguntas frecuentes y políticas','Reseñas de clientes'],
+  ejemplo:'Check-in a las 15:00, desayuno de 7:30 a 11:00, terraza de 18:00 a 00:30, vermut de la casa a 4 €.',
+  pregunta:'¿Qué ofrecemos exactamente y en qué condiciones?',
+  reto:'Un cliente pregunta a qué hora es el check-in y la IA se inventa la respuesta.',
+  pista:'Le faltan los datos reales del negocio para consultarlos.'},
+ {id:'influencia',n:3,short:'Influencia',name:'Mapa de influencia',tag:'Audiencia, redes y competencia',row:'T',a:6,b:9,c:3,
+  que:'El análisis del ecosistema: a quién hablamos, qué funciona en nuestras redes y qué hacen los referentes y la competencia.',
+  contiene:['Perfil de la audiencia en redes','Publicaciones que mejor funcionan','Competidores y referentes del sector','Hashtags y temas que mueven al público'],
+  ejemplo:'Los reels de atardecer en la terraza triplican el alcance. Los hoteles vecinos apenas publican en TikTok.',
+  pregunta:'¿Qué funciona en nuestro entorno y por qué?',
+  reto:'Pides ideas de contenido y la IA no sabe qué hace tu competencia ni qué funciona en tus redes.',
+  pista:'Le falta conocer tu ecosistema: audiencia, redes y competencia.'},
+ {id:'psicologia',n:4,short:'Psicología',name:'Psicología del cliente',tag:'Dolores, deseos y conciencia',row:'T',a:9,b:12,c:4,
+  que:'Lo que siente cada tipo de cliente: sus problemas, lo que desea, lo que le frena y su nivel de conciencia.',
+  contiene:['Tipos de cliente ideal','Dolores y motivaciones de cada uno','Objeciones habituales','Nivel de conciencia: del «no sé que lo necesito» al «quiero comprar ya»'],
+  ejemplo:'La pareja de escapada busca romanticismo y que todo esté a mano; la empresa busca sala, wifi y factura sin complicaciones.',
+  pregunta:'¿Qué siente y qué necesita cada cliente?',
+  reto:'La IA escribe el mismo anuncio para una pareja de escapada que para una empresa que busca sala de reuniones.',
+  pista:'Le falta entender a cada tipo de cliente por dentro.'},
+ {id:'estilo',n:5,short:'Estilo',name:'Estilo visual',tag:'Colores, tipografías e imagen',row:'B',a:0,b:4,c:5,
+  que:'El branding: cómo se ve la marca, para que todo lo visual que haga la IA sea reconocible.',
+  contiene:['Paleta de colores con sus códigos','Tipografías principal y secundaria','Logos y sus usos','Estilo de fotografía y referencias visuales'],
+  ejemplo:'Blanco roto, azul Mediterráneo y terracota. Fotos con luz natural de atardecer, nunca imágenes de stock.',
+  pregunta:'¿Cómo se ve nuestra marca?',
+  reto:'Le pides un carrusel y usa colores y fotos que no tienen nada que ver con tu marca.',
+  pista:'Le falta saber cómo se ve tu marca.'},
+ {id:'busquedas',n:6,short:'Búsquedas',name:'Lo que buscan de verdad',tag:'Datos reales de Google',row:'B',a:4,b:8,c:6,
+  que:'Los datos reales de lo que la gente busca y hace, conectados desde Search Console, Analytics y Google Business Profile.',
+  contiene:['Consultas con las que nos encuentran en Google','Páginas que más y menos funcionan','Preguntas y reseñas en Google Business Profile','Tendencias por temporada'],
+  ejemplo:'«Terraza con vistas centro Málaga» es la búsqueda que más crece. La página de la terraza recibe visitas pero casi no reserva.',
+  pregunta:'¿Qué busca realmente la gente cuando nos encuentra?',
+  reto:'La IA propone artículos para el blog, pero nadie busca esos temas en Google.',
+  pista:'Le faltan datos reales de lo que la gente busca.'},
+ {id:'instrucciones',n:7,short:'Instrucciones',name:'Instrucciones maestras',tag:'Cómo debe pensar y responder',row:'B',a:8,b:12,c:7,
+  que:'El manual de uso del cerebro: le dice a la IA qué consultar primero, cómo razonar y cómo responder de forma humana.',
+  contiene:['Qué documento consultar para cada tarea','Formato y extensión de las respuestas','Cómo sonar humano y no robótico','Lo que no debe hacer nunca','Cuándo preguntar antes de inventar'],
+  ejemplo:'«Antes de escribir, consulta Identidad y Búsquedas. Si falta un dato, pregunta. Termina siempre con una acción concreta.»',
+  pregunta:'¿Cómo debe trabajar la IA con todo lo anterior?',
+  reto:'Tienes toda la información, pero la IA no la usa: responde como un robot y se olvida de consultar tus documentos.',
+  pista:'Le falta el manual que le diga cómo usar todo lo demás.'}
+];
+const BY=Object.fromEntries(PIECES.map(p=>[p.id,p]));
+const TAGS=[['identidad','Tuteo y tono cercano'],['archivo','Horario y precio reales'],['busquedas','«Terraza con vistas centro Málaga»'],['psicologia','Huésped y cliente local'],['influencia','Hashtags locales que funcionan'],['estilo','Foto de atardecer, colores de marca'],['instrucciones','Termina con una acción']];
+
+/* ---- geometría ---- */
+const U=45,X0=30,Y0=20,YM=180,Y1=340,x=k=>X0+U*k;
+const CX=300,CY=180,RX=262,RY=152;
+const rad=t=>{let r=1+0.03*Math.sin(11*t)+0.014*Math.sin(23*t+1);const s=Math.sin(t);if(s>0)r*=1-0.1*s*s;return r};
+function brainPath(){let d='';for(let i=0;i<=200;i++){const t=i/200*2*Math.PI,r=rad(t);d+=(i?'L':'M')+(CX+RX*r*Math.cos(t)).toFixed(1)+' '+(CY+RY*r*Math.sin(t)).toFixed(1)}return d+'Z'}
+const inside=(px,py)=>{const dx=(px-CX)/RX,dy=(py-CY)/RY;return Math.hypot(dx,dy)<rad(Math.atan2(dy,dx))-0.02};
+const lerp=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+const line=(p,q)=>[[p,lerp(p,q,1/3),lerp(p,q,2/3),q]];
+function edge(p0,p1,sign,tab){
+  if(!tab)return line(p0,p1);
+  const L=Math.hypot(p1[0]-p0[0],p1[1]-p0[1]),d=[(p1[0]-p0[0])/L,(p1[1]-p0[1])/L],n=[-d[1]*sign,d[0]*sign],S=Math.min(L,120);
+  const P=(u,v)=>{const a=L/2+(u-.5)*S,b=v*S;return[p0[0]+d[0]*a+n[0]*b,p0[1]+d[1]*a+n[1]*b]};
+  const s0=P(.38,0);
+  return[...line(p0,s0),
+    [s0,P(.45,0),P(.46,.06),P(.42,.12)],
+    [P(.42,.12),P(.37,.2),P(.42,.3),P(.5,.3)],
+    [P(.5,.3),P(.58,.3),P(.63,.2),P(.58,.12)],
+    [P(.58,.12),P(.54,.06),P(.55,0),P(.62,0)],
+    ...line(P(.62,0),p1)];
+}
+const rev=segs=>segs.slice().reverse().map(s=>[s[3],s[2],s[1],s[0]]);
+const vT={3:edge([x(3),Y0],[x(3),YM],1,1),6:edge([x(6),Y0],[x(6),YM],-1,1),9:edge([x(9),Y0],[x(9),YM],1,1)};
+const vB={4:edge([x(4),YM],[x(4),Y1],-1,1),8:edge([x(8),YM],[x(8),Y1],1,1)};
+const BR=[0,3,4,6,8,9,12],SG=[1,0,-1,1,0,-1],mids=[];
+for(let i=0;i<BR.length-1;i++){const p=BR[i],q=BR[i+1];mids.push({p,q,segs:edge([x(p),YM],[x(q),YM],SG[i]||1,q-p>=2)})}
+function outline(pc){
+  const {a,b}=pc;let s=[];
+  const inMid=mids.filter(m=>m.p>=a&&m.q<=b);
+  if(pc.row==='T'){
+    s.push(...line([x(a),Y0],[x(b),Y0]));
+    s.push(...(b<12?vT[b]:line([x(b),Y0],[x(b),YM])));
+    inMid.slice().reverse().forEach(m=>s.push(...rev(m.segs)));
+    s.push(...(a>0?rev(vT[a]):line([x(a),YM],[x(a),Y0])));
+  }else{
+    inMid.forEach(m=>s.push(...m.segs));
+    s.push(...(b<12?vB[b]:line([x(b),YM],[x(b),Y1])));
+    s.push(...line([x(b),Y1],[x(a),Y1]));
+    s.push(...(a>0?rev(vB[a]):line([x(a),Y1],[x(a),YM])));
+  }
+  const f=p=>p[0].toFixed(1)+' '+p[1].toFixed(1);
+  return 'M'+f(s[0][0])+s.map(g=>'C'+f(g[1])+' '+f(g[2])+' '+f(g[3])).join('')+'Z';
+}
+function center(pc){
+  const x0=x(pc.a),x1=x(pc.b),y0=pc.row==='T'?Y0:YM,y1=pc.row==='T'?YM:Y1;let sx=0,sy=0,n=0;
+  for(let px=x0+6;px<x1;px+=6)for(let py=y0+6;py<y1;py+=6)if(inside(px,py)){sx+=px;sy+=py;n++}
+  return[sx/n,sy/n];
+}
+
+/* ---- construir tablero ---- */
+const NS='http://www.w3.org/2000/svg',el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+const board=document.getElementById('board'),BP=brainPath();
+const defs=el('defs',{},board),cp=el('clipPath',{id:'brainClip'},defs);el('path',{d:BP},cp);
+el('path',{d:BP,class:'brain-glow'},board);
+el('path',{d:BP,class:'brain-bg'},board);
+const g=el('g',{'clip-path':'url(#brainClip)'},board);
+const pieceEls={};
+PIECES.forEach(pc=>{pc.d=outline(pc);el('path',{d:pc.d,class:'slot','data-id':pc.id},g)});
+PIECES.forEach(pc=>{
+  const grp=el('g',{class:'piece','data-id':pc.id},g);
+  el('path',{d:pc.d,fill:`var(--p${pc.c})`},grp);
+  const [cx,cy]=center(pc);
+  const t1=el('text',{x:cx,y:cy-6,class:'num',fill:`var(--p${pc.c}-ink)`},grp);t1.textContent=pc.n;
+  const t2=el('text',{x:cx,y:cy+13,class:'nm',fill:`var(--p${pc.c}-ink)`},grp);t2.textContent=pc.short;
+  pieceEls[pc.id]=grp;
+});
+const gy=el('g',{class:'gyri','clip-path':'url(#brainClip)'},board);
+[[60,0.9],[110,1.3],[160,0.7],[210,1.1],[262,0.8],[305,1.2]].forEach(([yy,ph])=>{
+  let d='';for(let px=30;px<=570;px+=10){const py=yy+Math.sin(px/38+ph)*11+Math.sin(px/17+ph*2)*5;d+=(px===30?'M':'L')+px+' '+py.toFixed(1)}
+  el('path',{d},gy)});
+el('path',{d:BP,class:'brain-outline'},board);
+board.addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)choose(t.dataset.id)});
+
+/* ---- bandeja ---- */
+const tray=document.getElementById('tray'),cards={};
+PIECES.forEach(pc=>{
+  const b=document.createElement('button');b.className='card';b.type='button';b.dataset.id=pc.id;
+  b.setAttribute('aria-label',`Pieza ${pc.n}: ${pc.name}. ${pc.tag}`);
+  const y0=pc.row==='T'?Y0:YM,w=x(pc.b)-x(pc.a)+80,h=160+80,s=Math.max(w,h);
+  const vx=x(pc.a)-40-(s-w)/2,vy=y0-40-(s-h)/2;
+  b.innerHTML=`<svg viewBox="${vx} ${vy} ${s} ${s}" aria-hidden="true"><path d="${pc.d}" fill="var(--p${pc.c})" stroke="var(--fg)" stroke-width="6" stroke-opacity=".25"/></svg><span><span class="t">${pc.n}. ${pc.name}</span><br><span class="s">${pc.tag}</span></span>`;
+  b.addEventListener('click',()=>choose(pc.id));
+  b.addEventListener('animationend',()=>b.classList.remove('shake'));
+  tray.appendChild(b);cards[pc.id]=b;
+});
+
+/* ---- estado y juego ---- */
+const $=id=>document.getElementById(id);
+let st;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function reset(){
+  st={mode:st?st.mode:'reto',placed:new Set(),order:shuffle(PIECES.map(p=>p.id)),tries:0,score:0,sel:null};
+  PIECES.forEach(p=>{pieceEls[p.id].classList.remove('on','sel');cards[p.id].classList.remove('done')});
+  board.classList.remove('complete');$('finale').hidden=true;$('feedback').textContent='';$('feedback').className='feedback';
+  intro();render();
+}
+const current=()=>st.order.find(id=>!st.placed.has(id));
+function render(){
+  $('score').textContent=st.score;$('count').textContent=st.placed.size+' / 7';$('prog').style.width=(st.placed.size/7*100)+'%';
+  $('mode-reto').setAttribute('aria-pressed',st.mode==='reto');$('mode-explorar').setAttribute('aria-pressed',st.mode==='explorar');
+  const done=st.placed.size===7;
+  if(done){$('reto-step').textContent='Cerebro completo';$('reto-text').textContent='Las 7 piezas están en su sitio.';$('reto-q').textContent='Baja para ver la diferencia entre una IA sin cerebro y una con cerebro.';return}
+  if(st.mode==='reto'){const c=BY[current()];$('reto-step').textContent=`Reto ${st.placed.size+1} de 7`;$('reto-text').textContent=c.reto;$('reto-q').textContent='¿Qué pieza le falta a esta IA? Elígela abajo.'}
+  else{$('reto-step').textContent='Modo explorar';$('reto-text').textContent='Toca cualquier pieza para colocarla y ver qué contiene.';$('reto-q').textContent='Cuando estén las 7, verás la IA con cerebro en acción.'}
+}
+function place(id){
+  st.placed.add(id);const p=pieceEls[id];p.classList.remove('on');void p.getBBox();p.classList.add('on');cards[id].classList.add('done');
+  if(st.placed.size===7)setTimeout(finale,700);
+}
+function choose(id){
+  const fb=$('feedback');
+  if(st.placed.has(id)){showInfo(id);return}
+  if(st.mode==='explorar'){place(id);showInfo(id);fb.textContent='';render();return}
+  const cur=current();
+  if(id===cur){
+    const pts=st.tries===0?100:st.tries===1?50:25;st.score+=pts;st.tries=0;
+    place(id);showInfo(id);fb.className='feedback ok';fb.textContent=`Correcto: ${BY[id].name}. +${pts} puntos`;render();
+  }else{
+    st.tries++;cards[id].classList.remove('shake');void cards[id].offsetWidth;cards[id].classList.add('shake');
+    fb.className='feedback bad';fb.textContent=`No es «${BY[id].name}». Pista: ${BY[cur].pista}`;
+  }
+}
+function showInfo(id){
+  const p=BY[id];
+  if(st.sel)pieceEls[st.sel].classList.remove('sel');st.sel=id;pieceEls[id].classList.add('sel');
+  $('info').innerHTML=`<span class="chip" style="background:var(--p${p.c});color:var(--p${p.c}-ink)">Pieza ${p.n} de 7</span>
+  <h2>${p.name}</h2><p>${p.que}</p>
+  <div><h3>Qué contiene</h3><ul>${p.contiene.map(c=>`<li>${c}</li>`).join('')}</ul></div>
+  <div><h3>Ejemplo: Hotel Brisa</h3><p class="example">${p.ejemplo}</p></div>
+  <div><h3>La pregunta que responde</h3><p class="ask">${p.pregunta}</p></div>`;
+}
+function intro(){
+  $('info').innerHTML=`<p class="eyebrow">Cómo se juega</p><h2>7 piezas, un cerebro</h2>
+  <p>Cada pieza es una parte del cerebro que le damos a la IA. Juntas hacen que trabaje como alguien de tu equipo que conoce el negocio.</p>
+  <div class="steps"><p><b>Modo reto:</b> lee el problema de la IA y elige la pieza que lo soluciona. 100 puntos si aciertas a la primera, 50 a la segunda y 25 después.</p>
+  <p><b>Modo explorar:</b> coloca las piezas en el orden que quieras y lee qué contiene cada una.</p>
+  <p><b>Al final:</b> verás el mismo encargo hecho por una IA sin cerebro y por una con cerebro.</p></div>`;
+}
+function finale(){
+  board.classList.add('complete');render();
+  $('final-score').textContent=st.mode==='reto'||st.score?`${st.score} de 700 puntos`:'modo explorar';
+  $('final-tags').innerHTML=TAGS.map(([id,t])=>`<span style="background:var(--p${BY[id].c});color:var(--p${BY[id].c}-ink)">${BY[id].short}: ${t}</span>`).join('');
+  $('finale').hidden=false;
+  try{$('finale').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}catch(e){}
+}
+$('mode-reto').addEventListener('click',()=>{st.mode='reto';st.tries=0;$('feedback').textContent='';render()});
+$('mode-explorar').addEventListener('click',()=>{st.mode='explorar';$('feedback').textContent='';render()});
+$('again').addEventListener('click',()=>{reset();window.scrollTo({top:0,behavior:'smooth'})});
+$('explore').addEventListener('click',()=>{showInfo('identidad');$('info').scrollIntoView({behavior:'smooth',block:'start'})});
+reset();
+})();
+</script>
